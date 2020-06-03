@@ -49,3 +49,9 @@ agentInternalReference.heading = agentInternalReference
 agentInternalReference.checkYourAnswersLabel = agentInternalReference
 agentInternalReference.error.required = Enter agentInternalReference
 agentInternalReference.error.length = AgentInternalReference must be 100 characters or less
+
+agentTelephoneNumber.title = agentTelephoneNumber
+agentTelephoneNumber.heading = agentTelephoneNumber
+agentTelephoneNumber.checkYourAnswersLabel = agentTelephoneNumber
+agentTelephoneNumber.error.required = Enter agentTelephoneNumber
+agentTelephoneNumber.error.length = AgentTelephoneNumber must be 100 characters or less

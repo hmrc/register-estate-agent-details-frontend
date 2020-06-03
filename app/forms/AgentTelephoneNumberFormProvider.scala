@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages._
+import javax.inject.Inject
 
-trait PageGenerators {
+import forms.mappings.Mappings
+import play.api.data.Form
 
-  implicit lazy val arbitraryAgentTelephoneNumberPage: Arbitrary[AgentTelephoneNumberPage.type] =
-    Arbitrary(AgentTelephoneNumberPage)
+class AgentTelephoneNumberFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitraryAgentInternalReferencePage: Arbitrary[AgentInternalReferencePage.type] =
-    Arbitrary(AgentInternalReferencePage)
+  def apply(): Form[String] =
+    Form(
+      "value" -> text("agentTelephoneNumber.error.required")
+        .verifying(maxLength(100, "agentTelephoneNumber.error.length"))
+    )
 }

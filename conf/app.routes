@@ -18,3 +18,8 @@ GET        /agentInternalReference                        controllers.AgentInter
 POST       /agentInternalReference                        controllers.AgentInternalReferenceController.onSubmit(mode: Mode = NormalMode)
 GET        /changeAgentInternalReference                  controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = CheckMode)
 POST       /changeAgentInternalReference                  controllers.AgentInternalReferenceController.onSubmit(mode: Mode = CheckMode)
+
+GET        /agentTelephoneNumber                        controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /agentTelephoneNumber                        controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAgentTelephoneNumber                  controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAgentTelephoneNumber                  controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = CheckMode)

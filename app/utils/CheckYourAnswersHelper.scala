@@ -28,6 +28,15 @@ import CheckYourAnswersHelper._
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def agentTelephoneNumber: Option[AnswerRow] = userAnswers.get(AgentTelephoneNumberPage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("agentTelephoneNumber.checkYourAnswersLabel")),
+        HtmlFormat.escape(x),
+        routes.AgentTelephoneNumberController.onPageLoad(CheckMode).url
+      )
+  }
+
   def agentInternalReference: Option[AnswerRow] = userAnswers.get(AgentInternalReferencePage) map {
     x =>
       AnswerRow(
