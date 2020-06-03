@@ -20,4 +20,7 @@ import org.scalacheck.Arbitrary
 import pages._
 
 trait PageGenerators {
+
+  implicit lazy val arbitraryAgentInternalReferencePage: Arbitrary[AgentInternalReferencePage.type] =
+    Arbitrary(AgentInternalReferencePage)
 }

@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import models._
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary.arbitrary
-import pages._
-import play.api.libs.json.{JsValue, Json}
+import pages.behaviours.PageBehaviours
 
-trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
-  implicit lazy val arbitraryAgentInternalReferenceUserAnswersEntry: Arbitrary[(AgentInternalReferencePage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page  <- arbitrary[AgentInternalReferencePage.type]
-        value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
-      } yield (page, value)
-    }
+class AgentInternalReferencePageSpec extends PageBehaviours {
+
+  "AgentInternalReferencePage" must {
+
+    beRetrievable[String](AgentInternalReferencePage)
+
+    beSettable[String](AgentInternalReferencePage)
+
+    beRemovable[String](AgentInternalReferencePage)
+  }
 }

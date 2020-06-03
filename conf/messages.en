@@ -43,3 +43,9 @@ site.sign_out = Sign out
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+agentInternalReference.title = agentInternalReference
+agentInternalReference.heading = agentInternalReference
+agentInternalReference.checkYourAnswersLabel = agentInternalReference
+agentInternalReference.error.required = Enter agentInternalReference
+agentInternalReference.error.length = AgentInternalReference must be 100 characters or less

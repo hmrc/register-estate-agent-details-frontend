@@ -28,6 +28,15 @@ import CheckYourAnswersHelper._
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def agentInternalReference: Option[AnswerRow] = userAnswers.get(AgentInternalReferencePage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("agentInternalReference.checkYourAnswersLabel")),
+        HtmlFormat.escape(x),
+        routes.AgentInternalReferenceController.onPageLoad(CheckMode).url
+      )
+  }
+
   private def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
     if (answer) {
       HtmlFormat.escape(messages("site.yes"))

@@ -13,3 +13,8 @@ GET        /check-your-answers                          controllers.CheckYourAns
 GET        /unauthorised                                controllers.UnauthorisedController.onPageLoad
 
 GET        /logout                                      controllers.LogoutController.logout()
+
+GET        /agentInternalReference                        controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /agentInternalReference                        controllers.AgentInternalReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /changeAgentInternalReference                  controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /changeAgentInternalReference                  controllers.AgentInternalReferenceController.onSubmit(mode: Mode = CheckMode)
