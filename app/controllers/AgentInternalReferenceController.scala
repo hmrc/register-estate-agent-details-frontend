@@ -42,9 +42,11 @@ class AgentInternalReferenceController @Inject()(
                                         view: AgentInternalReferenceView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
+  private def actions() = identify andThen getData andThen requireData
+
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = actions() {
     implicit request =>
 
       val preparedForm = request.userAnswers.get(AgentInternalReferencePage) match {
@@ -55,7 +57,7 @@ class AgentInternalReferenceController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = actions().async {
     implicit request =>
 
       form.bindFromRequest().fold(
