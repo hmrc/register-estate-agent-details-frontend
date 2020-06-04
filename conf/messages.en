@@ -59,3 +59,29 @@ agentTelephoneNumber.checkYourAnswersLabel = What is the agency’s telephone nu
 agentTelephoneNumber.hint = We will use this number to contact you about this estate’s registration. For international numbers include the country code
 agentTelephoneNumber.error.required = Enter the agency’s telephone number
 agentTelephoneNumber.error.invalid.characters = Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
+
+agentInternationalAddress.title = agentInternationalAddress
+agentInternationalAddress.heading = agentInternationalAddress
+agentInternationalAddress.field1 = field1
+agentInternationalAddress.field2 = field2
+agentInternationalAddress.checkYourAnswersLabel = agentInternationalAddress
+agentInternationalAddress.error.field1.required = Enter field1
+agentInternationalAddress.error.field2.required = Enter field2
+agentInternationalAddress.error.field1.length = field1 must be 100 characters or less
+agentInternationalAddress.error.field2.length = field2 must be 100 characters or less
+
+agentName.title = agentName
+agentName.heading = agentName
+agentName.checkYourAnswersLabel = agentName
+agentName.error.required = Enter agentName
+agentName.error.length = AgentName must be 100 characters or less
+
+agentUKAddress.title = agentUKAddress
+agentUKAddress.heading = agentUKAddress
+agentUKAddress.field1 = field1
+agentUKAddress.field2 = field2
+agentUKAddress.checkYourAnswersLabel = agentUKAddress
+agentUKAddress.error.field1.required = Enter field1
+agentUKAddress.error.field2.required = Enter field2
+agentUKAddress.error.field1.length = field1 must be 100 characters or less
+agentUKAddress.error.field2.length = field2 must be 100 characters or less

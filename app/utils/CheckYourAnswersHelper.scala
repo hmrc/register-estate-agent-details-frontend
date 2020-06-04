@@ -28,6 +28,33 @@ import CheckYourAnswersHelper._
 
 class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def agentUKAddress: Option[AnswerRow] = userAnswers.get(AgentUKAddressPage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("agentUKAddress.checkYourAnswersLabel")),
+        HtmlFormat.escape(s"${x.field1} ${x.field2}"),
+        routes.AgentUKAddressController.onPageLoad(CheckMode).url
+      )
+  }
+
+  def agentName: Option[AnswerRow] = userAnswers.get(AgentNamePage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("agentName.checkYourAnswersLabel")),
+        HtmlFormat.escape(x),
+        routes.AgentNameController.onPageLoad(CheckMode).url
+      )
+  }
+
+  def agentInternationalAddress: Option[AnswerRow] = userAnswers.get(AgentInternationalAddressPage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("agentInternationalAddress.checkYourAnswersLabel")),
+        HtmlFormat.escape(s"${x.field1} ${x.field2}"),
+        routes.AgentInternationalAddressController.onPageLoad(CheckMode).url
+      )
+  }
+
   def agentTelephoneNumber: Option[AnswerRow] = userAnswers.get(AgentTelephoneNumberPage) map {
     x =>
       AnswerRow(

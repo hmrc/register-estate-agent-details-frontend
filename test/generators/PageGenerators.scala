@@ -21,6 +21,15 @@ import pages._
 
 trait PageGenerators {
 
+  implicit lazy val arbitraryAgentUKAddressPage: Arbitrary[AgentUKAddressPage.type] =
+    Arbitrary(AgentUKAddressPage)
+
+  implicit lazy val arbitraryAgentNamePage: Arbitrary[AgentNamePage.type] =
+    Arbitrary(AgentNamePage)
+
+  implicit lazy val arbitraryAgentInternationalAddressPage: Arbitrary[AgentInternationalAddressPage.type] =
+    Arbitrary(AgentInternationalAddressPage)
+
   implicit lazy val arbitraryAgentTelephoneNumberPage: Arbitrary[AgentTelephoneNumberPage.type] =
     Arbitrary(AgentTelephoneNumberPage)
 

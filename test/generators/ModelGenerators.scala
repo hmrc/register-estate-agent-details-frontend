@@ -21,4 +21,20 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
+
+  implicit lazy val arbitraryAgentUKAddress: Arbitrary[AgentUKAddress] =
+    Arbitrary {
+      for {
+        field1 <- arbitrary[String]
+        field2 <- arbitrary[String]
+      } yield AgentUKAddress(field1, field2)
+    }
+
+  implicit lazy val arbitraryAgentInternationalAddress: Arbitrary[AgentInternationalAddress] =
+    Arbitrary {
+      for {
+        field1 <- arbitrary[String]
+        field2 <- arbitrary[String]
+      } yield AgentInternationalAddress(field1, field2)
+    }
 }
