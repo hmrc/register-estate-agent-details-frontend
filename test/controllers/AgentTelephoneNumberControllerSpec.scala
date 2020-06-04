@@ -99,7 +99,7 @@ class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
 
       val request =
         FakeRequest(POST, agentTelephoneNumberRoute)
-          .withFormUrlEncodedBody(("value", "answer"))
+          .withFormUrlEncodedBody(("value", "191 1111111"))
 
       val result = route(application, request).value
 

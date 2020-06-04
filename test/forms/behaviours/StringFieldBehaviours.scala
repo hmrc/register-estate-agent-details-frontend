@@ -16,6 +16,7 @@
 
 package forms.behaviours
 
+import org.scalacheck.Gen
 import play.api.data.{Form, FormError}
 
 trait StringFieldBehaviours extends FieldBehaviours {
@@ -34,4 +35,33 @@ trait StringFieldBehaviours extends FieldBehaviours {
       }
     }
   }
+
+  def nonEmptyField(form: Form[_],
+                    fieldName: String,
+                    requiredError: FormError): Unit = {
+
+    "not bind spaces" in {
+
+      val result = form.bind(Map(fieldName -> "    ")).apply(fieldName)
+      result.errors shouldBe Seq(requiredError)
+    }
+  }
+
+  def fieldWithRegexpWithGenerator(form: Form[_],
+                                   fieldName: String,
+                                   regexp: String,
+                                   generator: Gen[String],
+                                   error: FormError): Unit = {
+
+    s"not bind strings which do not match $regexp" in {
+      forAll(generator) {
+        string =>
+          whenever(!string.matches(regexp) && string.nonEmpty) {
+            val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+            result.errors shouldEqual Seq(error)
+          }
+      }
+    }
+  }
+
 }

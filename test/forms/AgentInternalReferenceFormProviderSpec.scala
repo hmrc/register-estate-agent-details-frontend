@@ -18,12 +18,14 @@ package forms
 
 import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
+import wolfendale.scalacheck.regexp.RegexpGen
 
 class AgentInternalReferenceFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "agentInternalReference.error.required"
   val lengthKey = "agentInternalReference.error.length"
-  val maxLength = 100
+  val invalidFormatKey = "agentInternalReference.error.invalidFormat"
+  val maxLength = 56
 
   val form = new AgentInternalReferenceFormProvider()()
 
@@ -34,7 +36,7 @@ class AgentInternalReferenceFormProviderSpec extends StringFieldBehaviours {
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      RegexpGen.from(Validation.clientRefRegex)
     )
 
     behave like fieldWithMaxLength(
@@ -48,6 +50,20 @@ class AgentInternalReferenceFormProviderSpec extends StringFieldBehaviours {
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like nonEmptyField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey, Seq(fieldName))
+    )
+
+    behave like fieldWithRegexpWithGenerator(
+      form,
+      fieldName,
+      regexp = Validation.clientRefRegex,
+      generator = stringsWithMaxLength(maxLength),
+      error = FormError(fieldName, invalidFormatKey, Seq(Validation.clientRefRegex))
     )
   }
 }

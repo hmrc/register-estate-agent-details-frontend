@@ -23,6 +23,7 @@ object AppDependencies {
     "com.typesafe.play"           %% "play-test"          % PlayVersion.current,
     "org.mockito"                 %  "mockito-all"        % "1.10.19",
     "org.scalacheck"              %% "scalacheck"         % "1.14.1",
+    "wolfendale"                  %% "scalacheck-gen-regexp"  % "0.1.2",
     "com.github.tomakehurst"      % "wiremock-standalone" % "2.17.0"
   ).map(_ % Test)
 

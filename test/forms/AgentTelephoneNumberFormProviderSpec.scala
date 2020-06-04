@@ -17,12 +17,14 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
+import org.scalacheck.Arbitrary.arbitrary
 import play.api.data.FormError
 
 class AgentTelephoneNumberFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "agentTelephoneNumber.error.required"
   val lengthKey = "agentTelephoneNumber.error.length"
+  val invalidCharKey = "agentTelephoneNumber.error.invalid.characters"
   val maxLength = 100
 
   val form = new AgentTelephoneNumberFormProvider()()
@@ -37,17 +39,24 @@ class AgentTelephoneNumberFormProviderSpec extends StringFieldBehaviours {
       stringsWithMaxLength(maxLength)
     )
 
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
-    )
-
     behave like mandatoryField(
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like nonEmptyField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey, Seq(fieldName))
+    )
+
+    behave like fieldWithRegexpWithGenerator(
+      form,
+      fieldName,
+      regexp = Validation.telephoneRegex,
+      generator = arbitrary[String],
+      error = FormError(fieldName, invalidCharKey, Seq(Validation.telephoneRegex))
     )
   }
 }

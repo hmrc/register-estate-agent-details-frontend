@@ -14,12 +14,12 @@ GET        /unauthorised                                controllers.Unauthorised
 
 GET        /logout                                      controllers.LogoutController.logout()
 
-GET        /agentInternalReference                        controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = NormalMode)
-POST       /agentInternalReference                        controllers.AgentInternalReferenceController.onSubmit(mode: Mode = NormalMode)
-GET        /changeAgentInternalReference                  controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeAgentInternalReference                  controllers.AgentInternalReferenceController.onSubmit(mode: Mode = CheckMode)
+GET        /client-reference                              controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = NormalMode)
+POST       /client-reference                              controllers.AgentInternalReferenceController.onSubmit(mode: Mode = NormalMode)
+GET        /change-client-reference                       controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-client-reference                       controllers.AgentInternalReferenceController.onSubmit(mode: Mode = CheckMode)
 
-GET        /agentTelephoneNumber                        controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = NormalMode)
-POST       /agentTelephoneNumber                        controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = NormalMode)
-GET        /changeAgentTelephoneNumber                  controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeAgentTelephoneNumber                  controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = CheckMode)
+GET        /agent-telephone-number                        controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = NormalMode)
+POST       /agent-telephone-number                        controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = NormalMode)
+GET        /change-agent-telephone-number                 controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-agent-telephone-number                 controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = CheckMode)

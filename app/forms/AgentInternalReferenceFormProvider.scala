@@ -17,7 +17,6 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
 import play.api.data.Form
 
@@ -26,6 +25,10 @@ class AgentInternalReferenceFormProvider @Inject() extends Mappings {
   def apply(): Form[String] =
     Form(
       "value" -> text("agentInternalReference.error.required")
-        .verifying(maxLength(100, "agentInternalReference.error.length"))
+        .verifying(
+          firstError(
+            maxLength(56, "agentInternalReference.error.length"),
+            isNotEmpty("value", "agentInternalReference.error.required"),
+            regexp(Validation.clientRefRegex, "agentInternalReference.error.invalidFormat")))
     )
 }
