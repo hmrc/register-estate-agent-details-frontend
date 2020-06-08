@@ -23,13 +23,14 @@ import play.api.Environment
 import play.api.libs.json.Json
 
 @Singleton
-class CountryOptions @Inject()(environment: Environment, config: FrontendAppConfig) {
+class AllCountryOptions @Inject()(environment: Environment, config: FrontendAppConfig)
+  extends CountryOptions {
 
-  def options: Seq[InputOption] = CountryOptions.getCountries(environment, config.locationCanonicalList)
+  def options: Seq[InputOption] = getCountries(environment, config.locationCanonicalList)
 
 }
 
-object CountryOptions {
+trait CountryOptions {
 
   def getCountries(environment: Environment, fileName: String): Seq[InputOption] = {
     environment.resourceAsStream(fileName).flatMap {

@@ -25,6 +25,7 @@ import play.api.Environment
 class CountryOptionsNonUK @Inject()(
                                      environment: Environment,
                                      config: FrontendAppConfig
-                                   ) extends CountryOptions(environment, config) {
-  override def options: Seq[InputOption] = CountryOptions.getCountries(environment, config.locationCanonicalListNonUK)
+                                   ) extends CountryOptions {
+
+  def options: Seq[InputOption] = getCountries(environment, config.locationCanonicalListNonUK)
 }
