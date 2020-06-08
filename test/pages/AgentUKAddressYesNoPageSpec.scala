@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import pages.behaviours.PageBehaviours
 
-import forms.mappings.Mappings
-import play.api.data.Form
+class AgentUKAddressYesNoPageSpec extends PageBehaviours {
 
-class AgentNameFormProvider @Inject() extends Mappings {
+  "AgentUKAddressYesNoPage" must {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("agentName.error.required")
-        .verifying(
-          firstError(
-            maxLength(56, "agentName.error.length"),
-            isNotEmpty("value", "agentName.error.required"),
-            regexp(Validation.nameRegex, "agentName.error.invalidFormat")
-          )
-        )
-    )
+    beRetrievable[Boolean](AgentUKAddressYesNoPage)
+
+    beSettable[Boolean](AgentUKAddressYesNoPage)
+
+    beRemovable[Boolean](AgentUKAddressYesNoPage)
+  }
 }

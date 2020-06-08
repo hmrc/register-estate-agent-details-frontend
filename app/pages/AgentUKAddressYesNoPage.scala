@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import javax.inject.Inject
+import models.UserAnswers
+import play.api.libs.json.JsPath
 
-import forms.mappings.Mappings
-import play.api.data.Form
+import scala.util.Try
 
-class AgentNameFormProvider @Inject() extends Mappings {
+case object AgentUKAddressYesNoPage extends QuestionPage[Boolean] {
 
-  def apply(): Form[String] =
-    Form(
-      "value" -> text("agentName.error.required")
-        .verifying(
-          firstError(
-            maxLength(56, "agentName.error.length"),
-            isNotEmpty("value", "agentName.error.required"),
-            regexp(Validation.nameRegex, "agentName.error.invalidFormat")
-          )
-        )
-    )
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "addressYesNo"
+
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+    value match {
+      case Some(false) =>
+        userAnswers.remove(AgentUKAddressPage)
+      case Some(true) =>
+        userAnswers.remove(AgentInternationalAddressPage)
+      case _ => super.cleanup(value, userAnswers)
+    }
+  }
+
 }

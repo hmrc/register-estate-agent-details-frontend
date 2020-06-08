@@ -82,8 +82,8 @@ agentInternalReference.error.length = Your internal reference for this client mu
 agentInternalReference.error.invalidFormat = The internal reference for this client must only include letters a to z, numbers 0 to 9, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
 
 agentTelephoneNumber.title = What is the agency’s telephone number?
-agentTelephoneNumber.heading = What is the agency’s telephone number?
-agentTelephoneNumber.checkYourAnswersLabel = What is the agency’s telephone number?
+agentTelephoneNumber.heading = What is the {0}’s telephone number?
+agentTelephoneNumber.checkYourAnswersLabel = What is the {0}’s telephone number?
 agentTelephoneNumber.hint = We will use this number to contact you about this estate’s registration. For international numbers include the country code
 agentTelephoneNumber.error.required = Enter the agency’s telephone number
 agentTelephoneNumber.error.invalid.characters = Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
@@ -98,11 +98,12 @@ agentInternationalAddress.error.field2.required = Enter field2
 agentInternationalAddress.error.field1.length = field1 must be 100 characters or less
 agentInternationalAddress.error.field2.length = field2 must be 100 characters or less
 
-agentName.title = agentName
-agentName.heading = agentName
-agentName.checkYourAnswersLabel = agentName
-agentName.error.required = Enter agentName
-agentName.error.length = AgentName must be 100 characters or less
+agentName.title = What is the name of the agency registering this estate?
+agentName.heading = What is the name of the agency registering this estate?
+agentName.checkYourAnswersLabel = What is the name of the agency registering this estate?
+agentName.error.required = Enter the agency’s name
+agentName.error.length = Agency’s name must be 56 characters or less
+agentName.error.invalidFormat = Agency’s name must only include letters a to z, numbers 0 to 9, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
 
 agentUKAddress.title = agentUKAddress
 agentUKAddress.heading = agentUKAddress
@@ -119,3 +120,8 @@ agentUKAddress.error.field1.required = Enter field1
 agentUKAddress.error.field2.required = Enter field2
 agentUKAddress.error.field1.length = field1 must be 100 characters or less
 agentUKAddress.error.field2.length = field2 must be 100 characters or less
+
+agentUKAddressYesNo.title = agentUKAddressYesNo
+agentUKAddressYesNo.heading = agentUKAddressYesNo
+agentUKAddressYesNo.checkYourAnswersLabel = agentUKAddressYesNo
+agentUKAddressYesNo.error.required = Select yes if agentUKAddressYesNo

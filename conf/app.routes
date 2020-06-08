@@ -38,3 +38,8 @@ GET        /agent-uk-address                              controllers.AgentUKAdd
 POST       /agent-uk-address                              controllers.AgentUKAddressController.onSubmit(mode: Mode = NormalMode)
 GET        /change-agent-uk-address                       controllers.AgentUKAddressController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-agent-uk-address                       controllers.AgentUKAddressController.onSubmit(mode: Mode = CheckMode)
+
+GET        /agent-address                                 controllers.AgentUKAddressYesNoController.onPageLoad(mode: Mode = NormalMode)
+POST       /agent-address                                 controllers.AgentUKAddressYesNoController.onSubmit(mode: Mode = NormalMode)
+GET        /change-agent-address                          controllers.AgentUKAddressYesNoController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-agent-address                          controllers.AgentUKAddressYesNoController.onSubmit(mode: Mode = CheckMode)

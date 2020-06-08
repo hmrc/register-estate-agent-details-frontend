@@ -31,6 +31,15 @@ import utils.countryOptions.CountryOptions
 class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
                                       (userAnswers: UserAnswers)(implicit messages: Messages) {
 
+  def agentUKAddressYesNo: Option[AnswerRow] = userAnswers.get(AgentUKAddressYesNoPage) map {
+    x =>
+      AnswerRow(
+        HtmlFormat.escape(messages("agentUKAddressYesNo.checkYourAnswersLabel")),
+        yesOrNo(x),
+        routes.AgentUKAddressYesNoController.onPageLoad(CheckMode).url
+      )
+  }
+
   def agentUKAddress: Option[AnswerRow] = userAnswers.get(AgentUKAddressPage) map {
     x =>
       AnswerRow(

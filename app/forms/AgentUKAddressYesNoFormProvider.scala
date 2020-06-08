@@ -21,17 +21,10 @@ import javax.inject.Inject
 import forms.mappings.Mappings
 import play.api.data.Form
 
-class AgentNameFormProvider @Inject() extends Mappings {
+class AgentUKAddressYesNoFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[String] =
+  def apply(): Form[Boolean] =
     Form(
-      "value" -> text("agentName.error.required")
-        .verifying(
-          firstError(
-            maxLength(56, "agentName.error.length"),
-            isNotEmpty("value", "agentName.error.required"),
-            regexp(Validation.nameRegex, "agentName.error.invalidFormat")
-          )
-        )
+      "value" -> boolean("agentUKAddressYesNo.error.required")
     )
 }
