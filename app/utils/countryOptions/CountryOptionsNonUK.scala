@@ -27,5 +27,5 @@ class CountryOptionsNonUK @Inject()(
                                      config: FrontendAppConfig
                                    ) extends CountryOptions {
 
-  def options: Seq[InputOption] = getCountries(environment, config.locationCanonicalListNonUK)
+  override def options: Seq[InputOption] = getCountries(environment, config.locationCanonicalListNonUK)
 }

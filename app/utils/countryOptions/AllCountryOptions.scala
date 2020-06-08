@@ -16,34 +16,14 @@
 
 package utils.countryOptions
 
-import com.typesafe.config.ConfigException
 import config.FrontendAppConfig
 import javax.inject.{Inject, Singleton}
 import play.api.Environment
-import play.api.libs.json.Json
 
 @Singleton
 class AllCountryOptions @Inject()(environment: Environment, config: FrontendAppConfig)
   extends CountryOptions {
 
-  def options: Seq[InputOption] = getCountries(environment, config.locationCanonicalList)
-
-}
-
-trait CountryOptions {
-
-  def getCountries(environment: Environment, fileName: String): Seq[InputOption] = {
-    environment.resourceAsStream(fileName).flatMap {
-      in =>
-        val locationJsValue = Json.parse(in)
-        Json.fromJson[Seq[Seq[String]]](locationJsValue).asOpt.map {
-          _.map { countryList =>
-            InputOption(countryList(1).replaceAll("country:", ""), countryList.head)
-          }.sortBy(x => x.label.toLowerCase)
-        }
-    }.getOrElse {
-      throw new ConfigException.BadValue(fileName, "country json does not exist")
-    }
-  }
+  override def options: Seq[InputOption] = getCountries(environment, config.locationCanonicalList)
 
 }
