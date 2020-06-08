@@ -16,7 +16,6 @@
 
 package views
 
-import controllers.routes
 import forms.AgentTelephoneNumberFormProvider
 import models.NormalMode
 import play.api.data.Form
@@ -27,6 +26,8 @@ import views.html.AgentTelephoneNumberView
 class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
 
   val messageKeyPrefix = "agentTelephoneNumber"
+  val agencyName = "FirstName LastName"
+  val hintKey = "agentTelephoneNumber.hint"
 
   val form = new AgentTelephoneNumberFormProvider()()
 
@@ -35,13 +36,13 @@ class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
     val view = viewFor[AgentTelephoneNumberView](Some(emptyUserAnswers))
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, NormalMode)(fakeRequest, messages)
+      view.apply(form, NormalMode, agencyName)(fakeRequest, messages)
 
-    behave like normalPage(applyView(form), messageKeyPrefix)
+    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName, "hint")
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like stringPage(form, applyView, messageKeyPrefix, routes.AgentTelephoneNumberController.onSubmit(NormalMode).url)
+    behave like stringPageWithDynamicTitle(form, applyView, messageKeyPrefix, agencyName, Some(hintKey))
 
     behave like pageWithASubmitButton(applyView(form))
 

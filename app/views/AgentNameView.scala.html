@@ -35,9 +35,11 @@
         @components.error_summary(form.errors)
 
         @components.input_text(
-          field = form("value"),
-          label = messages("agentName.heading"),
-          headingIsLabel = true
+            field = form("value"),
+            label = messages("agentName.heading"),
+            labelAsHeading = true,
+            labelClass=Some("heading-large"),
+            ariaRequired = true
         )
 
         @components.submit_button()

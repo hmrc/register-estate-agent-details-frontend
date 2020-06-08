@@ -17,23 +17,27 @@
 package utils
 
 import java.time.format.DateTimeFormatter
-
+import javax.inject.Inject
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import pages._
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
 import viewmodels.AnswerRow
-import CheckYourAnswersHelper._
+import utils.CheckAnswersFormatters._
+import utils.countryOptions.CountryOptions
 
-class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
+
+class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
+                                      (userAnswers: UserAnswers)(implicit messages: Messages) {
 
   def agentUKAddress: Option[AnswerRow] = userAnswers.get(AgentUKAddressPage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("agentUKAddress.checkYourAnswersLabel")),
-        HtmlFormat.escape(s"${x.field1} ${x.field2}"),
-        routes.AgentUKAddressController.onPageLoad(CheckMode).url
+        HtmlFormat.escape(messages("site.address.uk.checkYourAnswersLabel")),
+        ukAddress(x),
+        routes.AgentUKAddressController.onPageLoad(NormalMode).url,
+        agencyName(userAnswers)
       )
   }
 
@@ -50,8 +54,9 @@ class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messag
     x =>
       AnswerRow(
         HtmlFormat.escape(messages("agentInternationalAddress.checkYourAnswersLabel")),
-        HtmlFormat.escape(s"${x.field1} ${x.field2}"),
-        routes.AgentInternationalAddressController.onPageLoad(CheckMode).url
+        internationalAddress(x, countryOptions),
+        routes.AgentInternationalAddressController.onPageLoad(CheckMode).url,
+        agencyName(userAnswers)
       )
   }
 

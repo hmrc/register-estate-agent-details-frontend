@@ -22,10 +22,10 @@
     formHelper: FormWithCSRF
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode, agencyName: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("agentUKAddress.title")}"
+    title = s"${errorPrefix(form)} ${messages("site.address.uk.title")}"
     ) {
 
     @formHelper(action = AgentUKAddressController.onSubmit(mode), 'autoComplete -> "off") {
@@ -34,17 +34,15 @@
 
         @components.error_summary(form.errors)
 
-        @components.heading("agentUKAddress.heading")
+        <fieldset>
 
-        @components.input_text(
-            field = form("field1"),
-            label = messages("agentUKAddress.field1")
-        )
+            <legend>
+                @components.heading("site.address.uk.heading", Some(agencyName))
+            </legend>
 
-        @components.input_text(
-            field = form("field2"),
-            label = messages("agentUKAddress.field2")
-        )
+            @components.uk_address(form)
+
+        </fieldset>
 
         @components.submit_button()
     }

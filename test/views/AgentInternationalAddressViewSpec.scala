@@ -16,17 +16,20 @@
 
 package views
 
-import controllers.routes
 import forms.AgentInternationalAddressFormProvider
-import models.{NormalMode, AgentInternationalAddress}
+import models.pages.InternationalAddress
+import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
+import utils.InputOption
+import utils.countryOptions.CountryOptionsNonUK
 import views.behaviours.QuestionViewBehaviours
 import views.html.AgentInternationalAddressView
 
-class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[AgentInternationalAddress] {
+class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[InternationalAddress] {
 
-  val messageKeyPrefix = "agentInternationalAddress"
+  val messageKeyPrefix = "site.address.international"
+  val agencyName = "Hadrian"
 
   override val form = new AgentInternationalAddressFormProvider()()
 
@@ -34,11 +37,13 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[AgentInte
 
     val view = viewFor[AgentInternationalAddressView](Some(emptyUserAnswers))
 
+    val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options
+
     def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, NormalMode)(fakeRequest, messages)
+      view.apply(form, countryOptions, NormalMode, agencyName)(fakeRequest, messages)
 
 
-    behave like normalPage(applyView(form), messageKeyPrefix)
+    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName)
 
     behave like pageWithBackLink(applyView(form))
 
@@ -46,8 +51,10 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[AgentInte
       form,
       applyView,
       messageKeyPrefix,
-      routes.AgentInternationalAddressController.onSubmit(NormalMode).url,
-      "field1", "field2"
+      Seq(("line1",None), ("line2",None), ("line3", None), ("country", None)),
+      agencyName
     )
+
+    behave like pageWithASubmitButton(applyView(form))
   }
 }

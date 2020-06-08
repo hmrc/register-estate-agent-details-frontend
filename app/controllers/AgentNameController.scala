@@ -16,6 +16,7 @@
 
 package controllers
 
+import config.annotations.EstateRegistration
 import controllers.actions._
 import forms.AgentNameFormProvider
 import javax.inject.Inject
@@ -33,7 +34,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AgentNameController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
-                                        navigator: Navigator,
+                                        @EstateRegistration navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
@@ -42,9 +43,11 @@ class AgentNameController @Inject()(
                                         view: AgentNameView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
+  private def actions() = identify andThen getData andThen requireData
+
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = actions() {
     implicit request =>
 
       val preparedForm = request.userAnswers.get(AgentNamePage) match {
@@ -55,7 +58,7 @@ class AgentNameController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = actions().async {
     implicit request =>
 
       form.bindFromRequest().fold(

@@ -16,6 +16,7 @@
 
 package controllers
 
+import config.annotations.EstateRegistration
 import controllers.actions._
 import forms.AgentInternalReferenceFormProvider
 import javax.inject.Inject
@@ -33,7 +34,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AgentInternalReferenceController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
-                                        navigator: Navigator,
+                                        @EstateRegistration navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,

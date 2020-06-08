@@ -16,16 +16,17 @@
 
 @import controllers.routes._
 @import models.Mode
+@import utils.InputOption
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF
 )
 
-@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], countryOptions: Seq[InputOption], mode: Mode, agencyName: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("agentInternationalAddress.title")}"
+    title = s"${errorPrefix(form)} ${messages("site.address.international.title")}"
     ) {
 
     @formHelper(action = AgentInternationalAddressController.onSubmit(mode), 'autoComplete -> "off") {
@@ -34,18 +35,16 @@
 
         @components.error_summary(form.errors)
 
-        @components.heading("agentInternationalAddress.heading")
+        <fieldset>
 
-        @components.input_text(
-            field = form("field1"),
-            label = messages("agentInternationalAddress.field1")
-        )
+            <legend>
+                @components.heading("site.address.international.heading", Some(agencyName))
+            </legend>
 
-        @components.input_text(
-            field = form("field2"),
-            label = messages("agentInternationalAddress.field2")
-        )
+            @components.international_address(form, countryOptions)
 
-        @components.submit_button()
+        </fieldset>
+
+        @components.submit_button(submitClass = Some("countryLookupHelper"))
     }
 }

@@ -17,23 +17,25 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
+import org.scalacheck.Arbitrary.arbitrary
 import play.api.data.FormError
+import wolfendale.scalacheck.regexp.RegexpGen
 
 class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
 
   val form = new AgentUKAddressFormProvider()()
 
-  ".field1" must {
+  ".line1" must {
 
-    val fieldName = "field1"
-    val requiredKey = "agentUKAddress.error.field1.required"
-    val lengthKey = "agentUKAddress.error.field1.length"
-    val maxLength = 100
+    val fieldName = "line1"
+    val requiredKey = "ukAddress.error.line1.required"
+    val lengthKey = "ukAddress.error.line1.length"
+    val maxLength = 35
 
     behave like fieldThatBindsValidData(
       form,
       fieldName,
-      stringsWithMaxLength(maxLength)
+      RegexpGen.from(Validation.addressLineRegex)
     )
 
     behave like fieldWithMaxLength(
@@ -47,21 +49,75 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like nonEmptyField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey, Seq(fieldName))
+    )
+
+  }
+
+  ".line2" must {
+
+    val fieldName = "line2"
+    val requiredKey = "ukAddress.error.line2.required"
+    val lengthKey = "ukAddress.error.line2.length"
+    val maxLength = 35
+
+    behave like fieldThatBindsValidData(
+      form,
+      fieldName,
+      RegexpGen.from(Validation.addressLineRegex)
+    )
+
+    behave like fieldWithMaxLength(
+      form,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+
+    behave like nonEmptyField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey, Seq(fieldName))
+    )
+
+  }
+
+  ".line3" must {
+
+    val fieldName = "line3"
+    val lengthKey = "ukAddress.error.line3.length"
+    val maxLength = 35
+
+    behave like fieldWithMaxLength(
+      form,
+      fieldName,
+      maxLength = maxLength,
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+    )
+
+    behave like optionalField(
+      form,
+      fieldName,
+      validDataGenerator = RegexpGen.from(Validation.addressLineRegex)
     )
   }
 
-  ".field2" must {
+  ".line4" must {
 
-    val fieldName = "field2"
-    val requiredKey = "agentUKAddress.error.field2.required"
-    val lengthKey = "agentUKAddress.error.field2.length"
-    val maxLength = 100
-
-    behave like fieldThatBindsValidData(
-      form,
-      fieldName,
-      stringsWithMaxLength(maxLength)
-    )
+    val fieldName = "line4"
+    val lengthKey = "ukAddress.error.line4.length"
+    val maxLength = 35
 
     behave like fieldWithMaxLength(
       form,
@@ -70,10 +126,38 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
       lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
     )
 
+    behave like optionalField(
+      form,
+      fieldName,
+      validDataGenerator = RegexpGen.from(Validation.addressLineRegex)
+    )
+  }
+
+  ".postcode" must {
+
+    val fieldName = "postcode"
+    val requiredKey = "ukAddress.error.postcode.required"
+    val invalidKey = "error.postcodeInvalid"
+
+    behave like fieldWithRegexpWithGenerator(
+      form,
+      fieldName,
+      regexp = Validation.postcodeRegex,
+      generator = arbitrary[String],
+      error = FormError(fieldName, invalidKey)
+    )
+
     behave like mandatoryField(
       form,
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    behave like nonEmptyField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, invalidKey)
+    )
+
   }
 }

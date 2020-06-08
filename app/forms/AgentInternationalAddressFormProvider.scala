@@ -17,20 +17,45 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
-import play.api.data.Form
+import play.api.data.{Form, Forms}
 import play.api.data.Forms._
-import models.AgentInternationalAddress
+import models.pages.InternationalAddress
 
 class AgentInternationalAddressFormProvider @Inject() extends Mappings {
 
-   def apply(): Form[AgentInternationalAddress] = Form(
-     mapping(
-      "field1" -> text("agentInternationalAddress.error.field1.required")
-        .verifying(maxLength(100, "agentInternationalAddress.error.field1.length")),
-      "field2" -> text("agentInternationalAddress.error.field2.required")
-        .verifying(maxLength(100, "agentInternationalAddress.error.field2.length"))
-    )(AgentInternationalAddress.apply)(AgentInternationalAddress.unapply)
-   )
+  def apply(): Form[InternationalAddress] = Form(
+    mapping(
+      "line1" ->
+        text("internationalAddress.error.line1.required")
+          .verifying(
+            firstError(
+              isNotEmpty("line1", "internationalAddress.error.line1.required"),
+              maxLength(35, "internationalAddress.error.line1.length"),
+              regexp(Validation.addressLineRegex, "internationalAddress.error.line1.invalidCharacters")
+            )),
+      "line2" ->
+        text("internationalAddress.error.line2.required")
+          .verifying(
+            firstError(
+              isNotEmpty("line2", "internationalAddress.error.line2.required"),
+              maxLength(35, "internationalAddress.error.line2.length"),
+              regexp(Validation.addressLineRegex, "internationalAddress.error.line2.invalidCharacters")
+            )),
+      "line3" ->
+        optional(Forms.text
+          .verifying(
+            firstError(
+              maxLength(35, "internationalAddress.error.line3.length"),
+              regexp(Validation.addressLineRegex, "internationalAddress.error.line3.invalidCharacters")
+            ))),
+      "country" ->
+        text("internationalAddress.error.country.required")
+          .verifying(
+            firstError(
+              maxLength(35, "internationalAddress.error.country.length"),
+              isNotEmpty("country", "internationalAddress.error.country.required")
+            ))
+    )(InternationalAddress.apply)(InternationalAddress.unapply)
+  )
  }

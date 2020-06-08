@@ -17,63 +17,34 @@
 package controllers
 
 import base.SpecBase
+import config.annotations.EstateRegistration
 import forms.AgentInternationalAddressFormProvider
-import models.{NormalMode, AgentInternationalAddress, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import models.pages.InternationalAddress
+import models.{NormalMode, UserAnswers}
+import navigation.Navigator
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AgentInternationalAddressPage
+import pages.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.inject.bind
-import play.api.libs.json.Json
-import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
+import utils.InputOption
+import utils.countryOptions.CountryOptionsNonUK
 import views.html.AgentInternationalAddressView
-
-import scala.concurrent.Future
 
 class AgentInternationalAddressControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
-
   val formProvider = new AgentInternationalAddressFormProvider()
   val form = formProvider()
+  val agencyName = "Hadrian"
 
   lazy val agentInternationalAddressRoute = routes.AgentInternationalAddressController.onPageLoad(NormalMode).url
-
-  val userAnswers = UserAnswers(
-    userAnswersId,
-    Json.obj(
-      AgentInternationalAddressPage.toString -> Json.obj(
-        "field1" -> "value 1",
-        "field2" -> "value 2"
-      )
-    )
-  )
 
   "AgentInternationalAddress Controller" must {
 
     "return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-      val request = FakeRequest(GET, agentInternationalAddressRoute)
-
-      val view = application.injector.instanceOf[AgentInternationalAddressView]
-
-      val result = route(application, request).value
-
-      status(result) mustEqual OK
-
-      contentAsString(result) mustEqual
-        view(form, NormalMode)(request, messages).toString
-
-      application.stop()
-    }
-
-    "populate the view correctly on a GET when the question has previously been answered" in {
+      val userAnswers: UserAnswers = emptyUserAnswers.set(AgentNamePage,
+        agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -83,45 +54,69 @@ class AgentInternationalAddressControllerSpec extends SpecBase with MockitoSugar
 
       val result = route(application, request).value
 
+      val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options
+
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(AgentInternationalAddress("value 1", "value 2")), NormalMode)(fakeRequest, messages).toString
+        view(form, countryOptions, NormalMode, agencyName)(request, messages).toString
+
+      application.stop()
+    }
+
+    "populate the view correctly on a GET when the question has previously been answered" in {
+
+      val userAnswers = emptyUserAnswers
+        .set(AgentInternationalAddressPage, InternationalAddress("line 1", "line 2", Some("line 3"), "country")).success.value
+        .set(AgentNamePage, agencyName).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val request = FakeRequest(GET, agentInternationalAddressRoute)
+
+      val view = application.injector.instanceOf[AgentInternationalAddressView]
+
+      val result = route(application, request).value
+
+      val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form.fill(InternationalAddress("line 1", "line 2", Some("line 3"), "country")), countryOptions, NormalMode, agencyName)(fakeRequest, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
-
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      val userAnswers = emptyUserAnswers.set(AgentNamePage,
+        agencyName).success.value
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
-          )
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[Navigator].qualifiedWith(classOf[EstateRegistration]).toInstance(fakeNavigator))
           .build()
-
 
       val request =
         FakeRequest(POST, agentInternationalAddressRoute)
-          .withFormUrlEncodedBody(("field1", "value 1"), ("field2", "value 2"))
+          .withFormUrlEncodedBody(("line1", "value 1"), ("line2", "value 2"), ("country", "IN"))
 
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual onwardRoute.url
+      redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
       application.stop()
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers = emptyUserAnswers.set(AgentNamePage,
+        agencyName).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
         FakeRequest(POST, agentInternationalAddressRoute)
@@ -133,10 +128,12 @@ class AgentInternationalAddressControllerSpec extends SpecBase with MockitoSugar
 
       val result = route(application, request).value
 
+      val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options
+
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode)(fakeRequest, messages).toString
+        view(boundForm, countryOptions, NormalMode, agencyName)(fakeRequest, messages).toString
 
        application.stop()
     }
@@ -171,5 +168,21 @@ class AgentInternationalAddressControllerSpec extends SpecBase with MockitoSugar
 
       application.stop()
     }
+
+    "redirect to AgentNamePage when agency name is not answered" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(GET, agentInternationalAddressRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode).url
+
+      application.stop()
+    }
+
   }
 }

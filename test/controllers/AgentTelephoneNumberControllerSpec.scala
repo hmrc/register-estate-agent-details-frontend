@@ -17,29 +17,26 @@
 package controllers
 
 import base.SpecBase
+import config.annotations.EstateRegistration
 import forms.AgentTelephoneNumberFormProvider
 import models.{NormalMode, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import navigation.Navigator
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AgentTelephoneNumberPage
+import pages.{AgentNamePage, AgentTelephoneNumberPage}
+import play.api.Application
 import play.api.inject.bind
-import play.api.libs.json.{JsString, Json}
-import play.api.mvc.Call
+import play.api.mvc.{AnyContentAsFormUrlEncoded, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
 import views.html.AgentTelephoneNumberView
 
 import scala.concurrent.Future
 
 class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
-
   val formProvider = new AgentTelephoneNumberFormProvider()
   val form = formProvider()
+  val agencyName = "FirstName LastName"
 
   lazy val agentTelephoneNumberRoute = routes.AgentTelephoneNumberController.onPageLoad(NormalMode).url
 
@@ -47,7 +44,10 @@ class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
 
     "return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers: UserAnswers = emptyUserAnswers
+        .set(AgentNamePage, "FirstName LastName").success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request = FakeRequest(GET, agentTelephoneNumberRoute)
 
@@ -58,14 +58,16 @@ class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode)(fakeRequest, messages).toString
+        view(form, NormalMode, agencyName)(fakeRequest, messages).toString
 
       application.stop()
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(AgentTelephoneNumberPage, "answer").success.value
+      val userAnswers = UserAnswers(userAnswersId)
+        .set(AgentNamePage, "FirstName LastName").success.value
+        .set(AgentTelephoneNumberPage, "answer").success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -78,40 +80,40 @@ class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode)(fakeRequest, messages).toString
+        view(form.fill("answer"), NormalMode, agencyName)(fakeRequest, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
+      val userAnswers: UserAnswers = emptyUserAnswers
+        .set(AgentNamePage, "FirstName LastName").success.value
+        .set(AgentTelephoneNumberPage, "answer").success.value
 
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
-
-      val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
-          )
+      val application: Application =
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[Navigator].qualifiedWith(classOf[EstateRegistration]).toInstance(fakeNavigator))
           .build()
 
-      val request =
+      val request: FakeRequest[AnyContentAsFormUrlEncoded] =
         FakeRequest(POST, agentTelephoneNumberRoute)
-          .withFormUrlEncodedBody(("value", "191 1111111"))
+          .withFormUrlEncodedBody(("value", "0191 1111111"))
 
-      val result = route(application, request).value
+      val result: Future[Result] = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual onwardRoute.url
+      redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
       application.stop()
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers: UserAnswers = emptyUserAnswers
+        .set(AgentNamePage, "FirstName LastName").success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
         FakeRequest(POST, agentTelephoneNumberRoute)
@@ -126,7 +128,7 @@ class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode)(fakeRequest, messages).toString
+        view(boundForm, NormalMode, agencyName)(fakeRequest, messages).toString
 
       application.stop()
     }
@@ -162,5 +164,43 @@ class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
 
       application.stop()
     }
+
+    "redirect to AgentNamePage when agency name is not answered" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(GET, agentTelephoneNumberRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode).url
+
+      application.stop()
+    }
+
+    "redirect to AgentName page when AgentName is not answered" in {
+
+      val userAnswers: UserAnswers = emptyUserAnswers
+        .set(AgentTelephoneNumberPage, "answer").success.value
+
+      val application: Application =
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .build()
+
+      val request: FakeRequest[AnyContentAsFormUrlEncoded] =
+        FakeRequest(POST, agentTelephoneNumberRoute)
+          .withFormUrlEncodedBody(("value", "0191 1111111"))
+
+      val result: Future[Result] = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode).url
+
+      application.stop()
+    }
+
   }
 }

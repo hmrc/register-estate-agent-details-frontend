@@ -16,12 +16,13 @@
 
 package controllers
 
+import config.annotations.EstateRegistration
 import controllers.actions._
 import forms.AgentTelephoneNumberFormProvider
 import javax.inject.Inject
-import models.Mode
+import models.{Mode, NormalMode}
 import navigation.Navigator
-import pages.AgentTelephoneNumberPage
+import pages.{AgentNamePage, AgentTelephoneNumberPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -33,36 +34,43 @@ import scala.concurrent.{ExecutionContext, Future}
 class AgentTelephoneNumberController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
-                                        navigator: Navigator,
+                                        @EstateRegistration navigator: Navigator,
                                         identify: IdentifierAction,
                                         getData: DataRetrievalAction,
                                         requireData: DataRequiredAction,
+                                        requiredAnswer: RequiredAnswerActionProvider,
                                         formProvider: AgentTelephoneNumberFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: AgentTelephoneNumberView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private def actions() = identify andThen getData andThen requireData
+  private def actions() =
+    identify andThen getData andThen requireData andThen
+      requiredAnswer(RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode)))
 
   val form = formProvider()
 
   def onPageLoad(mode: Mode): Action[AnyContent] = actions() {
     implicit request =>
 
+      val agencyName = request.userAnswers.get(AgentNamePage).get
+
       val preparedForm = request.userAnswers.get(AgentTelephoneNumberPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode))
+      Ok(view(preparedForm, mode, agencyName))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = actions().async {
     implicit request =>
 
+      val agencyName = request.userAnswers.get(AgentNamePage).get
+
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          Future.successful(BadRequest(view(formWithErrors, mode, agencyName))),
 
         value =>
           for {

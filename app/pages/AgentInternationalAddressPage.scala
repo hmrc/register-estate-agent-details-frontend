@@ -16,12 +16,12 @@
 
 package pages
 
-import models.AgentInternationalAddress
+import models.pages.InternationalAddress
 import play.api.libs.json.JsPath
 
-case object AgentInternationalAddressPage extends QuestionPage[AgentInternationalAddress] {
+case object AgentInternationalAddressPage extends QuestionPage[InternationalAddress] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "agentInternationalAddress"
+  override def toString: String = "internationalAddress"
 }

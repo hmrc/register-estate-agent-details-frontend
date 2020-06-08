@@ -17,63 +17,32 @@
 package controllers
 
 import base.SpecBase
+import config.annotations.EstateRegistration
 import forms.AgentUKAddressFormProvider
-import models.{NormalMode, AgentUKAddress, UserAnswers}
-import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import models.pages.UKAddress
+import models.NormalMode
+import navigation.Navigator
 import org.scalatestplus.mockito.MockitoSugar
-import pages.AgentUKAddressPage
+import pages.{AgentNamePage, AgentUKAddressPage}
 import play.api.inject.bind
-import play.api.libs.json.Json
-import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import repositories.SessionRepository
 import views.html.AgentUKAddressView
-
-import scala.concurrent.Future
 
 class AgentUKAddressControllerSpec extends SpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
-
   val formProvider = new AgentUKAddressFormProvider()
   val form = formProvider()
+  val agencyName = "Hadrian"
 
   lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(NormalMode).url
-
-  val userAnswers = UserAnswers(
-    userAnswersId,
-    Json.obj(
-      AgentUKAddressPage.toString -> Json.obj(
-        "field1" -> "value 1",
-        "field2" -> "value 2"
-      )
-    )
-  )
 
   "AgentUKAddress Controller" must {
 
     "return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-      val request = FakeRequest(GET, agentUKAddressRoute)
-
-      val view = application.injector.instanceOf[AgentUKAddressView]
-
-      val result = route(application, request).value
-
-      status(result) mustEqual OK
-
-      contentAsString(result) mustEqual
-        view(form, NormalMode)(request, messages).toString
-
-      application.stop()
-    }
-
-    "populate the view correctly on a GET when the question has previously been answered" in {
+      val userAnswers = emptyUserAnswers.set(AgentNamePage,
+        agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -86,42 +55,62 @@ class AgentUKAddressControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(AgentUKAddress("value 1", "value 2")), NormalMode)(fakeRequest, messages).toString
+        view(form, NormalMode, agencyName)(request, messages).toString
+
+      application.stop()
+    }
+
+    "populate the view correctly on a GET when the question has previously been answered" in {
+
+      val userAnswers = emptyUserAnswers
+        .set(AgentUKAddressPage,  UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")).success.value
+        .set(AgentNamePage, agencyName).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val request = FakeRequest(GET, agentUKAddressRoute)
+
+      val view = application.injector.instanceOf[AgentUKAddressView]
+
+      val result = route(application, request).value
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), NormalMode, agencyName)(fakeRequest, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val mockSessionRepository = mock[SessionRepository]
-
-      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+      val userAnswers = emptyUserAnswers.set(AgentNamePage,
+        agencyName).success.value
 
       val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
-          .overrides(
-            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-            bind[SessionRepository].toInstance(mockSessionRepository)
-          )
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[Navigator].qualifiedWith(classOf[EstateRegistration]).toInstance(fakeNavigator))
           .build()
-
 
       val request =
         FakeRequest(POST, agentUKAddressRoute)
-          .withFormUrlEncodedBody(("field1", "value 1"), ("field2", "value 2"))
+          .withFormUrlEncodedBody(("line1", "value 1"), ("line2", "value 2"),("postcode", "NE1 1ZZ"))
 
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual onwardRoute.url
+      redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
       application.stop()
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val userAnswers = emptyUserAnswers.set(AgentNamePage,
+        agencyName).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
         FakeRequest(POST, agentUKAddressRoute)
@@ -136,7 +125,7 @@ class AgentUKAddressControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode)(fakeRequest, messages).toString
+        view(boundForm, NormalMode, agencyName)(fakeRequest, messages).toString
 
        application.stop()
     }
@@ -171,5 +160,21 @@ class AgentUKAddressControllerSpec extends SpecBase with MockitoSugar {
 
       application.stop()
     }
+
+    "redirect to AgentNamePage when agency name is not answered" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(GET, agentUKAddressRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode).url
+
+      application.stop()
+    }
+
   }
 }
