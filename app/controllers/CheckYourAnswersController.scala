@@ -47,6 +47,7 @@ class CheckYourAnswersController @Inject()(
           Seq(
             checkYourAnswersHelper.agentInternalReference,
             checkYourAnswersHelper.agentName,
+            checkYourAnswersHelper.agentUKAddressYesNo,
             checkYourAnswersHelper.agentUKAddress,
             checkYourAnswersHelper.agentInternationalAddress,
             checkYourAnswersHelper.agentTelephoneNumber

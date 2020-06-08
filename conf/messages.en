@@ -51,6 +51,19 @@ site.address.uk.postcode = Postcode
 site.address.uk.postcode.hint = For example AB1 1AB
 site.address.uk.checkYourAnswersLabel = What is {0}’s address?
 
+ukAddress.error.line1.required = Enter address line 1
+ukAddress.error.line2.required = Enter address line 2
+ukAddress.error.postcode.required = Enter a postcode
+ukAddress.error.line1.length = Address line 1 must be 35 characters or less
+ukAddress.error.line2.length = Address line 2 must be 35 characters or less
+ukAddress.error.line3.length = Address line 3 must be 35 characters or less
+ukAddress.error.line4.length = Address line 4 must be 35 characters or less
+ukAddress.error.line1.invalidCharacters = Address line 1 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
+ukAddress.error.line2.invalidCharacters = Address line 2 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
+ukAddress.error.line3.invalidCharacters = Address line 3 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
+ukAddress.error.line4.invalidCharacters = Address line 4 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
+ukAddress.error.postcode.invalidCharacters = Enter a real postcode
+
 site.address.international.title = What is the address?
 site.address.international.heading = What is {0}’s address?
 site.address.international.checkYourAnswersLabel = What is {0}’s address?
@@ -88,16 +101,6 @@ agentTelephoneNumber.hint = We will use this number to contact you about this es
 agentTelephoneNumber.error.required = Enter the agency’s telephone number
 agentTelephoneNumber.error.invalid.characters = Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
 
-agentInternationalAddress.title = agentInternationalAddress
-agentInternationalAddress.heading = agentInternationalAddress
-agentInternationalAddress.field1 = field1
-agentInternationalAddress.field2 = field2
-agentInternationalAddress.checkYourAnswersLabel = agentInternationalAddress
-agentInternationalAddress.error.field1.required = Enter field1
-agentInternationalAddress.error.field2.required = Enter field2
-agentInternationalAddress.error.field1.length = field1 must be 100 characters or less
-agentInternationalAddress.error.field2.length = field2 must be 100 characters or less
-
 agentName.title = What is the name of the agency registering this estate?
 agentName.heading = What is the name of the agency registering this estate?
 agentName.checkYourAnswersLabel = What is the name of the agency registering this estate?
@@ -105,23 +108,7 @@ agentName.error.required = Enter the agency’s name
 agentName.error.length = Agency’s name must be 56 characters or less
 agentName.error.invalidFormat = Agency’s name must only include letters a to z, numbers 0 to 9, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
 
-agentUKAddress.title = agentUKAddress
-agentUKAddress.heading = agentUKAddress
-agentUKAddress.field1 = field1
-agentUKAddress.field2 = field2
-agentUKAddress.line1 = Address line 1
-agentUKAddress.line2 = Address line 2
-agentUKAddress.line3 = Address line 3 (optional)
-agentUKAddress.line4 = Address line 4 (optional)
-agentUKAddress.postcode = Postcode
-agentUKAddress.postcode.hint = For example AB1 1AB
-agentUKAddress.checkYourAnswersLabel = agentUKAddress
-agentUKAddress.error.field1.required = Enter field1
-agentUKAddress.error.field2.required = Enter field2
-agentUKAddress.error.field1.length = field1 must be 100 characters or less
-agentUKAddress.error.field2.length = field2 must be 100 characters or less
-
-agentUKAddressYesNo.title = agentUKAddressYesNo
-agentUKAddressYesNo.heading = agentUKAddressYesNo
-agentUKAddressYesNo.checkYourAnswersLabel = agentUKAddressYesNo
-agentUKAddressYesNo.error.required = Select yes if agentUKAddressYesNo
+agentUKAddressYesNo.title = Is the agency’s address in the UK?
+agentUKAddressYesNo.heading = Is {0}’s address in the UK?
+agentUKAddressYesNo.checkYourAnswersLabel = Is {0}’s address in the UK?
+agentUKAddressYesNo.error.required = Select yes if the agency’s address is in the UK

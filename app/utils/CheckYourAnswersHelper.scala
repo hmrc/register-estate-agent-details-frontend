@@ -34,18 +34,19 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
   def agentUKAddressYesNo: Option[AnswerRow] = userAnswers.get(AgentUKAddressYesNoPage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("agentUKAddressYesNo.checkYourAnswersLabel")),
+        "agentUKAddressYesNo.checkYourAnswersLabel",
         yesOrNo(x),
-        routes.AgentUKAddressYesNoController.onPageLoad(CheckMode).url
+        Some(routes.AgentUKAddressYesNoController.onPageLoad(CheckMode).url),
+        agencyName(userAnswers)
       )
   }
 
   def agentUKAddress: Option[AnswerRow] = userAnswers.get(AgentUKAddressPage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("site.address.uk.checkYourAnswersLabel")),
+        "site.address.uk.checkYourAnswersLabel",
         ukAddress(x),
-        routes.AgentUKAddressController.onPageLoad(NormalMode).url,
+        Some(routes.AgentUKAddressController.onPageLoad(NormalMode).url),
         agencyName(userAnswers)
       )
   }
@@ -53,18 +54,18 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
   def agentName: Option[AnswerRow] = userAnswers.get(AgentNamePage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("agentName.checkYourAnswersLabel")),
+        "agentName.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        routes.AgentNameController.onPageLoad(CheckMode).url
+        Some(routes.AgentNameController.onPageLoad(CheckMode).url)
       )
   }
 
   def agentInternationalAddress: Option[AnswerRow] = userAnswers.get(AgentInternationalAddressPage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("agentInternationalAddress.checkYourAnswersLabel")),
+        "agentInternationalAddress.checkYourAnswersLabel",
         internationalAddress(x, countryOptions),
-        routes.AgentInternationalAddressController.onPageLoad(CheckMode).url,
+        Some(routes.AgentInternationalAddressController.onPageLoad(CheckMode).url),
         agencyName(userAnswers)
       )
   }
@@ -72,18 +73,19 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
   def agentTelephoneNumber: Option[AnswerRow] = userAnswers.get(AgentTelephoneNumberPage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("agentTelephoneNumber.checkYourAnswersLabel")),
+        "agentTelephoneNumber.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        routes.AgentTelephoneNumberController.onPageLoad(CheckMode).url
+        Some(routes.AgentTelephoneNumberController.onPageLoad(CheckMode).url),
+        agencyName(userAnswers)
       )
   }
 
   def agentInternalReference: Option[AnswerRow] = userAnswers.get(AgentInternalReferencePage) map {
     x =>
       AnswerRow(
-        HtmlFormat.escape(messages("agentInternalReference.checkYourAnswersLabel")),
+        "agentInternalReference.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        routes.AgentInternalReferenceController.onPageLoad(CheckMode).url
+        Some(routes.AgentInternalReferenceController.onPageLoad(CheckMode).url)
       )
   }
 

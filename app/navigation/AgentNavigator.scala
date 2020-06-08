@@ -18,7 +18,7 @@ package navigation
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import pages.{AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage, AgentUKAddressYesNoPage, Page, QuestionPage}
+import pages.{AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage, AgentUKAddressYesNoPage, Page, QuestionPage}
 import play.api.mvc.Call
 
 class AgentNavigator @Inject()() extends Navigator {
@@ -27,10 +27,10 @@ class AgentNavigator @Inject()() extends Navigator {
     routes(mode)(page)(userAnswers)
 
   private def simpleNavigation(mode: Mode): PartialFunction[Page, Call] = {
-    case AgentInternationalAddressPage => controllers.routes.AgentNameController.onPageLoad(mode)
-    case AgentNamePage => ??? //TODO
-    case AgentUKAddressPage => ??? //TODO
-    case AgentInternationalAddressPage => ??? //TODO
+    case AgentInternalReferencePage => controllers.routes.AgentNameController.onPageLoad(mode)
+    case AgentNamePage => controllers.routes.AgentUKAddressYesNoController.onPageLoad(mode)
+    case AgentUKAddressPage => controllers.routes.AgentTelephoneNumberController.onPageLoad(mode)
+    case AgentInternationalAddressPage => controllers.routes.AgentTelephoneNumberController.onPageLoad(mode)
     case AgentTelephoneNumberPage => controllers.routes.CheckYourAnswersController.onPageLoad()
   }
 

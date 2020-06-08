@@ -41,7 +41,7 @@ class AgentUKAddressYesNoViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, routes.AgentUKAddressYesNoController.onSubmit(NormalMode).url)
+    behave like yesNoPage(form, applyView, messageKeyPrefix, None, Seq(name))
 
     behave like pageWithASubmitButton(applyView(form))
   }
