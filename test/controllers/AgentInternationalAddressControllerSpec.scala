@@ -27,8 +27,7 @@ import pages.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import utils.InputOption
-import utils.countryOptions.CountryOptionsNonUK
+import utils.countryOptions.{CountryOptionsNonUK, InputOption}
 import views.html.AgentInternationalAddressView
 
 class AgentInternationalAddressControllerSpec extends SpecBase with MockitoSugar {

@@ -21,6 +21,7 @@ import config.annotations.EstateRegistration
 import controllers.actions._
 import navigation.{AgentNavigator, Navigator}
 import repositories.{DefaultSessionRepository, SessionRepository}
+import utils.countryOptions.{CountryOptions, CountryOptionsNonUK}
 
 class Module extends AbstractModule {
 
@@ -32,6 +33,7 @@ class Module extends AbstractModule {
     // For session based storage instead of cred based, change to SessionIdentifierAction
     bind(classOf[IdentifierAction]).to(classOf[AuthenticatedIdentifierAction]).asEagerSingleton()
 
+    bind(classOf[CountryOptions]).to(classOf[CountryOptionsNonUK]).asEagerSingleton()
     bind(classOf[SessionRepository]).to(classOf[DefaultSessionRepository]).asEagerSingleton()
     bind(classOf[Navigator]).annotatedWith(classOf[EstateRegistration]).to(classOf[AgentNavigator]).asEagerSingleton()
   }

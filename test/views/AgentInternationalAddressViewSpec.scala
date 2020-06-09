@@ -21,8 +21,7 @@ import models.pages.InternationalAddress
 import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
-import utils.InputOption
-import utils.countryOptions.CountryOptionsNonUK
+import utils.countryOptions.{CountryOptionsNonUK, InputOption}
 import views.behaviours.QuestionViewBehaviours
 import views.html.AgentInternationalAddressView
 

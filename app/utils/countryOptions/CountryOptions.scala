@@ -17,21 +17,12 @@
 package utils.countryOptions
 
 import com.typesafe.config.ConfigException
-import config.FrontendAppConfig
-import javax.inject.{Inject, Singleton}
 import play.api.Environment
 import play.api.libs.json.Json
-import utils.InputOption
 
+trait CountryOptions {
 
-@Singleton
-class CountryOptions @Inject()(environment: Environment, config: FrontendAppConfig) {
-
-  def options: Seq[InputOption] = CountryOptions.getCountries(environment, config.locationCanonicalList)
-
-}
-
-object CountryOptions {
+  def options: Seq[InputOption]
 
   def getCountries(environment: Environment, fileName: String): Seq[InputOption] = {
     environment.resourceAsStream(fileName).flatMap {
