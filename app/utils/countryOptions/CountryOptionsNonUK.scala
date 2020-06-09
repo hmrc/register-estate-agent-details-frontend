@@ -24,8 +24,9 @@ import utils.InputOption
 
 @Singleton
 class CountryOptionsNonUK @Inject()(
-                                        environment: Environment,
-                                        config: FrontendAppConfig
-                                      ) extends CountryOptions(environment, config) {
+                                     environment: Environment,
+                                     config: FrontendAppConfig
+                                   ) extends CountryOptions(environment, config) {
+
   override def options: Seq[InputOption] = CountryOptions.getCountries(environment, config.locationCanonicalListNonUK)
 }
