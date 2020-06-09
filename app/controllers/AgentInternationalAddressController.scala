@@ -36,9 +36,7 @@ class AgentInternationalAddressController @Inject()(
                                       override val messagesApi: MessagesApi,
                                       sessionRepository: SessionRepository,
                                       @EstateRegistration navigator: Navigator,
-                                      identify: IdentifierAction,
-                                      getData: DataRetrievalAction,
-                                      requireData: DataRequiredAction,
+                                      actions: Actions,
                                       requiredAnswer: RequiredAnswerActionProvider,
                                       formProvider: AgentInternationalAddressFormProvider,
                                       val controllerComponents: MessagesControllerComponents,
@@ -46,13 +44,11 @@ class AgentInternationalAddressController @Inject()(
                                       val countryOptions: CountryOptionsNonUK
                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private def actions() =
-    identify andThen getData andThen requireData andThen
-      requiredAnswer(RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode)))
+  private val form = formProvider()
 
-  val form = formProvider()
+  private val agentNameRequired = requiredAnswer(RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode)))
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = actions() {
+  def onPageLoad(mode: Mode): Action[AnyContent] = actions.authWithData.andThen(agentNameRequired) {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get
@@ -65,7 +61,7 @@ class AgentInternationalAddressController @Inject()(
       Ok(view(preparedForm, countryOptions.options, mode, agencyName))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = actions().async {
+  def onSubmit(mode: Mode): Action[AnyContent] = actions.authWithData.andThen(agentNameRequired).async {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get

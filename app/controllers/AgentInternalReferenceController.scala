@@ -35,19 +35,15 @@ class AgentInternalReferenceController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         sessionRepository: SessionRepository,
                                         @EstateRegistration navigator: Navigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
                                         formProvider: AgentInternalReferenceFormProvider,
+                                        actions: Actions,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: AgentInternalReferenceView
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private def actions() = identify andThen getData andThen requireData
+  private val form = formProvider()
 
-  val form = formProvider()
-
-  def onPageLoad(mode: Mode): Action[AnyContent] = actions() {
+  def onPageLoad(mode: Mode): Action[AnyContent] = actions.authWithData {
     implicit request =>
 
       val preparedForm = request.userAnswers.get(AgentInternalReferencePage) match {
@@ -58,7 +54,7 @@ class AgentInternalReferenceController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = actions().async {
+  def onSubmit(mode: Mode): Action[AnyContent] = actions.authWithData.async {
     implicit request =>
 
       form.bindFromRequest().fold(
