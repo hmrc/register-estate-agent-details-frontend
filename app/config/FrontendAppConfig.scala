@@ -40,6 +40,8 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   lazy val logoutUrl: String = configuration.get[String]("urls.logout")
 
+  lazy val estateHubUrl: String = configuration.get[String]("urls.estateHub")
+
   lazy val locationCanonicalList: String = configuration.get[String]("location.canonical.list.all")
   lazy val locationCanonicalListNonUK: String = configuration.get[String]("location.canonical.list.nonUK")
 

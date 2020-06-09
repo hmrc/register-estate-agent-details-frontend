@@ -24,7 +24,8 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
   def yesNoPage(form: Form[Boolean],
                 createView: Form[Boolean] => HtmlFormat.Appendable,
                 messageKeyPrefix: String,
-                expectedFormAction: String): Unit = {
+                hintTextPrefix : Option[String] = None,
+                args : Seq[String] = Nil) : Unit = {
 
     "behave like a page with a Yes/No question" when {
 
@@ -35,7 +36,12 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           val doc = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
           legends.size mustBe 1
-          legends.first.text mustBe messages(s"$messageKeyPrefix.heading")
+          legends.first.text must include(messages(s"$messageKeyPrefix.heading", args: _*))
+
+          hintTextPrefix.map {
+            pref =>
+              doc.getElementsByClass("form-hint").first.text must include(messages(s"$pref.hint"))
+          }
         }
 
         "contain an input for the value" in {
@@ -88,7 +94,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")}""")
+          assertEqualsValue(doc, "title", s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}""")
         }
       }
     }

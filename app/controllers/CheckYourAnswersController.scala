@@ -17,29 +17,41 @@
 package controllers
 
 import com.google.inject.Inject
-import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import controllers.actions.{Actions, DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 import utils.CheckYourAnswersHelper
+import utils.countryOptions.CountryOptions
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
-                                            identify: IdentifierAction,
-                                            getData: DataRetrievalAction,
-                                            requireData: DataRequiredAction,
+                                            actions: Actions,
                                             val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView
+                                            view: CheckYourAnswersView,
+                                            countryOptions : CountryOptions
                                           ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(): Action[AnyContent] = actions.authWithData {
     implicit request =>
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(request.userAnswers)
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(request.userAnswers)
 
-      val sections = Seq(AnswerSection(None, Seq()))
+      val sections = Seq(
+        AnswerSection(
+          None,
+          Seq(
+            checkYourAnswersHelper.agentInternalReference,
+            checkYourAnswersHelper.agentName,
+            checkYourAnswersHelper.agentUKAddressYesNo,
+            checkYourAnswersHelper.agentUKAddress,
+            checkYourAnswersHelper.agentInternationalAddress,
+            checkYourAnswersHelper.agentTelephoneNumber
+          ).flatten
+        )
+      )
 
       Ok(view(sections))
   }

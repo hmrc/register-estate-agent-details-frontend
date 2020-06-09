@@ -17,9 +17,9 @@
 package models
 
 import java.time.LocalDateTime
-
-import pages._
+import play.api.Logger
 import play.api.libs.json._
+import queries.{Gettable, Settable}
 
 import scala.util.{Failure, Success, Try}
 
@@ -29,15 +29,23 @@ final case class UserAnswers(
                               lastUpdated: LocalDateTime = LocalDateTime.now
                             ) {
 
-  def get[A](page: QuestionPage[A])(implicit rds: Reads[A]): Option[A] =
-    Reads.optionNoError(Reads.at(page.path)).reads(data).getOrElse(None)
+  def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] = {
+    Reads.at(page.path).reads(data) match {
+      case JsSuccess(value, _) => Some(value)
+      case JsError(errors) =>
+        Logger.info(s"[UserAnswers] tried to read path ${page.path} errors: $errors")
+        None
+    }
+  }
 
-  def set[A](page: QuestionPage[A], value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+  def set[A](page: Settable[A], value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
 
     val updatedData = data.setObject(page.path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
       case JsError(errors) =>
+        val errorPaths = errors.collectFirst{ case (path, e) => s"$path $e"}
+        Logger.warn(s"[UserAnswers] unable to set path ${page.path} due to errors $errorPaths")
         Failure(JsResultException(errors))
     }
 
@@ -48,9 +56,9 @@ final case class UserAnswers(
     }
   }
 
-  def remove[A](page: QuestionPage[A]): Try[UserAnswers] = {
+  def remove[A](query: Settable[A]): Try[UserAnswers] = {
 
-    val updatedData = data.setObject(page.path, JsNull) match {
+    val updatedData = data.removeObject(query.path) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
       case JsError(_) =>
@@ -60,9 +68,10 @@ final case class UserAnswers(
     updatedData.flatMap {
       d =>
         val updatedAnswers = copy (data = d)
-        page.cleanup(None, updatedAnswers)
+        query.cleanup(None, updatedAnswers)
     }
   }
+
 }
 
 object UserAnswers {

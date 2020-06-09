@@ -17,16 +17,77 @@
 package utils
 
 import java.time.format.DateTimeFormatter
-
+import javax.inject.Inject
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import pages._
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
 import viewmodels.AnswerRow
-import CheckYourAnswersHelper._
+import utils.CheckAnswersFormatters._
+import utils.countryOptions.CountryOptions
 
-class CheckYourAnswersHelper(userAnswers: UserAnswers)(implicit messages: Messages) {
+
+class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
+                                      (userAnswers: UserAnswers)(implicit messages: Messages) {
+
+  def agentUKAddressYesNo: Option[AnswerRow] = userAnswers.get(AgentUKAddressYesNoPage) map {
+    x =>
+      AnswerRow(
+        "agentUKAddressYesNo.checkYourAnswersLabel",
+        yesOrNo(x),
+        Some(routes.AgentUKAddressYesNoController.onPageLoad(CheckMode).url),
+        agencyName(userAnswers)
+      )
+  }
+
+  def agentUKAddress: Option[AnswerRow] = userAnswers.get(AgentUKAddressPage) map {
+    x =>
+      AnswerRow(
+        "site.address.uk.checkYourAnswersLabel",
+        ukAddress(x),
+        Some(routes.AgentUKAddressController.onPageLoad(NormalMode).url),
+        agencyName(userAnswers)
+      )
+  }
+
+  def agentName: Option[AnswerRow] = userAnswers.get(AgentNamePage) map {
+    x =>
+      AnswerRow(
+        "agentName.checkYourAnswersLabel",
+        HtmlFormat.escape(x),
+        Some(routes.AgentNameController.onPageLoad(CheckMode).url)
+      )
+  }
+
+  def agentInternationalAddress: Option[AnswerRow] = userAnswers.get(AgentInternationalAddressPage) map {
+    x =>
+      AnswerRow(
+        "agentInternationalAddress.checkYourAnswersLabel",
+        internationalAddress(x, countryOptions),
+        Some(routes.AgentInternationalAddressController.onPageLoad(CheckMode).url),
+        agencyName(userAnswers)
+      )
+  }
+
+  def agentTelephoneNumber: Option[AnswerRow] = userAnswers.get(AgentTelephoneNumberPage) map {
+    x =>
+      AnswerRow(
+        "agentTelephoneNumber.checkYourAnswersLabel",
+        HtmlFormat.escape(x),
+        Some(routes.AgentTelephoneNumberController.onPageLoad(CheckMode).url),
+        agencyName(userAnswers)
+      )
+  }
+
+  def agentInternalReference: Option[AnswerRow] = userAnswers.get(AgentInternalReferencePage) map {
+    x =>
+      AnswerRow(
+        "agentInternalReference.checkYourAnswersLabel",
+        HtmlFormat.escape(x),
+        Some(routes.AgentInternalReferenceController.onPageLoad(CheckMode).url)
+      )
+  }
 
   private def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
     if (answer) {
