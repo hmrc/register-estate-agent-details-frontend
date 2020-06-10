@@ -20,12 +20,12 @@ import models.UserAnswers
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.twirl.api.Html
-import base.SpecBase
+import base.{RegistrationSpecBase, SpecBase}
 import org.scalatest.Assertion
 
 import scala.reflect.ClassTag
 
-trait ViewSpecBase extends SpecBase {
+trait ViewSpecBase extends RegistrationSpecBase {
 
   def viewFor[A](data: Option[UserAnswers] = None)(implicit tag: ClassTag[A]): A = {
     val application = applicationBuilder(data).build()

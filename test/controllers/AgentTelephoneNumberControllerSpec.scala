@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.SpecBase
+import base.{RegistrationSpecBase, SpecBase}
 import config.annotations.EstateRegistration
 import forms.AgentTelephoneNumberFormProvider
 import models.{NormalMode, UserAnswers}
@@ -32,7 +32,7 @@ import views.html.AgentTelephoneNumberView
 
 import scala.concurrent.Future
 
-class AgentTelephoneNumberControllerSpec extends SpecBase with MockitoSugar {
+class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   val formProvider = new AgentTelephoneNumberFormProvider()
   val form = formProvider()

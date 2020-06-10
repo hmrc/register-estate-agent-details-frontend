@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package viewmodels
+package utils.mappers
 
-import base.{RegistrationSpecBase, SpecBase}
+import models.UserAnswers
 
-class RadioOptionSpec extends RegistrationSpecBase {
+trait Mapping[T] {
 
-  "Radio Option" must {
+  def build(userAnswers: UserAnswers) : Option[T]
 
-    "build correctly from a key prefix and option" in {
-
-      val radioOption = RadioOption("prefix", "option")
-
-      radioOption.id mustEqual "prefix.option"
-      radioOption.value mustEqual "option"
-      radioOption.messageKey mustEqual "prefix.option"
-    }
-  }
 }

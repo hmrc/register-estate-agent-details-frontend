@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.SpecBase
+import base.{RegistrationSpecBase, SpecBase}
 import config.annotations.EstateRegistration
 import forms.AgentNameFormProvider
 import models.{NormalMode, UserAnswers}
@@ -36,7 +36,7 @@ import views.html.AgentNameView
 
 import scala.concurrent.Future
 
-class AgentNameControllerSpec extends SpecBase with MockitoSugar {
+class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 

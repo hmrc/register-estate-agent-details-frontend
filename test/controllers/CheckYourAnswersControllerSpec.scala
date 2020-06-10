@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.SpecBase
+import base.{RegistrationSpecBase, SpecBase}
 import models.UserAnswers
 import models.pages.{InternationalAddress, UKAddress}
 import pages.{AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage}
@@ -27,7 +27,7 @@ import utils.countryOptions.CountryOptions
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
-class CheckYourAnswersControllerSpec extends SpecBase {
+class CheckYourAnswersControllerSpec extends RegistrationSpecBase {
 
   "Check Your Answers Controller" must {
 
