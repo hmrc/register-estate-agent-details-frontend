@@ -17,8 +17,9 @@
 package controllers
 
 import com.google.inject.Inject
+import config.FrontendAppConfig
 import config.annotations.EstateRegistration
-import connector.EstateStoreConnector
+import connector.EstateConnector
 import controllers.actions.Actions
 import navigation.Navigator
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -35,10 +36,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
+                                            val appConfig: FrontendAppConfig,
                                             @EstateRegistration navigator: Navigator,
                                             actions: Actions,
                                             agentMapper: AgentDetailsMapper,
-                                            estateStoreConnector: EstateStoreConnector,
+                                            estateConnector: EstateConnector,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
                                             countryOptions : CountryOptions
@@ -71,15 +73,14 @@ class CheckYourAnswersController @Inject()(
 
       agentMapper.build(request.userAnswers) match {
         case Some(agentDetails) =>
-          // TODO call estates store service with Agent Details and return to Estate Hub service
-          Logger.info("[CheckYourAnswersController][submit] agent details generated for submit.")
-//          estateStoreConnector.setTaskComplete(agentDetails) map { _ =>
-          Future.successful(Redirect(controllers.routes.CheckYourAnswersController.onPageLoad()))
-//          }
+          for {
+            _ <- estateConnector.addAgentDetails(agentDetails)
+          } yield {
+            Redirect(appConfig.registrationProgress)
+          }
         case None =>
           Logger.warn("[CheckYourAnswersController][submit] Unable to generate agent details to submit.")
-          // TODO call internal error handler
-          Future.successful(Redirect(controllers.routes.CheckYourAnswersController.onPageLoad()))
+          Future.successful(InternalServerError)
       }
   }
 
