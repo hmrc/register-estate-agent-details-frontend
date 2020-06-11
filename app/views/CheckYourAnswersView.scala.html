@@ -14,10 +14,12 @@
  * limitations under the License.
  *@
 
+@import controllers.routes._
 @import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
 
 @this(
-    main_template: MainTemplate
+    main_template: MainTemplate,
+    formHelper: FormWithCSRF
 )
 
 @(answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
@@ -28,7 +30,7 @@
 
     @components.back_link()
 
-    @components.heading("checkYourAnswers.heading")</h1>
+    @components.heading("checkYourAnswers.heading")
 
     @for(section <- answerSections){
         @{
@@ -38,4 +40,9 @@
             }
         }
     }
+
+    @formHelper(action = CheckYourAnswersController.onSubmit(), 'autoComplete -> "off") {
+        @components.submit_button()
+    }
+
 }
