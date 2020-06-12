@@ -18,7 +18,7 @@ package navigation
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import pages.{AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage, AgentUKAddressYesNoPage, Page, QuestionPage}
+import pages._
 import play.api.mvc.Call
 
 class AgentNavigator @Inject()() extends Navigator {
@@ -36,7 +36,9 @@ class AgentNavigator @Inject()() extends Navigator {
 
   private def yesNoNavigation(mode: Mode): PartialFunction[Page, UserAnswers => Call] = {
     case AgentUKAddressYesNoPage => ua =>
-      yesNoNav(ua, AgentUKAddressYesNoPage, controllers.routes.AgentUKAddressController.onPageLoad(mode), controllers.routes.AgentInternationalAddressController.onPageLoad(mode))
+        yesNoNav(ua, AgentUKAddressYesNoPage,
+        controllers.routes.AgentUKAddressController.onPageLoad(mode),
+        controllers.routes.AgentInternationalAddressController.onPageLoad(mode))
   }
 
   private def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call = {

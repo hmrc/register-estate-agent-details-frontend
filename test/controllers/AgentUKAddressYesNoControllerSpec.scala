@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.SpecBase
+import base.RegistrationSpecBase
 import config.annotations.EstateRegistration
 import forms.AgentUKAddressYesNoFormProvider
 import models.{NormalMode, UserAnswers}
@@ -33,7 +33,7 @@ import views.html.AgentUKAddressYesNoView
 
 import scala.concurrent.Future
 
-class AgentUKAddressYesNoControllerSpec extends SpecBase with MockitoSugar {
+class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   val formProvider = new AgentUKAddressYesNoFormProvider()
   val form = formProvider()

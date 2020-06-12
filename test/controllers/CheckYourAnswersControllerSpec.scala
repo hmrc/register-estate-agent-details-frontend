@@ -16,18 +16,30 @@
 
 package controllers
 
-import base.SpecBase
+import base.RegistrationSpecBase
+import connector.EstateConnector
 import models.UserAnswers
 import models.pages.{InternationalAddress, UKAddress}
-import pages.{AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatestplus.mockito.MockitoSugar
+import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.HttpResponse
 import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
+import play.api.inject.bind
 
-class CheckYourAnswersControllerSpec extends SpecBase {
+import scala.concurrent.Future
+
+class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures {
+
+  lazy val submitRoute : String = controllers.routes.CheckYourAnswersController.onSubmit().url
+  private lazy val completedRoute = "http://localhost:8822/register-an-estate/registration-progress"
 
   "Check Your Answers Controller" must {
 
@@ -128,5 +140,37 @@ class CheckYourAnswersControllerSpec extends SpecBase {
 
       application.stop()
     }
+
+
+    "redirect to the estates progress when submitted" in {
+
+      val mockEstateConnector = mock[EstateConnector]
+
+      val userAnswers = emptyUserAnswers
+        .set(AgentARNPage, "SARN123456").success.value
+        .set(AgentTelephoneNumberPage, "123456789").success.value
+        .set(AgentUKAddressYesNoPage, false).success.value
+        .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
+        .set(AgentNamePage, "Sam Curran Trust").success.value
+        .set(AgentInternalReferencePage, "123456789").success.value
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[EstateConnector].toInstance(mockEstateConnector))
+          .build()
+
+      when(mockEstateConnector.addAgentDetails(any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK)))
+
+      val request = FakeRequest(POST, submitRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual completedRoute
+
+      application.stop()
+    }
+
   }
 }

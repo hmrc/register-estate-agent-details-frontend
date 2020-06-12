@@ -22,7 +22,7 @@ import forms.AgentInternalReferenceFormProvider
 import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.AgentInternalReferencePage
+import pages.{AgentARNPage, AgentInternalReferencePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -64,7 +64,8 @@ class AgentInternalReferenceController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentInternalReferencePage, value))
-            _              <- sessionRepository.set(updatedAnswers)
+            updatedAnswersWithARN <- Future.fromTry(updatedAnswers.set(AgentARNPage, request.agentARN.getOrElse("")))
+            _              <- sessionRepository.set(updatedAnswersWithARN)
           } yield Redirect(navigator.nextPage(AgentInternalReferencePage, mode, updatedAnswers))
       )
   }

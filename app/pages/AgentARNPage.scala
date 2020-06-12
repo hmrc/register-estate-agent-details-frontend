@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package viewmodels
+package pages
 
-import base.RegistrationSpecBase
+import play.api.libs.json.JsPath
 
-class RadioOptionSpec extends RegistrationSpecBase {
+case object AgentARNPage extends QuestionPage[String] {
 
-  "Radio Option" must {
+  override def path: JsPath = JsPath \ toString
 
-    "build correctly from a key prefix and option" in {
-
-      val radioOption = RadioOption("prefix", "option")
-
-      radioOption.id mustEqual "prefix.option"
-      radioOption.value mustEqual "option"
-      radioOption.messageKey mustEqual "prefix.option"
-    }
-  }
+  override def toString: String = "agentARN"
 }
