@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import com.google.inject.Inject
 import controllers.routes
 import play.api.mvc.{BodyParsers, Results}

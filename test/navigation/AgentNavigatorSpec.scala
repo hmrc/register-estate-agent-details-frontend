@@ -16,7 +16,7 @@
 
 package navigation
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import pages._
 import models._
 

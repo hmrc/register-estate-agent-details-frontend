@@ -20,7 +20,7 @@ import models.UserAnswers
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.twirl.api.Html
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import org.scalatest.Assertion
 
 import scala.reflect.ClassTag

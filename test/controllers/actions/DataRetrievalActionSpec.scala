@@ -16,13 +16,12 @@
 
 package controllers.actions
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import models.UserAnswers
 import models.requests.{IdentifierRequest, OptionalDataRequest}
 import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.libs.json.Json
 import repositories.SessionRepository
 
 import scala.concurrent.ExecutionContext.Implicits.global

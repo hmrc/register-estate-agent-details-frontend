@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import config.annotations.EstateRegistration
 import forms.AgentInternalReferenceFormProvider
 import models.{NormalMode, UserAnswers}

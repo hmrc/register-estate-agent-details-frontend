@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import models.NormalMode
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

@@ -16,8 +16,6 @@
 
 package connectors
 
-import akka.actor
-import akka.actor.Address
 import base.RegistrationSpecBase
 import com.github.tomakehurst.wiremock.client.WireMock._
 import connector.EstateConnector

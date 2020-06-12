@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import config.annotations.EstateRegistration
 import forms.AgentUKAddressYesNoFormProvider
 import models.{NormalMode, UserAnswers}

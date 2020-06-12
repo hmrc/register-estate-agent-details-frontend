@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import play.api.mvc.{BodyParsers, Results}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.SessionKeys
