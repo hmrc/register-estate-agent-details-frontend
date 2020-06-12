@@ -19,12 +19,13 @@ package controllers
 import base.RegistrationSpecBase
 import connector.EstateConnector
 import models.UserAnswers
+import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
-import pages.{AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage, AgentUKAddressYesNoPage}
+import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HttpResponse
@@ -33,6 +34,7 @@ import utils.countryOptions.CountryOptions
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 import play.api.inject.bind
+import utils.mappers.{AgentDetailsMapper, Mapping}
 
 import scala.concurrent.Future
 
@@ -147,11 +149,11 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
       val mockEstateConnector = mock[EstateConnector]
 
       val userAnswers = emptyUserAnswers
+        .set(AgentARNPage, "SARN123456").success.value
+        .set(AgentTelephoneNumberPage, "123456789").success.value
+        .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
         .set(AgentNamePage, "Sam Curran Trust").success.value
         .set(AgentInternalReferencePage, "123456789").success.value
-        .set(AgentUKAddressYesNoPage, false).success.value
-        .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
-        .set(AgentTelephoneNumberPage, "123456789").success.value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
