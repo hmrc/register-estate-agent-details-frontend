@@ -71,7 +71,7 @@ class CheckYourAnswersController @Inject()(
   def onSubmit() = actions.authWithData.async {
     implicit request =>
 
-      agentMapper.build(request.userAnswers) match {
+      agentMapper(request.userAnswers) match {
         case Some(agentDetails) =>
           for {
             _ <- estateConnector.addAgentDetails(agentDetails)

@@ -16,11 +16,14 @@
 
 package connectors
 
+import akka.actor
+import akka.actor.Address
 import base.RegistrationSpecBase
 import com.github.tomakehurst.wiremock.client.WireMock._
 import connector.EstateConnector
 import generators.Generators
-import models.mappers.{AddressType, AgentDetails}
+import models.mappers.AgentDetails
+import models.pages.UKAddress
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, Inside}
 import play.api.test.Helpers._
@@ -42,7 +45,7 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
       val agentDetails = AgentDetails(
         arn = "SARN123456",
         agentName = "Agency Name",
-        agentAddress = AddressType("Line1", "Line2", None, Some("Newcastle"), Some("ab1 1ab"), "GB"),
+        agentAddress = UKAddress("Line1", "Line2", None, Some("Newcastle"), "ab1 1ab"),
         agentTelephoneNumber = "+1234567890",
         clientReference = "1234-5678"
       )

@@ -19,7 +19,6 @@ package controllers
 import base.RegistrationSpecBase
 import connector.EstateConnector
 import models.UserAnswers
-import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -34,7 +33,6 @@ import utils.countryOptions.CountryOptions
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 import play.api.inject.bind
-import utils.mappers.{AgentDetailsMapper, Mapping}
 
 import scala.concurrent.Future
 
@@ -151,6 +149,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
       val userAnswers = emptyUserAnswers
         .set(AgentARNPage, "SARN123456").success.value
         .set(AgentTelephoneNumberPage, "123456789").success.value
+        .set(AgentUKAddressYesNoPage, false).success.value
         .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
         .set(AgentNamePage, "Sam Curran Trust").success.value
         .set(AgentInternalReferencePage, "123456789").success.value

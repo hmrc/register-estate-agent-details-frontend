@@ -16,25 +16,36 @@
 
 package models.mappers
 
+import models.pages.Address
 import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 case class AgentDetails(arn: String,
                         agentName: String,
-                        agentAddress: AddressType,
+                        agentAddress: Address,
                         agentTelephoneNumber: String,
                         clientReference: String)
 
 object AgentDetails {
   implicit val agentDetailsFormat: Format[AgentDetails] = Json.format[AgentDetails]
-}
 
-case class AddressType(line1: String,
-                       line2: String,
-                       line3: Option[String],
-                       line4: Option[String],
-                       postCode: Option[String],
-                       country: String)
+  implicit val reads: Reads[AgentDetails] =
+    ((__ \ 'arn).read[String] and
+      (__ \ 'agentName).read[String] and
+      (__ \ 'agentAddress).read[Address] and
+      (__ \ 'agentTelephoneNumber).read[String] and
+      (__ \ 'clientReference).read[String]).tupled.map{
 
-object AddressType {
-  implicit val addressTypeFormat: Format[AddressType] = Json.format[AddressType]
+      case (arn, name, address, phoneNumber, clientRef) =>
+        AgentDetails(arn, name, address, phoneNumber, clientRef)
+    }
+
+  implicit val writes: Writes[AgentDetails] =
+    ((__ \ 'arn).write[String] and
+      (__ \ 'agentName).write[String] and
+      (__ \ 'agentAddress).write[Address] and
+      (__ \ 'agentTelephoneNumber).write[String] and
+      (__ \ "clientReference").write[String]
+      ).apply(unlift(AgentDetails.unapply))
+
 }

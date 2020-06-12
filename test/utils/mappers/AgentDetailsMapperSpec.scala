@@ -18,7 +18,7 @@ package utils.mappers
 
 import base.SpecBase
 import generators.Generators
-import models.mappers.{AddressType, AgentDetails}
+import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
 import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
 import pages._
@@ -26,7 +26,7 @@ import pages._
 class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
   with OptionValues with Generators with SpecBase {
 
-  val agentMapper: Mapping[AgentDetails] = injector.instanceOf[AgentDetailsMapper]
+  val agentMapper = injector.instanceOf[AgentDetailsMapper]
 
   "AgentDetailsMapper" - {
 
@@ -36,7 +36,7 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
 
         val userAnswers = emptyUserAnswers
 
-        agentMapper.build(userAnswers) mustNot be(defined)
+        agentMapper(userAnswers) mustNot be(defined)
       }
     }
     "when user answers is not empty " - {
@@ -52,10 +52,10 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, true).success.value
 
-        agentMapper.build(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).value mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
-          agentAddress = AddressType("Line1", "Line2", None, Some("Newcastle"), Some("ab1 1ab"), "GB"),
+          agentAddress = UKAddress("Line1", "Line2", None, Some("Newcastle"), "ab1 1ab"),
           agentTelephoneNumber = "+1234567890",
           clientReference = "1234-5678"
         )
@@ -72,10 +72,10 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, true).success.value
 
-        agentMapper.build(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).value mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
-          agentAddress = AddressType("Line1", "Newcastle", None, None, Some("NE62RT"), "GB"),
+          agentAddress = UKAddress("Line1", "Newcastle", None, None, "NE62RT"),
           agentTelephoneNumber = "+1234567890",
           clientReference = "1234-5678"
         )
@@ -92,10 +92,10 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, false).success.value
 
-        agentMapper.build(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).value mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
-          agentAddress = AddressType("line1", "line2", Some("line3"), None, None, "IN"),
+          agentAddress = InternationalAddress("line1", "line2", Some("line3"), "IN"),
           agentTelephoneNumber = "+1234567890",
           clientReference = "1234-5678"
         )
@@ -112,10 +112,10 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, false).success.value
 
-        agentMapper.build(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).value mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
-          agentAddress = AddressType("line1", "line2", None, None, None, "IN"),
+          agentAddress = InternationalAddress("line1", "line2", None, "IN"),
           agentTelephoneNumber = "+1234567890",
           clientReference = "1234-5678"
         )
@@ -128,7 +128,7 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
             .set(AgentNamePage, "Agency Name").success.value
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, true).success.value
-        agentMapper.build(userAnswers) mustNot be(defined)
+        agentMapper(userAnswers) mustNot be(defined)
 
       }
 
@@ -137,7 +137,7 @@ class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
           emptyUserAnswers
             .set(AgentARNPage, "SARN123456").success.value
             .set(AgentNamePage, "Agency Name").success.value
-        agentMapper.build(userAnswers) mustNot be(defined)
+        agentMapper(userAnswers) mustNot be(defined)
 
       }
     }

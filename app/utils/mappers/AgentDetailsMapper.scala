@@ -16,30 +16,42 @@
 
 package utils.mappers
 
-import javax.inject.Inject
 import models.UserAnswers
 import models.mappers.AgentDetails
+import models.pages.{Address, InternationalAddress, UKAddress}
+import org.slf4j.LoggerFactory
 import pages._
+import play.api.libs.json.{JsError, JsSuccess, Reads}
+import play.api.libs.functional.syntax._
 
-class AgentDetailsMapper @Inject()(addressMapper : AddressMapper) extends Mapping[AgentDetails] {
+class AgentDetailsMapper {
 
-  override def build(userAnswers: UserAnswers): Option[AgentDetails] = {
+  private val logger = LoggerFactory.getLogger("application." + this.getClass.getCanonicalName)
 
-    for {
-      arn <- userAnswers.get(AgentARNPage)
-      agentName <- userAnswers.get(AgentNamePage)
-      address <- addressMapper.build(
-        userAnswers,
-        AgentUKAddressYesNoPage,
-        AgentUKAddressPage,
-        AgentInternationalAddressPage
-      )
-      telephone <- userAnswers.get(AgentTelephoneNumberPage)
-      internalReference <- userAnswers.get(AgentInternalReferencePage)
-    } yield {
-      AgentDetails(arn, agentName, address, telephone, internalReference)
+  def apply(answers: UserAnswers): Option[AgentDetails] = {
+    val readFromUserAnswers: Reads[AgentDetails] =
+      (
+          AgentARNPage.path.read[String] and
+          AgentNamePage.path.read[String] and
+          readAddress and
+          AgentTelephoneNumberPage.path.read[String] and
+          AgentInternalReferencePage.path.read[String]
+        ) (AgentDetails.apply _)
+
+    answers.data.validate[AgentDetails](readFromUserAnswers) match {
+      case JsSuccess(value, _) =>
+        Some(value)
+      case JsError(errors) =>
+        logger.error(s"Failed to rehydrate Individual from UserAnswers due to $errors")
+        None
     }
+  }
 
+  private def readAddress: Reads[Address] = {
+    AgentUKAddressYesNoPage.path.read[Boolean].flatMap[Address] {
+      case true => AgentUKAddressPage.path.read[UKAddress].widen[Address]
+      case false => AgentInternationalAddressPage.path.read[InternationalAddress].widen[Address]
+    }
   }
 
 }
