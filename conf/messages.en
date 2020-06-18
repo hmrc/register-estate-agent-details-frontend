@@ -97,7 +97,7 @@ agentInternalReference.error.invalidFormat = The internal reference for this cli
 agentTelephoneNumber.title = What is the agency’s telephone number?
 agentTelephoneNumber.heading = What is the {0}’s telephone number?
 agentTelephoneNumber.checkYourAnswersLabel = What is the {0}’s telephone number?
-agentTelephoneNumber.hint = We will use this number to contact you about this estate’s registration. For international numbers include the country code
+agentTelephoneNumber.hint = We will use this number to contact you about this estate’s registration. For international numbers include the country code.
 agentTelephoneNumber.error.required = Enter the agency’s telephone number
 agentTelephoneNumber.error.invalid.characters = Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
 
