@@ -64,7 +64,7 @@ class AgentInternalReferenceController @Inject()(
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentInternalReferencePage, value))
-            updatedAnswersWithARN <- Future.fromTry(updatedAnswers.set(AgentARNPage, request.agentARN.getOrElse("")))
+            updatedAnswersWithARN <- Future.fromTry(updatedAnswers.set(AgentARNPage, request.agentReferenceNumber))
             _              <- sessionRepository.set(updatedAnswersWithARN)
           } yield Redirect(navigator.nextPage(AgentInternalReferencePage, mode, updatedAnswers))
       )

@@ -20,4 +20,4 @@ import play.api.mvc.{Request, WrappedRequest}
 
 case class IdentifierRequest[A] (request: Request[A],
                                  identifier: String,
-                                 agentARN: Option[String] = None) extends WrappedRequest[A](request)
+                                 agentReferenceNumber: String) extends WrappedRequest[A](request)

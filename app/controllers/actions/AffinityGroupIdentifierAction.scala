@@ -66,40 +66,9 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
             if(arn.isEmpty) {
               redirectToCreateAgentServicesAccount("agent reference number is empty")
             } else {
-              action(IdentifierRequest(request, internalId, Some(arn)))
+              action(IdentifierRequest(request, internalId, arn))
             }
       }
-    }
-  }
-
-  private def authoriseOrg(request : Request[A],
-                           enrolments : Enrolments,
-                           internalId : String,
-                           action: Action[A]
-                          ): Future[Result] = {
-
-    val enrolmentKey = "HMRC-TERS-ORG"
-    val identifier = "SAUTR"
-
-    val continueWithoutEnrolment =
-      action(IdentifierRequest(request, internalId))
-
-    enrolments.getEnrolment(enrolmentKey).fold(continueWithoutEnrolment){
-      enrolment =>
-        enrolment.getIdentifier(identifier).fold{
-          logger.info("[AffinityGroupIdentifier] user is not enrolled, continuing to registered online")
-          continueWithoutEnrolment
-        } { enrolmentIdentifier =>
-          val utr = enrolmentIdentifier.value
-
-          if(utr.isEmpty) {
-            logger.info("[AffinityGroupIdentifier] no utr for enrolment value")
-            continueWithoutEnrolment
-          } else {
-            logger.info("[AffinityGroupIdentifier] user is already enrolled, redirecting to maintain")
-            Future.successful(Redirect(config.cannotMakeChangesUrl))
-          }
-        }
     }
   }
 
@@ -115,9 +84,9 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
       case Some(internalId) ~ Some(Agent) ~ enrolments =>
         logger.info("successfully identified as an Agent")
         authoriseAgent(request, enrolments, internalId, action)
-      case Some(internalId) ~ Some(Organisation) ~ enrolments =>
-        logger.info("successfully identified as Organisation")
-        authoriseOrg(request, enrolments, internalId, action)
+      case Some(_) ~ Some(Organisation) ~ _ =>
+        logger.info("identified as Organisation user. Kicking out of service.")
+        Future.successful(Redirect(config.loginUrl))
       case Some(_) ~ _ ~ _ =>
         logger.info("Unauthorised due to affinityGroup being Individual")
         Future.successful(Redirect(controllers.routes.UnauthorisedController.onPageLoad()))

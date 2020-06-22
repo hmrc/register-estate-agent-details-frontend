@@ -82,35 +82,19 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
       }
     }
 
-    "an Org user" when {
-      "with no enrolments" must {
-        "allow user to continue" in {
+    "an Org user" must {
+      "be kicked out of service" in {
 
-          val application = applicationBuilder(userAnswers = None).build()
+        val application = applicationBuilder(userAnswers = None).build()
 
-          when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any()))
-            .thenReturn(authRetrievals(AffinityGroup.Organisation, agentEnrolment))
+        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any()))
+          .thenReturn(authRetrievals(AffinityGroup.Organisation, agentEnrolment))
 
-          val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
+        val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
-          status(result) mustBe OK
-          application.stop()
-        }
-      }
-      "with estates enrolments" must {
-        "redirect to maintain-an-estate" in {
-
-          val application = applicationBuilder(userAnswers = None).build()
-
-          when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any()))
-            .thenReturn(authRetrievals(AffinityGroup.Organisation, estatesEnrolment))
-
-          val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
-
-          status(result) mustBe SEE_OTHER
-          redirectLocation(result).value mustBe s"${appConfig.cannotMakeChangesUrl}"
-          application.stop()
-        }
+        status(result) mustBe SEE_OTHER
+        redirectLocation(result).value mustBe s"${appConfig.loginUrl}"
+        application.stop()
       }
     }
 
