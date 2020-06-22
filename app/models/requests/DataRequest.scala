@@ -22,9 +22,9 @@ import models.UserAnswers
 case class OptionalDataRequest[A] (request: Request[A],
                                    internalId: String,
                                    userAnswers: Option[UserAnswers],
-                                   agentARN: Option[String] = None) extends WrappedRequest[A](request)
+                                   agentReferenceNumber: String) extends WrappedRequest[A](request)
 
 case class DataRequest[A] (request: Request[A],
                            internalId: String,
                            userAnswers: UserAnswers,
-                           agentARN: Option[String] = None) extends WrappedRequest[A](request)
+                           agentReferenceNumber: String) extends WrappedRequest[A](request)
