@@ -39,7 +39,8 @@
             label = messages("agentTelephoneNumber.heading", agencyName),
             labelClass = Some("heading-large"),
             hint = Some(messages(s"agentTelephoneNumber.hint")),
-            labelAsHeading = true
+            labelAsHeading = true,
+            inputMode = Some("numeric")
         )
 
         @components.submit_button()
