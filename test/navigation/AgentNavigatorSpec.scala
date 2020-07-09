@@ -16,11 +16,11 @@
 
 package navigation
 
-import base.SpecBase
+import base.RegistrationSpecBase
 import pages._
 import models._
 
-class AgentNavigatorSpec extends SpecBase {
+class AgentNavigatorSpec extends RegistrationSpecBase {
 
   val navigator = new AgentNavigator
 

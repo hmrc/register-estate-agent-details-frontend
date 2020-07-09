@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package models.requests
+package utils.mappers
 
-import play.api.mvc.{Request, WrappedRequest}
 import models.UserAnswers
 
-case class OptionalDataRequest[A] (request: Request[A],
-                                   internalId: String,
-                                   userAnswers: Option[UserAnswers],
-                                   agentReferenceNumber: String) extends WrappedRequest[A](request)
+trait Mapping[T] {
 
-case class DataRequest[A] (request: Request[A],
-                           internalId: String,
-                           userAnswers: UserAnswers,
-                           agentReferenceNumber: String) extends WrappedRequest[A](request)
+  def build(userAnswers: UserAnswers) : Option[T]
+
+}

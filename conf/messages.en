@@ -19,6 +19,7 @@ error.non_numeric = Give a value using only numbers
 error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
+error.postcodeInvalid = Enter a real postcode
 
 index.title = register-estate-agent-details-frontend
 index.heading = register-estate-agent-details-frontend
@@ -35,7 +36,7 @@ site.hidden-delete = Delete {0}
 site.hidden-edit = Change {0}
 site.no = No
 site.yes = Yes
-site.continue = Continue
+site.continue = Save and continue
 site.service_name = Register and Maintain an Estate
 site.textarea.char_limit = (Limit is {0} characters)
 site.sign_out = Sign out
@@ -96,7 +97,7 @@ agentInternalReference.error.invalidFormat = The internal reference for this cli
 agentTelephoneNumber.title = What is the agency’s telephone number?
 agentTelephoneNumber.heading = What is the {0}’s telephone number?
 agentTelephoneNumber.checkYourAnswersLabel = What is the {0}’s telephone number?
-agentTelephoneNumber.hint = We will use this number to contact you about this estate’s registration. For international numbers include the country code
+agentTelephoneNumber.hint = We will use this number to contact you about this estate’s registration. For international numbers include the country code.
 agentTelephoneNumber.error.required = Enter the agency’s telephone number
 agentTelephoneNumber.error.invalid.characters = Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
 

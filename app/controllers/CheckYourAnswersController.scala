@@ -17,22 +17,31 @@
 package controllers
 
 import com.google.inject.Inject
-import controllers.actions.{Actions, DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import config.FrontendAppConfig
+import connector.EstateConnector
+import controllers.actions.Actions
+import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
+import utils.mappers.AgentDetailsMapper
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
+import scala.concurrent.{ExecutionContext, Future}
+
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
+                                            val appConfig: FrontendAppConfig,
                                             actions: Actions,
+                                            agentMapper: AgentDetailsMapper,
+                                            estateConnector: EstateConnector,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
                                             countryOptions : CountryOptions
-                                          ) extends FrontendBaseController with I18nSupport {
+                                          ) (implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = actions.authWithData {
     implicit request =>
@@ -55,4 +64,21 @@ class CheckYourAnswersController @Inject()(
 
       Ok(view(sections))
   }
+
+  def onSubmit() = actions.authWithData.async {
+    implicit request =>
+
+      agentMapper(request.userAnswers) match {
+        case Some(agentDetails) =>
+          for {
+            _ <- estateConnector.addAgentDetails(agentDetails)
+          } yield {
+            Redirect(appConfig.registrationProgress)
+          }
+        case None =>
+          Logger.warn("[CheckYourAnswersController][submit] Unable to generate agent details to submit.")
+          Future.successful(InternalServerError)
+      }
+  }
+
 }

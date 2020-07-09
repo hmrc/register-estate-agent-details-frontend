@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.SpecBase
+import base.RegistrationSpecBase
 import config.annotations.EstateRegistration
 import forms.AgentInternationalAddressFormProvider
 import models.pages.InternationalAddress
@@ -30,7 +30,7 @@ import play.api.test.Helpers._
 import utils.countryOptions.{CountryOptionsNonUK, InputOption}
 import views.html.AgentInternationalAddressView
 
-class AgentInternationalAddressControllerSpec extends SpecBase with MockitoSugar {
+class AgentInternationalAddressControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   val formProvider = new AgentInternationalAddressFormProvider()
   val form = formProvider()

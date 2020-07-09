@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.SpecBase
+import base.RegistrationSpecBase
 import config.annotations.EstateRegistration
 import forms.AgentInternalReferenceFormProvider
 import models.{NormalMode, UserAnswers}
@@ -28,7 +28,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.AgentInternalReferenceView
 
-class AgentInternalReferenceControllerSpec extends SpecBase with MockitoSugar {
+class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   val formProvider = new AgentInternalReferenceFormProvider()
   val form = formProvider()

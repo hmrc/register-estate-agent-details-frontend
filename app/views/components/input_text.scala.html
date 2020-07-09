@@ -26,7 +26,8 @@
     optionalHtmlContent: Option[Html] = None,
     ariaRequired: Boolean = false,
     symbolText: Option[String] = None,
-    autocomplete: Option[String] = None
+    autocomplete: Option[String] = None,
+    inputMode: Option[String] = None
 )(implicit messages: Messages)
 
 @required = @{
@@ -53,21 +54,24 @@
     }
     <div class="form-control-wrapper" @if(symbol.isDefined){data-type="@{symbol}"}>
         <input
-                class="form-control @inputClass"
-                type="text"
-                id="@{field.id}"
-                name="@{field.name}"
-                value="@{field.value}"
-                @if(symbolText.nonEmpty) {
+            class="form-control @inputClass @if(field.hasErrors){field-error}"
+            type="text"
+            id="@{field.id}"
+            name="@{field.name}"
+            value="@{field.value}"
+            @if(inputMode.nonEmpty) {
+                inputmode="@inputMode"
+            }
+            @if(symbolText.nonEmpty) {
                 aria-label='@{label} @{symbolText.get}'
-                }
-                @required
-                @if(hint.nonEmpty) {
+            }
+            @required
+            @if(hint.nonEmpty) {
                 aria-describedby="@{field.id}_hint"
-                }
-                @if(field.hasErrors) {
+            }
+            @if(field.hasErrors) {
                 aria-labelledby="error-message-@{field.id}-input"
-                }
+            }
         />
     </div>
 </div>
