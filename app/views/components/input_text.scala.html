@@ -26,6 +26,7 @@
     optionalHtmlContent: Option[Html] = None,
     ariaRequired: Boolean = false,
     symbolText: Option[String] = None,
+    autocomplete: Option[String] = None,
     inputMode: Option[String] = None
 )(implicit messages: Messages)
 
@@ -58,6 +59,7 @@
             id="@{field.id}"
             name="@{field.name}"
             value="@{field.value}"
+            autocomplete="@autocomplete"
             @if(inputMode.nonEmpty) {
                 inputmode="@inputMode"
             }
