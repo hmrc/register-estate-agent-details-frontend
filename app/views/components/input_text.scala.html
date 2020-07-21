@@ -59,7 +59,9 @@
             id="@{field.id}"
             name="@{field.name}"
             value="@{field.value}"
-            autocomplete="@autocomplete"
+            @if(autocomplete.isDefined){
+                autocomplete="@autocomplete"
+            }
             @if(inputMode.nonEmpty) {
                 inputmode="@inputMode"
             }
