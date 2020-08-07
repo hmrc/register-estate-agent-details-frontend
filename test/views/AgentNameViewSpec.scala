@@ -41,7 +41,11 @@ class AgentNameViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like stringPage(form, applyView, messageKeyPrefix, routes.AgentNameController.onSubmit(NormalMode).url)
+    behave like stringPage(
+      form,
+      applyView,
+      messageKeyPrefix
+    )
 
     behave like pageWithASubmitButton(applyView(form))
 

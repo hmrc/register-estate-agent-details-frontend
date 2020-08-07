@@ -26,7 +26,6 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
   def stringPage(form: Form[String],
                  createView: Form[String] => HtmlFormat.Appendable,
                  messageKeyPrefix: String,
-                 expectedFormAction: String,
                  expectedHintKey: Option[String] = None) = {
 
     "behave like a page with a string value field" when {
@@ -68,7 +67,7 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
 
           val doc = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementsByClass("error-message").first
-          errorSpan.text mustBe messages(errorMessage)
+          errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
         }
 
         "show an error prefix in the browser title" in {
@@ -79,6 +78,7 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
       }
     }
   }
+
 
   def stringPageWithDynamicTitle(form: Form[String],
                                  createView: Form[String] => HtmlFormat.Appendable,
@@ -125,7 +125,7 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
 
           val doc = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementsByClass("error-message").first
-          errorSpan.text mustBe messages(errorMessage)
+          errorSpan.text mustBe s"""${messages("site.error")} ${messages(errorMessage)}"""
         }
 
         "show an error prefix in the browser title" in {
