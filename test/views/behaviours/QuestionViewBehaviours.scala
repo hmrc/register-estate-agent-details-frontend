@@ -55,26 +55,47 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         }
       }
 
-      for (field <- fields) {
+      for ((field, hint) <- fields) {
         s"rendered with an error with field '$field'" must {
           "show an error summary" in {
-            val doc = asDocument(createView(form.withError(FormError(field._1, "error"))))
+            val doc = asDocument(createView(form.withError(FormError(field, "error"))))
             assertRenderedById(doc, "error-summary-heading")
           }
           s"show an error in the label for field '$field'" in {
-            val doc = asDocument(createView(form.withError(FormError(field._1, "error"))))
+            val doc = asDocument(createView(form.withError(FormError(field, "error"))))
             val errorSpan = doc.getElementsByClass("error-message").first
-            errorSpan.parent.getElementsByClass("form-label").attr("for") mustBe field._1
+            errorSpan.parent.getElementsByClass("form-label").attr("for") mustBe field
           }
         }
-      }
 
-      for (field <- fields) {
         s"contains a label and optional hint text for the field '$field'" in {
           val doc = asDocument(createView(form))
-          val fieldName = field._1
-          val fieldHint = field._2 map (k => messages(k))
+          val fieldName = field
+          val fieldHint = hint map (k => messages(k))
           assertContainsLabel(doc, fieldName, messages(s"$messageKeyPrefix.$fieldName"), fieldHint)
+        }
+
+        s"show an error associated with the field '$field'" in {
+
+          val fieldId = if(field.contains("_")) {
+            field.replace("_", ".")
+          } else {
+            field
+          }
+
+          val doc = asDocument(createView(form.withError(FormError(fieldId, "error"))))
+
+          val errorSpan = doc.getElementsByClass("error-message").first
+
+          // error id is that of the input field
+          errorSpan.attr("id") must include(field)
+          errorSpan.getElementsByClass("visually-hidden").first().text() must include("Error:")
+
+          // input is described by error to screen readers
+          doc.getElementById(field).attr("aria-describedby") must include(errorSpan.attr("id"))
+
+          // error is linked with input
+          errorSpan.parent().getElementsByAttributeValue("for", field).get(0).attr("for") mustBe field
         }
       }
     }

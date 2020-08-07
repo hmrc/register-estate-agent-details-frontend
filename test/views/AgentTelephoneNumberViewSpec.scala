@@ -42,7 +42,13 @@ class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like stringPageWithDynamicTitle(form, applyView, messageKeyPrefix, agencyName, Some(hintKey))
+    behave like stringPageWithDynamicTitle(
+      form,
+      applyView,
+      messageKeyPrefix,
+      agencyName,
+      Some(hintKey)
+    )
 
     behave like pageWithASubmitButton(applyView(form))
 
