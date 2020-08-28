@@ -77,7 +77,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), NormalMode, agencyName)(fakeRequest, messages).toString
+        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), NormalMode, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -125,7 +125,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode, agencyName)(fakeRequest, messages).toString
+        view(boundForm, NormalMode, agencyName)(request, messages).toString
 
        application.stop()
     }

@@ -79,7 +79,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(expectedSections)(fakeRequest, messages).toString
+        view(expectedSections)(request, messages).toString
 
       application.stop()
     }
@@ -120,7 +120,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(expectedSections)(fakeRequest, messages).toString
+        view(expectedSections)(request, messages).toString
 
       application.stop()
     }
