@@ -58,7 +58,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, agencyName)(fakeRequest, messages).toString
+        view(form, NormalMode, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -80,7 +80,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode, agencyName)(fakeRequest, messages).toString
+        view(form.fill("answer"), NormalMode, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -128,7 +128,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode, agencyName)(fakeRequest, messages).toString
+        view(boundForm, NormalMode, agencyName)(request, messages).toString
 
       application.stop()
     }
