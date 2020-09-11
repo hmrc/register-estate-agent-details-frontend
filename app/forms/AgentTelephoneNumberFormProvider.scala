@@ -29,7 +29,9 @@ class AgentTelephoneNumberFormProvider @Inject() extends Mappings {
         .verifying(
           firstError(
             isNotEmpty("value", "agentTelephoneNumber.error.required"),
+            minLength(6, "agentTelephoneNumber.error.invalid.characters"),
             regexp(Validation.telephoneRegex, "agentTelephoneNumber.error.invalid.characters")
-          ))
+          )
+        )
     )
 }
