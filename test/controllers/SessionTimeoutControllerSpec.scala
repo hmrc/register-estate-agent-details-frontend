@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.{RegistrationSpecBase, SpecBase}
+import base.RegistrationSpecBase
 import config.FrontendAppConfig
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.api.test.FakeRequest
