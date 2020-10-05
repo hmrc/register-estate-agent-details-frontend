@@ -20,8 +20,8 @@ import config.FrontendAppConfig
 import controllers.actions._
 import models.UserAnswers
 import navigation.FakeNavigator
-import org.scalatest.{TestSuite, TryValues}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
+import org.scalatest.{TestSuite, TryValues}
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
 import play.api.i18n.{Messages, MessagesApi}

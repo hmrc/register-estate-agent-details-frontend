@@ -16,16 +16,15 @@
 
 package utils
 
-import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 import controllers.routes
+import javax.inject.Inject
 import models.{CheckMode, NormalMode, UserAnswers}
 import pages._
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
-import viewmodels.AnswerRow
 import utils.CheckAnswersFormatters._
 import utils.countryOptions.CountryOptions
+import viewmodels.AnswerRow
 
 
 class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
@@ -95,9 +94,4 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
     } else {
       HtmlFormat.escape(messages("site.no"))
     }
-}
-
-object CheckYourAnswersHelper {
-
-  private val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 }

@@ -19,8 +19,8 @@ package controllers
 import base.RegistrationSpecBase
 import config.annotations.EstateRegistration
 import forms.AgentUKAddressFormProvider
-import models.pages.UKAddress
 import models.NormalMode
+import models.pages.UKAddress
 import navigation.Navigator
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{AgentNamePage, AgentUKAddressPage}

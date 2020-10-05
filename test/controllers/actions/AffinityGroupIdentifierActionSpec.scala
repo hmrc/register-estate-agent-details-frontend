@@ -21,7 +21,7 @@ import config.FrontendAppConfig
 import org.mockito.Matchers.any
 import org.mockito.Mockito._
 import org.scalatestplus.play.PlaySpec
-import play.api.mvc.{Action, AnyContent, Results}
+import play.api.mvc.{Action, AnyContent, DefaultActionBuilder, Results}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
@@ -34,7 +34,8 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
   val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
-  val fakeAction: Action[AnyContent] = Action { _ => Results.Ok }
+  val action: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
+  val fakeAction: Action[AnyContent] = action { _ => Results.Ok }
 
   val utr = "0987654321"
 
@@ -46,7 +47,6 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
     Future.successful(new ~(new ~(Some("id"), Some(affinityGroup)), enrolment))
 
   private val agentEnrolment = Enrolments(Set(Enrolment("HMRC-AS-AGENT", List(EnrolmentIdentifier("AgentReferenceNumber", "SomeVal")), "Activated", None)))
-  private val estatesEnrolment = Enrolments(Set(Enrolment("HMRC-TERS-ORG", List(EnrolmentIdentifier("SAUTR", utr)), "Activated", None)))
 
   "invoking an AuthenticatedIdentifier" when {
     "an Agent user" when {

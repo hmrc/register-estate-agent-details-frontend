@@ -25,6 +25,7 @@ import org.mockito.Mockito.when
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HttpResponse
@@ -32,7 +33,6 @@ import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
-import play.api.inject.bind
 
 import scala.concurrent.Future
 
@@ -159,7 +159,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
           .overrides(bind[EstateConnector].toInstance(mockEstateConnector))
           .build()
 
-      when(mockEstateConnector.addAgentDetails(any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK)))
+      when(mockEstateConnector.addAgentDetails(any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "Success response")))
 
       val request = FakeRequest(POST, submitRoute)
 

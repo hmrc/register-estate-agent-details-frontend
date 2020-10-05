@@ -17,8 +17,8 @@
 package generators
 
 import models.pages.{InternationalAddress, UKAddress}
-import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Arbitrary
+import org.scalacheck.Arbitrary.arbitrary
 
 trait ModelGenerators {
 

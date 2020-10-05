@@ -20,7 +20,6 @@ import base.RegistrationSpecBase
 import models.NormalMode
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.IndexView
 
 class IndexControllerSpec extends RegistrationSpecBase {
 
@@ -33,8 +32,6 @@ class IndexControllerSpec extends RegistrationSpecBase {
       val request = FakeRequest(GET, routes.IndexController.onPageLoad().url)
 
       val result = route(application, request).value
-
-      val view = application.injector.instanceOf[IndexView]
 
       status(result) mustEqual SEE_OTHER
 

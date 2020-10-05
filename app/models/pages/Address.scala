@@ -16,11 +16,8 @@
 
 package models.pages
 
-import play.api.libs.json.{Json, Reads, Writes}
 import play.api.libs.functional.syntax._
-import play.api.libs.json._
-
-import scala.language.implicitConversions
+import play.api.libs.json.{Json, Reads, Writes, _}
 
 sealed trait Address
 

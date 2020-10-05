@@ -17,8 +17,8 @@
 package views
 
 import forms.AgentInternationalAddressFormProvider
-import models.pages.InternationalAddress
 import models.NormalMode
+import models.pages.InternationalAddress
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import utils.countryOptions.{CountryOptionsNonUK, InputOption}
