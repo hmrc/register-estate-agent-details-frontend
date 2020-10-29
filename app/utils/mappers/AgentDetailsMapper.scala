@@ -19,16 +19,18 @@ package utils.mappers
 import models.UserAnswers
 import models.mappers.AgentDetails
 import models.pages.{Address, InternationalAddress, UKAddress}
-import org.slf4j.LoggerFactory
 import pages._
-import play.api.libs.json.{JsError, JsSuccess, Reads}
+import play.api.Logger
 import play.api.libs.functional.syntax._
+import play.api.libs.json.{JsError, JsSuccess, Reads}
+import uk.gov.hmrc.http.HeaderCarrier
+import utils.Session
 
 class AgentDetailsMapper {
 
-  private val logger = LoggerFactory.getLogger("application." + this.getClass.getCanonicalName)
+  private val logger: Logger = Logger(getClass)
 
-  def apply(answers: UserAnswers): Option[AgentDetails] = {
+  def apply(answers: UserAnswers)(implicit hc: HeaderCarrier): Option[AgentDetails] = {
     val readFromUserAnswers: Reads[AgentDetails] =
       (
           AgentARNPage.path.read[String] and
@@ -42,7 +44,7 @@ class AgentDetailsMapper {
       case JsSuccess(value, _) =>
         Some(value)
       case JsError(errors) =>
-        logger.error(s"Failed to rehydrate Individual from UserAnswers due to $errors")
+        logger.error(s"[Session ID: ${Session.id(hc)}] Failed to rehydrate AgentDetails from UserAnswers due to $errors")
         None
     }
   }

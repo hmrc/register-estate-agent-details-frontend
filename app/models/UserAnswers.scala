@@ -17,6 +17,7 @@
 package models
 
 import java.time.LocalDateTime
+
 import play.api.Logger
 import play.api.libs.json._
 import queries.{Gettable, Settable}
@@ -33,7 +34,6 @@ final case class UserAnswers(
     Reads.at(page.path).reads(data) match {
       case JsSuccess(value, _) => Some(value)
       case JsError(errors) =>
-        Logger.info(s"[UserAnswers] tried to read path ${page.path} errors: $errors")
         None
     }
   }
@@ -45,7 +45,8 @@ final case class UserAnswers(
         Success(jsValue)
       case JsError(errors) =>
         val errorPaths = errors.collectFirst{ case (path, e) => s"$path $e"}
-        Logger.warn(s"[UserAnswers] unable to set path ${page.path} due to errors $errorPaths")
+        val logger: Logger = Logger(getClass)
+        logger.error(s"unable to set path ${page.path} due to errors $errorPaths")
         Failure(JsResultException(errors))
     }
 

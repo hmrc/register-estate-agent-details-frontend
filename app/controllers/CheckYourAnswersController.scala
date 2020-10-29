@@ -24,9 +24,9 @@ import play.api.Logger
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
-import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
 import utils.mappers.AgentDetailsMapper
+import utils.{CheckYourAnswersHelper, Session}
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
@@ -42,6 +42,8 @@ class CheckYourAnswersController @Inject()(
                                             view: CheckYourAnswersView,
                                             countryOptions : CountryOptions
                                           ) (implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+
+  private val logger: Logger = Logger(getClass)
 
   def onPageLoad(): Action[AnyContent] = actions.authWithData {
     implicit request =>
@@ -65,7 +67,7 @@ class CheckYourAnswersController @Inject()(
       Ok(view(sections))
   }
 
-  def onSubmit() = actions.authWithData.async {
+  def onSubmit(): Action[AnyContent] = actions.authWithData.async {
     implicit request =>
 
       agentMapper(request.userAnswers) match {
@@ -76,7 +78,7 @@ class CheckYourAnswersController @Inject()(
             Redirect(appConfig.registrationProgress)
           }
         case None =>
-          Logger.warn("[CheckYourAnswersController][submit] Unable to generate agent details to submit.")
+          logger.warn(s"[Session ID: ${Session.id(hc)}] Unable to generate agent details to submit.")
           Future.successful(InternalServerError)
       }
   }

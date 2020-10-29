@@ -22,11 +22,13 @@ import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
 import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
 import pages._
+import uk.gov.hmrc.http.HeaderCarrier
 
 class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
   with OptionValues with Generators with SpecBase {
 
-  val agentMapper = injector.instanceOf[AgentDetailsMapper]
+  private val agentMapper = injector.instanceOf[AgentDetailsMapper]
+  private implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "AgentDetailsMapper" - {
 
