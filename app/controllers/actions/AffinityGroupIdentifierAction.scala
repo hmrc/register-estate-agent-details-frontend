@@ -19,7 +19,6 @@ package controllers.actions
 import com.google.inject.Inject
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
-import org.slf4j.LoggerFactory
 import play.api.Logger
 import play.api.mvc.Results._
 import play.api.mvc.{Request, Result, _}
@@ -29,6 +28,7 @@ import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
 import uk.gov.hmrc.play.HeaderCarrierConverter
+import utils.Session
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -37,7 +37,7 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
                                                  config: FrontendAppConfig
                                                 ) extends Action[A] {
 
-  private val logger = LoggerFactory.getLogger("application.controllers.actions.AffinityGroupIdentifierAction")
+  private val logger: Logger = Logger(getClass)
 
   private def authoriseAgent(request : Request[A],
                              enrolments : Enrolments,
@@ -46,7 +46,8 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
                             ): Future[Result] = {
 
     def redirectToCreateAgentServicesAccount(reason: String): Future[Result] = {
-      Logger.info(s"[AuthenticatedIdentifierAction][authoriseAgent]: Agent services account required - $reason")
+      implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+      logger.info(s"[Session ID: ${Session.id(hc)}][authoriseAgent]: Agent services account required - $reason")
       Future.successful(Redirect(config.createAgentServicesAccountUrl))
     }
 
@@ -82,16 +83,16 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
 
     estatesAuthFunctions.authorised().retrieve(retrievals) {
       case Some(internalId) ~ Some(Agent) ~ enrolments =>
-        logger.info("successfully identified as an Agent")
+        logger.info(s"[Session ID: ${Session.id(hc)}] successfully identified as an Agent")
         authoriseAgent(request, enrolments, internalId, action)
       case Some(_) ~ Some(Organisation) ~ _ =>
-        logger.info("identified as Organisation user. Kicking out of service.")
+        logger.info(s"[Session ID: ${Session.id(hc)}] identified as Organisation user. Kicking out of service.")
         Future.successful(Redirect(config.loginUrl))
       case Some(_) ~ _ ~ _ =>
-        logger.info("Unauthorised due to affinityGroup being Individual")
+        logger.info(s"[Session ID: ${Session.id(hc)}] Unauthorised due to affinityGroup being Individual")
         Future.successful(Redirect(controllers.routes.UnauthorisedController.onPageLoad()))
       case _ =>
-        logger.warn("Unable to retrieve internal id")
+        logger.warn(s"[Session ID: ${Session.id(hc)}] Unable to retrieve internal id")
         throw new UnauthorizedException("Unable to retrieve internal Id")
     } recover estatesAuthFunctions.recoverFromAuthorisation
   }
