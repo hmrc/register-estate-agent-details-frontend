@@ -18,7 +18,7 @@ package controllers.actions
 
 import config.FrontendAppConfig
 import javax.inject.Inject
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.Result
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.auth.core.{AuthConnector, AuthorisationException, AuthorisedFunctions, NoActiveSession}
@@ -26,9 +26,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import utils.Session
 
 class EstatesAuthorisedFunctions @Inject()(override val authConnector: AuthConnector,
-                                           val config: FrontendAppConfig) extends AuthorisedFunctions {
-  private val logger: Logger = Logger(getClass)
-
+                                           val config: FrontendAppConfig) extends AuthorisedFunctions with Logging {
   def recoverFromAuthorisation(implicit hc: HeaderCarrier) : PartialFunction[Throwable, Result] = {
     case _: NoActiveSession => redirectToLogin
     case _: AuthorisationException => Redirect(controllers.routes.UnauthorisedController.onPageLoad())

@@ -20,15 +20,13 @@ import models.UserAnswers
 import models.mappers.AgentDetails
 import models.pages.{Address, InternationalAddress, UKAddress}
 import pages._
-import play.api.Logger
+import play.api.Logging
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsError, JsSuccess, Reads}
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Session
 
-class AgentDetailsMapper {
-
-  private val logger: Logger = Logger(getClass)
+class AgentDetailsMapper extends Logging {
 
   def apply(answers: UserAnswers)(implicit hc: HeaderCarrier): Option[AgentDetails] = {
     val readFromUserAnswers: Reads[AgentDetails] =
