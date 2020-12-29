@@ -20,30 +20,30 @@ import base.SpecBase
 import generators.Generators
 import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
-import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
+import org.scalatest.{MustMatchers, OptionValues}
 import pages._
 import uk.gov.hmrc.http.HeaderCarrier
 
-class AgentDetailsMapperSpec extends FreeSpec with MustMatchers
-  with OptionValues with Generators with SpecBase {
+class AgentDetailsMapperSpec extends SpecBase with MustMatchers
+  with OptionValues with Generators {
 
   private val agentMapper = injector.instanceOf[AgentDetailsMapper]
   private implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  "AgentDetailsMapper" - {
+  "AgentDetailsMapper" when {
 
-    "when user answers is empty" - {
+    "user answers is empty" must {
 
-      "must not be able to create AgentDetails" in {
+      "not be able to create AgentDetails" in {
 
         val userAnswers = emptyUserAnswers
 
         agentMapper(userAnswers) mustNot be(defined)
       }
     }
-    "when user answers is not empty " - {
+    "when user answers is not empty " must {
 
-      "must able to create AgentDetails for a UK address" in {
+      "able to create AgentDetails for a UK address" in {
 
         val userAnswers =
           emptyUserAnswers

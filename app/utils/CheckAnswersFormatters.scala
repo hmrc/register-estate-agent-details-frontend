@@ -29,7 +29,7 @@ object CheckAnswersFormatters {
 
   val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
-  def country(code: String, countryOptions: CountryOptions): String =
+  def country(code: String, countryOptions: CountryOptions)(implicit messages: Messages): String =
     countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
 
   def answer[T](key: String, answer: T)(implicit messages: Messages): Html =
@@ -54,7 +54,7 @@ object CheckAnswersFormatters {
     Html(lines.mkString("<br />"))
   }
 
-  def internationalAddress(address: InternationalAddress, countryOptions: CountryOptions): Html = {
+  def internationalAddress(address: InternationalAddress, countryOptions: CountryOptions)(implicit messages: Messages): Html = {
     val lines =
       Seq(
         Some(HtmlFormat.escape(address.line1)),
@@ -66,7 +66,7 @@ object CheckAnswersFormatters {
     Html(lines.mkString("<br />"))
   }
 
-  def addressFormatter(address: Address, countryOptions: CountryOptions): Html = {
+  def addressFormatter(address: Address, countryOptions: CountryOptions)(implicit messages: Messages): Html = {
     address match {
       case a:UKAddress => ukAddress(a)
       case a:InternationalAddress => internationalAddress(a, countryOptions)

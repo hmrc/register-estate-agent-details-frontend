@@ -31,8 +31,11 @@ import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import repositories.SessionRepository
 
-trait SpecBase extends GuiceOneAppPerSuite with TryValues with Mocked with ScalaFutures with IntegrationPatience {
+trait SpecBase extends PlaySpec with GuiceOneAppPerSuite with TryValues with Mocked with ScalaFutures with IntegrationPatience {
   this: TestSuite =>
+
+  final val ENGLISH = "en"
+  final val WELSH = "cy"
 
   val userAnswersId = "id"
 
