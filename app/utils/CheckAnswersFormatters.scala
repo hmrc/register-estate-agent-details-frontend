@@ -16,8 +16,6 @@
 
 package utils
 
-import java.time.format.DateTimeFormatter
-
 import models.UserAnswers
 import models.pages.{Address, InternationalAddress, UKAddress}
 import pages.AgentNamePage
@@ -25,20 +23,25 @@ import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
 import utils.countryOptions.CountryOptions
 
-object CheckAnswersFormatters {
+import javax.inject.Inject
 
-  val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
 
-  def country(code: String, countryOptions: CountryOptions)(implicit messages: Messages): String =
+  def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
+    if (answer) {
+      HtmlFormat.escape(messages("site.yes"))
+    } else {
+      HtmlFormat.escape(messages("site.no"))
+    }
+
+  def country(code: String)(implicit messages: Messages): String =
     countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
 
   def answer[T](key: String, answer: T)(implicit messages: Messages): Html =
     HtmlFormat.escape(messages(s"$key.$answer"))
 
-  def escape(x: String) = HtmlFormat.escape(x)
-
   def agencyName(userAnswers: UserAnswers): String = {
-    userAnswers.get(AgentNamePage).map(_.toString).getOrElse("")
+    userAnswers.get(AgentNamePage).getOrElse("")
   }
 
   def ukAddress(address: UKAddress): Html = {
@@ -54,22 +57,22 @@ object CheckAnswersFormatters {
     Html(lines.mkString("<br />"))
   }
 
-  def internationalAddress(address: InternationalAddress, countryOptions: CountryOptions)(implicit messages: Messages): Html = {
+  def internationalAddress(address: InternationalAddress)(implicit messages: Messages): Html = {
     val lines =
       Seq(
         Some(HtmlFormat.escape(address.line1)),
         Some(HtmlFormat.escape(address.line2)),
         address.line3.map(HtmlFormat.escape),
-        Some(country(address.country, countryOptions))
+        Some(country(address.country))
       ).flatten
 
     Html(lines.mkString("<br />"))
   }
 
-  def addressFormatter(address: Address, countryOptions: CountryOptions)(implicit messages: Messages): Html = {
+  def addressFormatter(address: Address)(implicit messages: Messages): Html = {
     address match {
       case a:UKAddress => ukAddress(a)
-      case a:InternationalAddress => internationalAddress(a, countryOptions)
+      case a:InternationalAddress => internationalAddress(a)
     }
   }
 

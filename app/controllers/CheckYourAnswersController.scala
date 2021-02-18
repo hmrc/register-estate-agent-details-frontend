@@ -24,9 +24,8 @@ import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.countryOptions.CountryOptions
 import utils.mappers.AgentDetailsMapper
-import utils.{CheckYourAnswersHelper, Session}
+import utils.{CheckAnswersFormatters, CheckYourAnswersHelper, Session}
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
@@ -40,13 +39,13 @@ class CheckYourAnswersController @Inject()(
                                             estateConnector: EstateConnector,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
-                                            countryOptions : CountryOptions
-                                          ) (implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+                                            checkAnswersFormatters: CheckAnswersFormatters
+                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   def onPageLoad(): Action[AnyContent] = actions.authWithData {
     implicit request =>
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(request.userAnswers)
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(request.userAnswers)(checkAnswersFormatters)
 
       val sections = Seq(
         AnswerSection(
