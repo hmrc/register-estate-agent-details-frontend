@@ -21,22 +21,20 @@ import javax.inject.Inject
 import models.{CheckMode, NormalMode, UserAnswers}
 import pages._
 import play.api.i18n.Messages
-import play.twirl.api.{Html, HtmlFormat}
-import utils.CheckAnswersFormatters._
-import utils.countryOptions.CountryOptions
+import play.twirl.api.HtmlFormat
 import viewmodels.AnswerRow
 
-
-class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
-                                      (userAnswers: UserAnswers)(implicit messages: Messages) {
+class CheckYourAnswersHelper @Inject()(userAnswers: UserAnswers)
+                                      (checkAnswersFormatters: CheckAnswersFormatters)
+                                      (implicit messages: Messages) {
 
   def agentUKAddressYesNo: Option[AnswerRow] = userAnswers.get(AgentUKAddressYesNoPage) map {
     x =>
       AnswerRow(
         "agentUKAddressYesNo.checkYourAnswersLabel",
-        yesOrNo(x),
+        checkAnswersFormatters.yesOrNo(x),
         Some(routes.AgentUKAddressYesNoController.onPageLoad(CheckMode).url),
-        agencyName(userAnswers)
+        checkAnswersFormatters.agencyName(userAnswers)
       )
   }
 
@@ -44,9 +42,9 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
     x =>
       AnswerRow(
         "site.address.uk.checkYourAnswersLabel",
-        ukAddress(x),
+        checkAnswersFormatters.ukAddress(x),
         Some(routes.AgentUKAddressController.onPageLoad(NormalMode).url),
-        agencyName(userAnswers)
+        checkAnswersFormatters.agencyName(userAnswers)
       )
   }
 
@@ -63,9 +61,9 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
     x =>
       AnswerRow(
         "site.address.international.checkYourAnswersLabel",
-        internationalAddress(x, countryOptions),
+        checkAnswersFormatters.internationalAddress(x),
         Some(routes.AgentInternationalAddressController.onPageLoad(CheckMode).url),
-        agencyName(userAnswers)
+        checkAnswersFormatters.agencyName(userAnswers)
       )
   }
 
@@ -75,7 +73,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
         "agentTelephoneNumber.checkYourAnswersLabel",
         HtmlFormat.escape(x),
         Some(routes.AgentTelephoneNumberController.onPageLoad(CheckMode).url),
-        agencyName(userAnswers)
+        checkAnswersFormatters.agencyName(userAnswers)
       )
   }
 
@@ -87,11 +85,4 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
         Some(routes.AgentInternalReferenceController.onPageLoad(CheckMode).url)
       )
   }
-
-  private def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
-    if (answer) {
-      HtmlFormat.escape(messages("site.yes"))
-    } else {
-      HtmlFormat.escape(messages("site.no"))
-    }
 }

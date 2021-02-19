@@ -29,8 +29,7 @@ import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HttpResponse
-import utils.CheckYourAnswersHelper
-import utils.countryOptions.CountryOptions
+import utils.{CheckAnswersFormatters, CheckYourAnswersHelper}
 import viewmodels.AnswerSection
 import views.html.CheckYourAnswersView
 
@@ -52,9 +51,9 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
-      val countryOptions: CountryOptions = injector.instanceOf[CountryOptions]
+      val checkAnswersFormatters: CheckAnswersFormatters = injector.instanceOf[CheckAnswersFormatters]
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers)
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(answers)(checkAnswersFormatters)
 
       val expectedSections = Seq(
         AnswerSection(
@@ -93,9 +92,9 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
-      val countryOptions = injector.instanceOf[CountryOptions]
+      val checkAnswersFormatters: CheckAnswersFormatters = injector.instanceOf[CheckAnswersFormatters]
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers)
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(answers)(checkAnswersFormatters)
 
       val expectedSections = Seq(
         AnswerSection(
