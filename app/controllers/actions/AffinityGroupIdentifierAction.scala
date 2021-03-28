@@ -73,7 +73,7 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
 
   def apply(request: Request[A]): Future[Result] = {
 
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+        implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     val retrievals = Retrievals.internalId and
                      Retrievals.affinityGroup and
