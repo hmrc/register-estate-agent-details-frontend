@@ -1,0 +1,7 @@
+[0m2021.05.11 14:22:41 INFO  Started: Metals version 0.10.2 in workspace '/Users/mew/projects/hmrc/estates/register-estate-agent-details-frontend' for client vscode 1.56.0.[0m
+[0m2021.05.11 14:22:42 INFO  time: initialize in 0.98s[0m
+[0m2021.05.11 14:22:43 WARN  Build server is not auto-connectable.[0m
+May 11, 2021 2:22:49 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+May 11, 2021 2:22:49 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
