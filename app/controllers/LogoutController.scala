@@ -21,6 +21,7 @@ import config.FrontendAppConfig
 import controllers.actions.IdentifierAction
 import play.api.Logger.logger
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.auth.core.AffinityGroup
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -48,7 +49,7 @@ class LogoutController @Inject()(appConfig: FrontendAppConfig,
         "sessionId" -> Session.id(hc),
         "event" -> "signout",
         "service" -> "register-estate-agent-details-frontend",
-        "userGroup" -> request.affinityGroup.toString
+        "userGroup" -> AffinityGroup.Agent.toString
       )
 
       auditConnector.sendExplicitAudit(

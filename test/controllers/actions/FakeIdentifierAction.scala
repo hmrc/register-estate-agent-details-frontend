@@ -30,7 +30,7 @@ class FakeIdentifierAction @Inject()(config: FrontendAppConfig,
                                      override implicit val executionContext: ExecutionContext) extends IdentifierAction(parser, estatesAuthFunctions, config) {
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] =
-    block(IdentifierRequest(request, "id", AffinityGroup.Organisation, "SARN1234567"))
+    block(IdentifierRequest(request, "id", "SARN1234567"))
 
   override def composeAction[A](action: Action[A]): Action[A] = new FakeAffinityGroupIdentifierAction(action, estatesAuthFunctions, config)
 
