@@ -65,7 +65,7 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
             if(arn.isEmpty) {
               redirectToCreateAgentServicesAccount("agent reference number is empty")
             } else {
-              action(IdentifierRequest(request, internalId, arn))
+              action(IdentifierRequest(request, internalId, AffinityGroup.Agent, arn))
             }
       }
     }
