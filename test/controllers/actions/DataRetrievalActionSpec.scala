@@ -23,6 +23,7 @@ import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
 import repositories.SessionRepository
+import uk.gov.hmrc.auth.core.AffinityGroup
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -43,7 +44,7 @@ class DataRetrievalActionSpec extends RegistrationSpecBase with MockitoSugar wit
         when(sessionRepository.get("id")) thenReturn Future(None)
         val action = new Harness(sessionRepository)
 
-        val futureResult = action.callTransform(IdentifierRequest(fakeRequest, "id", "SARN1234567"))
+        val futureResult = action.callTransform(IdentifierRequest(fakeRequest, "id", AffinityGroup.Organisation,"SARN1234567"))
 
         whenReady(futureResult) { result =>
           result.userAnswers.isEmpty mustBe true
@@ -60,7 +61,7 @@ class DataRetrievalActionSpec extends RegistrationSpecBase with MockitoSugar wit
         when(sessionRepository.get("id")) thenReturn Future(Some(new UserAnswers("id")))
         val action = new Harness(sessionRepository)
 
-        val futureResult = action.callTransform(IdentifierRequest(fakeRequest, "id", "SARN1234567"))
+        val futureResult = action.callTransform(IdentifierRequest(fakeRequest, "id", AffinityGroup.Organisation, "SARN1234567"))
 
         whenReady(futureResult) { result =>
           result.userAnswers.isDefined mustBe true
