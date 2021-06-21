@@ -25,6 +25,7 @@ import org.mockito.Mockito.when
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
+import play.api.libs.json.{JsError, JsSuccess}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HttpResponse
@@ -92,7 +93,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
         .overrides(bind[EstateConnector].toInstance(mockEstateConnector))
         .build()
 
-      when(mockMapper.apply(any())(any())).thenReturn(Some(AgentDetails("arn", "name", UKAddress("Line 1", "Line 2", None, None, "AB1 1AB"), "tel", "red")))
+      when(mockMapper.apply(any())).thenReturn(JsSuccess(AgentDetails("arn", "name", UKAddress("Line 1", "Line 2", None, None, "AB1 1AB"), "tel", "red")))
       when(mockEstateConnector.addAgentDetails(any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "Success response")))
 
       val request = FakeRequest(POST, submitRoute)
@@ -114,7 +115,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
         .overrides(bind[AgentDetailsMapper].toInstance(mockMapper))
         .build()
 
-      when(mockMapper.apply(any())(any())).thenReturn(None)
+      when(mockMapper.apply(any())).thenReturn(JsError())
 
       val request = FakeRequest(POST, submitRoute)
 

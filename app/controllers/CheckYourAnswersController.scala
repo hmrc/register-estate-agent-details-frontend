@@ -23,11 +23,12 @@ import controllers.actions.Actions
 import handlers.ErrorHandler
 import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.json.{JsError, JsSuccess}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.mappers.AgentDetailsMapper
 import utils.Session
-import utils.print.{AgentDetailsPrinter, CheckAnswersFormatters}
+import utils.mappers.AgentDetailsMapper
+import utils.print.AgentDetailsPrinter
 import views.html.CheckYourAnswersView
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -41,7 +42,6 @@ class CheckYourAnswersController @Inject()(
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView,
                                             printHelper: AgentDetailsPrinter,
-                                            checkAnswersFormatters: CheckAnswersFormatters,
                                             errorHandler: ErrorHandler
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
@@ -55,14 +55,14 @@ class CheckYourAnswersController @Inject()(
     implicit request =>
 
       agentMapper(request.userAnswers) match {
-        case Some(agentDetails) =>
+        case JsSuccess(agentDetails, _) =>
           for {
             _ <- estateConnector.addAgentDetails(agentDetails)
           } yield {
             Redirect(appConfig.registrationProgress)
           }
-        case None =>
-          logger.warn(s"[Session ID: ${Session.id(hc)}] Unable to generate agent details to submit.")
+        case JsError(errors) =>
+          logger.error(s"[Session ID: ${Session.id(hc)}] Unable to map agent details for submission: $errors")
           Future.successful(InternalServerError(errorHandler.internalServerErrorTemplate))
       }
   }

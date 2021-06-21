@@ -22,13 +22,11 @@ import models.pages.{Address, InternationalAddress, UKAddress}
 import pages._
 import play.api.Logging
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsError, JsSuccess, Reads}
-import uk.gov.hmrc.http.HeaderCarrier
-import utils.Session
+import play.api.libs.json.{JsResult, Reads}
 
 class AgentDetailsMapper extends Logging {
 
-  def apply(answers: UserAnswers)(implicit hc: HeaderCarrier): Option[AgentDetails] = {
+  def apply(answers: UserAnswers): JsResult[AgentDetails] = {
     val readFromUserAnswers: Reads[AgentDetails] = (
       AgentARNPage.path.read[String] and
         AgentNamePage.path.read[String] and
@@ -37,13 +35,7 @@ class AgentDetailsMapper extends Logging {
         AgentInternalReferencePage.path.read[String]
       )(AgentDetails.apply _)
 
-    answers.data.validate[AgentDetails](readFromUserAnswers) match {
-      case JsSuccess(value, _) =>
-        Some(value)
-      case JsError(errors) =>
-        logger.error(s"[Session ID: ${Session.id(hc)}] Failed to rehydrate AgentDetails from UserAnswers due to $errors")
-        None
-    }
+    answers.data.validate[AgentDetails](readFromUserAnswers)
   }
 
   private def readAddress: Reads[Address] = {
