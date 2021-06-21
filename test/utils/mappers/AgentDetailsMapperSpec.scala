@@ -22,13 +22,11 @@ import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
 import org.scalatest.{MustMatchers, OptionValues}
 import pages._
-import uk.gov.hmrc.http.HeaderCarrier
 
 class AgentDetailsMapperSpec extends SpecBase with MustMatchers
   with OptionValues with Generators {
 
   private val agentMapper = injector.instanceOf[AgentDetailsMapper]
-  private implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "AgentDetailsMapper" when {
 
@@ -38,7 +36,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
 
         val userAnswers = emptyUserAnswers
 
-        agentMapper(userAnswers) mustNot be(defined)
+        agentMapper(userAnswers).isError mustBe true
       }
     }
     "when user answers is not empty " must {
@@ -54,7 +52,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, true).success.value
 
-        agentMapper(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
           agentAddress = UKAddress("Line1", "Line2", None, Some("Newcastle"), "ab1 1ab"),
@@ -74,7 +72,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, true).success.value
 
-        agentMapper(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
           agentAddress = UKAddress("Line1", "Newcastle", None, None, "NE62RT"),
@@ -94,7 +92,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, false).success.value
 
-        agentMapper(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
           agentAddress = InternationalAddress("line1", "line2", Some("line3"), "IN"),
@@ -114,7 +112,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, false).success.value
 
-        agentMapper(userAnswers).value mustBe AgentDetails(
+        agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
           agentName = "Agency Name",
           agentAddress = InternationalAddress("line1", "line2", None, "IN"),
@@ -130,7 +128,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
             .set(AgentNamePage, "Agency Name").success.value
             .set(AgentInternalReferencePage, "1234-5678").success.value
             .set(AgentUKAddressYesNoPage, true).success.value
-        agentMapper(userAnswers) mustNot be(defined)
+        agentMapper(userAnswers).isError mustBe true
 
       }
 
@@ -139,7 +137,7 @@ class AgentDetailsMapperSpec extends SpecBase with MustMatchers
           emptyUserAnswers
             .set(AgentARNPage, "SARN123456").success.value
             .set(AgentNamePage, "Agency Name").success.value
-        agentMapper(userAnswers) mustNot be(defined)
+        agentMapper(userAnswers).isError mustBe true
 
       }
     }

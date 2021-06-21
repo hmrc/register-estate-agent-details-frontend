@@ -16,6 +16,7 @@
 
 package views
 
+import viewmodels.AnswerSection
 import views.behaviours.ViewBehaviours
 import views.html.CheckYourAnswersView
 
@@ -25,7 +26,7 @@ class CheckYourAnswerViewSpec extends ViewBehaviours {
 
     val view = viewFor[CheckYourAnswersView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(Nil)(fakeRequest, messages)
+    val applyView = view.apply(AnswerSection(None, Nil, None))(fakeRequest, messages)
 
     behave like normalPage(applyView, "checkYourAnswers")
 

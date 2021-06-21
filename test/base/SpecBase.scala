@@ -18,6 +18,7 @@ package base
 
 import config.FrontendAppConfig
 import controllers.actions._
+import handlers.ErrorHandler
 import models.UserAnswers
 import navigation.FakeNavigator
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
@@ -48,6 +49,8 @@ trait SpecBase extends PlaySpec with GuiceOneAppPerSuite with TryValues with Moc
   def frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
 
   def messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
+
+  def errorHandler: ErrorHandler = injector.instanceOf[ErrorHandler]
 
   def fakeRequest = FakeRequest("", "")
 
