@@ -29,14 +29,13 @@ import utils.Session
 class AgentDetailsMapper extends Logging {
 
   def apply(answers: UserAnswers)(implicit hc: HeaderCarrier): Option[AgentDetails] = {
-    val readFromUserAnswers: Reads[AgentDetails] =
-      (
-          AgentARNPage.path.read[String] and
-          AgentNamePage.path.read[String] and
-          readAddress and
-          AgentTelephoneNumberPage.path.read[String] and
-          AgentInternalReferencePage.path.read[String]
-        ) (AgentDetails.apply _)
+    val readFromUserAnswers: Reads[AgentDetails] = (
+      AgentARNPage.path.read[String] and
+        AgentNamePage.path.read[String] and
+        readAddress and
+        AgentTelephoneNumberPage.path.read[String] and
+        AgentInternalReferencePage.path.read[String]
+      )(AgentDetails.apply _)
 
     answers.data.validate[AgentDetails](readFromUserAnswers) match {
       case JsSuccess(value, _) =>

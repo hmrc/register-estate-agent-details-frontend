@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package utils
+package utils.print
 
-import models.UserAnswers
-import models.pages.{Address, InternationalAddress, UKAddress}
-import pages.AgentNamePage
+import models.pages.{InternationalAddress, UKAddress}
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
 import utils.countryOptions.CountryOptions
@@ -34,15 +32,8 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
       HtmlFormat.escape(messages("site.no"))
     }
 
-  def country(code: String)(implicit messages: Messages): String =
-    countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
-
-  def answer[T](key: String, answer: T)(implicit messages: Messages): Html =
-    HtmlFormat.escape(messages(s"$key.$answer"))
-
-  def agencyName(userAnswers: UserAnswers): String = {
-    userAnswers.get(AgentNamePage).getOrElse("")
-  }
+  private def country(code: String)(implicit messages: Messages): Html =
+    HtmlFormat.escape(countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse(""))
 
   def ukAddress(address: UKAddress): Html = {
     val lines =
@@ -54,7 +45,7 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
         Some(HtmlFormat.escape(address.postcode))
       ).flatten
 
-    Html(lines.mkString("<br />"))
+    breakLines(lines)
   }
 
   def internationalAddress(address: InternationalAddress)(implicit messages: Messages): Html = {
@@ -66,14 +57,11 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
         Some(country(address.country))
       ).flatten
 
-    Html(lines.mkString("<br />"))
+    breakLines(lines)
   }
 
-  def addressFormatter(address: Address)(implicit messages: Messages): Html = {
-    address match {
-      case a:UKAddress => ukAddress(a)
-      case a:InternationalAddress => internationalAddress(a)
-    }
+  private def breakLines(lines: Seq[Html]): Html = {
+    Html(lines.mkString("<br />"))
   }
 
 }
