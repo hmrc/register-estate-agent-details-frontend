@@ -103,9 +103,9 @@ agentInternalReference.error.required = Nodwch eich cyfeirnod mewnol ar gyfer y 
 agentInternalReference.error.length = Mae’n rhaid i’ch cyfeirnod mewnol ar gyfer y cleient hwn fod yn 56 o gymeriadau neu lai
 agentInternalReference.error.invalidFormat = Mae’n rhaid i’r cyfeirnod mewnol ar gyfer y cleient hwn gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
 
-agentTelephoneNumber.title = Beth yw rhif ffôn yr asiantaeth?
-agentTelephoneNumber.heading = Beth yw rhif ffôn yr {0}?
-agentTelephoneNumber.checkYourAnswersLabel = Beth yw rhif ffôn yr {0}?
+agentTelephoneNumber.title = Beth yw rhif ffôn asiantaeth?
+agentTelephoneNumber.heading = Beth yw rhif ffôn {0}?
+agentTelephoneNumber.checkYourAnswersLabel = Beth yw rhif ffôn {0}?
 agentTelephoneNumber.hint = Byddwn yn defnyddio’r rhif ffôn hwn i gysylltu â chi ynghylch cofrestriad yr ystâd hon. Ar gyfer rhifau rhyngwladol, cofiwch gynnwys cod y wlad.
 agentTelephoneNumber.error.required = Nodwch rif ffôn yr asiantaeth
 agentTelephoneNumber.error.invalid.characters = Nodwch rif ffôn fel 01632 960 001, 07700 900 982 neu +44 0808 157 0192
