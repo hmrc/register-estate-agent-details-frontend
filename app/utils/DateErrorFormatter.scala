@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package views
+package utils
 
-import viewmodels.AnswerSection
-import views.behaviours.ViewBehaviours
-import views.html.CheckYourAnswersView
+import play.api.data.FormError
+import play.api.i18n.Messages
 
-class CheckYourAnswerViewSpec extends ViewBehaviours {
+object DateErrorFormatter {
 
-  "checkYourAnswers view" must {
-
-    val view = viewFor[CheckYourAnswersView](Some(emptyUserAnswers))
-
-    val applyView = view.apply(Seq(AnswerSection(None, Nil, None)))(fakeRequest, messages)
-
-    behave like normalPage(applyView, "checkYourAnswers")
-
-    behave like pageWithBackLink(applyView)
+  def formatArgs(args: Seq[Any])(implicit messages: Messages): Seq[String] = {
+    args.map(arg => messages(s"date.$arg").toLowerCase)
   }
+
+  def addErrorClass(error: Option[FormError], dateArg: String): String = {
+    if(error.isDefined){
+      if(error.get.args.contains(dateArg) || error.get.args.isEmpty) {
+        s"govuk-input--error"
+      } else {
+        ""
+      }
+    } else {
+      ""
+    }
+  }
+
 }

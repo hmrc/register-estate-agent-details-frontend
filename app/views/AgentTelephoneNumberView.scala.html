@@ -16,33 +16,36 @@
 
 @import controllers.routes._
 @import models.Mode
+@import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    inputText: InputText,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], mode: Mode, agencyName: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("agentTelephoneNumber.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("agentTelephoneNumber.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = AgentTelephoneNumberController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @components.input_text(
+        @inputText(
             field = form("value"),
             label = messages("agentTelephoneNumber.heading", agencyName),
-            labelClass = Some("heading-large"),
+            labelClass = Some("govuk-label--l"),
             hint = Some(messages(s"agentTelephoneNumber.hint")),
             labelAsHeading = true,
             inputMode = Some("numeric")
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

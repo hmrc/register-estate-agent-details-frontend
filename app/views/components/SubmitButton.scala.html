@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,24 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package views
+@this(
+    button: GovukButton,
+)
 
-import viewmodels.AnswerSection
-import views.behaviours.ViewBehaviours
-import views.html.CheckYourAnswersView
+@(overrideMessage: Option[String] = None, submitClass: Option[String] = None)(implicit messages: Messages)
 
-class CheckYourAnswerViewSpec extends ViewBehaviours {
-
-  "checkYourAnswers view" must {
-
-    val view = viewFor[CheckYourAnswersView](Some(emptyUserAnswers))
-
-    val applyView = view.apply(Seq(AnswerSection(None, Nil, None)))(fakeRequest, messages)
-
-    behave like normalPage(applyView, "checkYourAnswers")
-
-    behave like pageWithBackLink(applyView)
-  }
-}
+@button(Button(
+    attributes = Map("id"->"submit"),
+    classes = s"button ${submitClass.getOrElse("")}",
+    content = if(overrideMessage.isEmpty) {
+        Text(messages("site.continue"))
+    } else {
+        Text(messages(overrideMessage.get))
+    }
+))

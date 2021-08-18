@@ -16,33 +16,36 @@
 
 @import controllers.routes._
 @import models.Mode
+@import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    inputText: InputText,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("agentName.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("agentName.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = AgentNameController.onSubmit(mode), 'autoComplete -> "on") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @components.input_text(
+        @inputText(
             field = form("value"),
             label = messages("agentName.heading"),
             labelAsHeading = true,
-            labelClass=Some("heading-large"),
-            ariaRequired = true,
-            autocomplete = Some("name")
+            labelClass = Some("govuk-label--l"),
+            inputClass = Some("govuk-!-width-one-half"),
+            autocomplete = Some("organization")
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

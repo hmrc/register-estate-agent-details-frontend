@@ -16,31 +16,33 @@
 
 @import controllers.routes._
 @import models.Mode
+@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    inputYesNo: InputYesNo,
+    errorSummary: ErrorSummary,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], mode: Mode, name: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("agentUKAddressYesNo.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("agentUKAddressYesNo.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = AgentUKAddressYesNoController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors, isYesNo = true)
 
-        @components.error_summary(form.errors)
-
-        @components.input_yes_no(
+        @inputYesNo(
             field = form("value"),
             label = messages("agentUKAddressYesNo.heading", name),
-            legendClass = Some("heading-large"),
             legendAsHeading = true
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

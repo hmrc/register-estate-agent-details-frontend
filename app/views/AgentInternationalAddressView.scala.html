@@ -16,35 +16,35 @@
 
 @import controllers.routes._
 @import models.Mode
+@import views.html.components.{ErrorSummary, InternationalAddress, SubmitButton}
 @import utils.countryOptions.InputOption
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    internationalAddress: InternationalAddress,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], mode: Mode, agencyName: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("site.address.international.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("site.address.international.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = AgentInternationalAddressController.onSubmit(mode), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
+        @internationalAddress(
+            form = form,
+            legend = messages("site.address.international.heading", agencyName),
+            legendAsHeading = true,
+            countryOptions = countryOptions
+        )
 
-        <fieldset>
-
-            <legend>
-                @components.heading("site.address.international.heading", Some(agencyName))
-            </legend>
-
-            @components.international_address(form, countryOptions)
-
-        </fieldset>
-
-        @components.submit_button(submitClass = Some("countryLookupHelper"))
+        @submitButton()
     }
 }
