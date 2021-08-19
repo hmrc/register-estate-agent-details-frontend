@@ -48,7 +48,7 @@ class CheckYourAnswersController @Inject()(
   def onPageLoad(): Action[AnyContent] = actions.authWithData {
     implicit request =>
 
-      Ok(view(printHelper(request.userAnswers)))
+      Ok(view(Seq(printHelper(request.userAnswers))))
   }
 
   def onSubmit(): Action[AnyContent] = actions.authWithData.async {
