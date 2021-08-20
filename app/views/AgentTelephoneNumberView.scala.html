@@ -16,13 +16,13 @@
 
 @import controllers.routes._
 @import models.Mode
-@import views.html.components.{ErrorSummary, InputText, SubmitButton}
+@import views.html.components.{ErrorSummary, InputTelephone, SubmitButton}
 
 @this(
     mainTemplate: MainTemplate,
     formHelper: FormWithCSRF,
     errorSummary: ErrorSummary,
-    inputText: InputText,
+    inputTelephone: InputTelephone,
     submitButton: SubmitButton
 )
 
@@ -37,7 +37,7 @@
 
         @errorSummary(form.errors)
 
-        @inputText(
+        @inputTelephone(
             field = form("value"),
             label = messages("agentTelephoneNumber.heading", agencyName),
             labelClass = Some("govuk-label--l"),
