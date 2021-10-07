@@ -1,4 +1,4 @@
-# REgister estate agent details frontend
+# Register estate agent details frontend
 
 This service is responsible for collecting information about the agent who is registering an estate.
 
