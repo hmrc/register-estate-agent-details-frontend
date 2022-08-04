@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import queries.Gettable
 import scala.concurrent.{ExecutionContext, Future}
 
 final case class RequiredAnswer[T](answer : Gettable[T],
-                                   redirect : Call = controllers.routes.SessionExpiredController.onPageLoad())
+                                   redirect : Call = controllers.routes.SessionExpiredController.onPageLoad)
 
 class RequiredAnswerAction[T] @Inject()(required : RequiredAnswer[T])
                                        (implicit val executionContext: ExecutionContext,

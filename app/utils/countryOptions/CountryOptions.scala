@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,6 @@ class CountryOptions @Inject()(environment: Environment, config: FrontendAppConf
     val isWelsh = messages.lang.code == config.WELSH
     if (isWelsh) config.locationCanonicalListCY else config.locationCanonicalList
   }
-
 }
 
 object CountryOptions {
@@ -52,5 +51,4 @@ object CountryOptions {
       throw new ConfigException.BadValue(fileName, "country json does not exist")
     }
   }
-
 }

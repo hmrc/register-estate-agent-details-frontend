@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class AgentNavigator @Inject()() extends Navigator {
     case AgentNamePage => controllers.routes.AgentUKAddressYesNoController.onPageLoad(mode)
     case AgentUKAddressPage => controllers.routes.AgentTelephoneNumberController.onPageLoad(mode)
     case AgentInternationalAddressPage => controllers.routes.AgentTelephoneNumberController.onPageLoad(mode)
-    case AgentTelephoneNumberPage => controllers.routes.CheckYourAnswersController.onPageLoad()
+    case AgentTelephoneNumberPage => controllers.routes.CheckYourAnswersController.onPageLoad
   }
 
   private def yesNoNavigation(mode: Mode): PartialFunction[Page, UserAnswers => Call] = {
@@ -44,7 +44,7 @@ class AgentNavigator @Inject()() extends Navigator {
   private def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call = {
     ua.get(fromPage)
       .map(if (_) yesCall else noCall)
-      .getOrElse(controllers.routes.SessionExpiredController.onPageLoad())
+      .getOrElse(controllers.routes.SessionExpiredController.onPageLoad)
   }
 
   def routes(mode: Mode): PartialFunction[Page, UserAnswers => Call] =

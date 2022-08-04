@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import scala.concurrent.Future
 
 class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures {
 
-  lazy val submitRoute: String = controllers.routes.CheckYourAnswersController.onSubmit().url
+  private lazy val submitRoute: String = controllers.routes.CheckYourAnswersController.onSubmit.url
   private lazy val completedRoute = "http://localhost:8822/register-an-estate/registration-progress"
 
   "Check Your Answers Controller" must {
@@ -53,7 +53,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
         .overrides(bind[AgentDetailsPrinter].toInstance(mockPrintHelper))
         .build()
 
-      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
       val result = route(application, request).value
 
@@ -71,13 +71,13 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad.url)
 
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

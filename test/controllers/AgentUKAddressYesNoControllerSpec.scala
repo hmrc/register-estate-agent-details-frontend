@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,11 +35,11 @@ import scala.concurrent.Future
 
 class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
-  val formProvider = new AgentUKAddressYesNoFormProvider()
-  val form = formProvider()
-  val name = "name"
+  private val formProvider = new AgentUKAddressYesNoFormProvider()
+  private val form = formProvider()
+  private val name = "name"
 
-  lazy val agentUKAddressYesNoRoute = routes.AgentUKAddressYesNoController.onPageLoad(NormalMode).url
+  private lazy val agentUKAddressYesNoRoute = routes.AgentUKAddressYesNoController.onPageLoad(NormalMode).url
 
   "AgentUKAddressYesNo Controller" must {
 
@@ -148,7 +148,7 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -165,7 +165,7 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

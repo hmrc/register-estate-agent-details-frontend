@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,11 +31,11 @@ import views.html.AgentUKAddressView
 
 class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
-  val formProvider = new AgentUKAddressFormProvider()
-  val form = formProvider()
-  val agencyName = "Hadrian"
+  private val formProvider = new AgentUKAddressFormProvider()
+  private val form = formProvider()
+  private val agencyName = "Hadrian"
 
-  lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(NormalMode).url
+  private lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(NormalMode).url
 
   "AgentUKAddress Controller" must {
 
@@ -139,7 +139,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -156,7 +156,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
