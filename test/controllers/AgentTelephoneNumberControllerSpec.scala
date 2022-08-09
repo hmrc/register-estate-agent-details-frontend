@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,11 @@ import scala.concurrent.Future
 
 class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
-  val formProvider = new AgentTelephoneNumberFormProvider()
-  val form = formProvider()
-  val agencyName = "FirstName LastName"
+  private val formProvider = new AgentTelephoneNumberFormProvider()
+  private val form = formProvider()
+  private val agencyName = "FirstName LastName"
 
-  lazy val agentTelephoneNumberRoute = routes.AgentTelephoneNumberController.onPageLoad(NormalMode).url
+  private lazy val agentTelephoneNumberRoute = routes.AgentTelephoneNumberController.onPageLoad(NormalMode).url
 
   "AgentTelephoneNumber Controller" must {
 
@@ -143,7 +143,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -160,7 +160,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

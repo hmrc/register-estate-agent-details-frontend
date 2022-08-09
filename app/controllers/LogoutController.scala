@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,6 @@ class LogoutController @Inject()(appConfig: FrontendAppConfig,
     logger.info(s"[Session ID: ${utils.Session.id(hc)}] user signed out from the service, asking for feedback")
 
     if(appConfig.logoutAudit) {
-
       val auditData = Map(
         "sessionId" -> Session.id(hc),
         "event" -> "signout",
@@ -56,10 +55,7 @@ class LogoutController @Inject()(appConfig: FrontendAppConfig,
         "estates",
         auditData
       )
-
     }
-
     Redirect(appConfig.logoutUrl).withSession(session = ("feedbackId", Session.id(hc)))
-
   }
 }

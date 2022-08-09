@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ class AgentNavigatorSpec extends RegistrationSpecBase {
 
       "Agent Telephone Number page -> Check Answers page" in {
         navigator.nextPage(AgentTelephoneNumberPage, mode, emptyUserAnswers)
-          .mustBe(controllers.routes.CheckYourAnswersController.onPageLoad())
+          .mustBe(controllers.routes.CheckYourAnswersController.onPageLoad)
       }
 
     }

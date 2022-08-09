@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,19 +24,16 @@ import navigation.Navigator
 import org.scalatestplus.mockito.MockitoSugar
 import pages.AgentNamePage
 import play.api.inject.bind
-import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.AgentNameView
 
 class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
-  def onwardRoute = Call("GET", "/foo")
+  private val formProvider = new AgentNameFormProvider()
+  private val form = formProvider()
 
-  val formProvider = new AgentNameFormProvider()
-  val form = formProvider()
-
-  lazy val agentNameRoute = routes.AgentNameController.onPageLoad(NormalMode).url
+  private lazy val agentNameRoute = routes.AgentNameController.onPageLoad(NormalMode).url
 
   "AgentName Controller" must {
 
@@ -131,7 +128,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -148,7 +145,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

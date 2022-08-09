@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,10 +30,10 @@ import views.html.AgentInternalReferenceView
 
 class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
-  val formProvider = new AgentInternalReferenceFormProvider()
-  val form = formProvider()
+  private val formProvider = new AgentInternalReferenceFormProvider()
+  private val form = formProvider()
 
-  lazy val agentInternalReferenceRoute = routes.AgentInternalReferenceController.onPageLoad(NormalMode).url
+  private lazy val agentInternalReferenceRoute = routes.AgentInternalReferenceController.onPageLoad(NormalMode).url
 
   "AgentInternalReference Controller" must {
 
@@ -127,7 +127,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with Moc
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -144,7 +144,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with Moc
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
