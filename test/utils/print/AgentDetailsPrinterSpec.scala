@@ -17,12 +17,12 @@
 package utils.print
 
 import base.SpecBase
-import controllers.routes._
 import models.CheckMode
 import models.pages.{InternationalAddress, UKAddress}
 import pages._
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
+import controllers.routes._
 
 class AgentDetailsPrinterSpec extends SpecBase {
 
@@ -44,7 +44,7 @@ class AgentDetailsPrinterSpec extends SpecBase {
           .set(AgentUKAddressPage, UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")).success.value
 
         val result = printHelper.apply(answers)
-
+        // scalastyle:off
         result mustBe AnswerSection(
           headingKey = None,
           rows = Seq(
@@ -57,7 +57,7 @@ class AgentDetailsPrinterSpec extends SpecBase {
           sectionKey = None
         )
       }
-
+      // scalastyle:on
       "international address" in {
         val answers = baseAnswers
           .set(AgentUKAddressYesNoPage, false).success.value

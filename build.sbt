@@ -15,7 +15,7 @@ lazy val root = (project in file("."))
     SbtDistributablesPlugin.publishingSettings,
     inConfig(Test)(testSettings),
     majorVersion := 0,
-    scalaVersion := "2.12.15",
+    scalaVersion := "2.12.16",
     SilencerSettings(),
     name := appName,
     RoutesKeys.routesImport += "models._",
@@ -30,7 +30,7 @@ lazy val root = (project in file("."))
       "controllers.routes._"
     ),
     PlayKeys.playDefaultPort := 8826,
-    ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;.*repositories.*;" +
+    ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;" +
       ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
       ".*ControllerConfiguration;.*LanguageSwitchController",
     ScoverageKeys.coverageMinimumStmtTotal := 87,
@@ -39,8 +39,6 @@ lazy val root = (project in file("."))
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
-    update / evictionWarningOptions :=
-      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
     resolvers ++= Seq(
       Resolver.jcenterRepo
     ),
@@ -71,4 +69,4 @@ lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   )
 )
 
-dependencyOverrides ++= AppDependencies.overrides
+addCommandAlias("scalastyleAll", "all scalastyle test:scalastyle it:scalastyle")

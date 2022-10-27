@@ -16,9 +16,9 @@
 
 package models
 
-import org.scalatest.{MustMatchers, WordSpec}
-
-class WithNameSpec extends WordSpec with MustMatchers {
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+class WithNameSpec extends AnyWordSpec with Matchers {
 
   object Foo extends WithName("bar")
 

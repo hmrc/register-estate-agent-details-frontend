@@ -22,7 +22,7 @@ import forms.AgentInternationalAddressFormProvider
 import models.pages.InternationalAddress
 import models.{NormalMode, UserAnswers}
 import navigation.Navigator
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import pages.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.inject.bind
 import play.api.test.FakeRequest

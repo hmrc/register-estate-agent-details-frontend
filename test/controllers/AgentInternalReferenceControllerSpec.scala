@@ -21,7 +21,7 @@ import config.annotations.EstateRegistration
 import forms.AgentInternalReferenceFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.Navigator
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import pages.AgentInternalReferencePage
 import play.api.inject.bind
 import play.api.test.FakeRequest
