@@ -53,7 +53,7 @@ class DefaultSessionRepository @Inject()( val mongo: MongoComponent,
 
   def get(id: String): Future[Option[UserAnswers]] = {
 
-    val selector = equal("internalId", id)
+    val selector = equal("_id", id)
 
     val modifier = Updates.set("updatedAt", LocalDateTime.now())
 
@@ -65,7 +65,7 @@ class DefaultSessionRepository @Inject()( val mongo: MongoComponent,
 
   def set(userAnswers: UserAnswers): Future[Boolean] = {
 
-    val selector = equal("internalId", userAnswers.id)
+    val selector = equal("_id", userAnswers.id)
 
     collection.replaceOne(selector, userAnswers.copy(lastUpdated = LocalDateTime.now), ReplaceOptions().upsert(true))
       .head()
@@ -74,7 +74,7 @@ class DefaultSessionRepository @Inject()( val mongo: MongoComponent,
 
   def resetCache(internalId: String): Future[Boolean] = {
 
-    val selector = equal("internalId",internalId)
+    val selector = equal("_id",internalId)
 
     collection.deleteOne(selector).headOption().map(_.exists(_.wasAcknowledged()))
   }

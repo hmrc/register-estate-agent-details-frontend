@@ -52,7 +52,7 @@ class AgentDetailsPrinterSpec extends SpecBase {
             AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(AgentNameController.onPageLoad(CheckMode).url), agentName),
             AnswerRow("agentUKAddressYesNo.checkYourAnswersLabel", Html("Yes"), Some(AgentUKAddressYesNoController.onPageLoad(CheckMode).url), agentName),
             AnswerRow("site.address.uk.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />AB1 1AB"), Some(AgentUKAddressController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("tel"), Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url), agentName),
+            AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("tel"), Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url), agentName)
           ),
           sectionKey = None
         )
@@ -72,7 +72,7 @@ class AgentDetailsPrinterSpec extends SpecBase {
             AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(AgentNameController.onPageLoad(CheckMode).url), agentName),
             AnswerRow("agentUKAddressYesNo.checkYourAnswersLabel", Html("No"), Some(AgentUKAddressYesNoController.onPageLoad(CheckMode).url), agentName),
             AnswerRow("site.address.international.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />France"), Some(AgentInternationalAddressController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("tel"), Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url), agentName),
+            AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("tel"), Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url), agentName)
           ),
           sectionKey = None
         )

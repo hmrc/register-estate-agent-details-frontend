@@ -9,12 +9,12 @@ object AppDependencies {
 
   val compile: Seq[ModuleID] = Seq(
     play.sbt.PlayImport.ws,
+    "com.typesafe.play" %% "play-json-joda"                 % "2.9.3",
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"             % mongoHmrcVersion,
     "uk.gov.hmrc"       %% "bootstrap-test-play-28"         % bootstrapVersion,
     "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "1.1.0-play-28",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.11.0-play-28",
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "5.24.0",
-    "com.typesafe.play" %% "play-json-joda"                 % "2.9.3",
     "uk.gov.hmrc"       %% "domain"                         % "8.1.0-play-28"
   )
 
@@ -31,7 +31,8 @@ object AppDependencies {
     "org.pegdown"                 %  "pegdown"                  % "1.6.0",
     "org.mockito"                 %% "mockito-scala-scalatest"  % "1.17.12",
     "org.scalacheck"              %% "scalacheck"               % "1.17.0",
-    "com.vladsch.flexmark"        % "flexmark-all"              % "0.62.2"
+    "com.vladsch.flexmark"        % "flexmark-all"              % "0.62.2",
+    "uk.gov.hmrc.mongo"           %% "hmrc-mongo-test-play-28"  % "0.73.0"
   ).map(_ % Test)
 
   def apply(): Seq[ModuleID] = compile ++ test
