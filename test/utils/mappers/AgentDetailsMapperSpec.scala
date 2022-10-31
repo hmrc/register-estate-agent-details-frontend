@@ -20,10 +20,11 @@ import base.SpecBase
 import generators.Generators
 import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.matchers.must.Matchers
 import pages._
 
-class AgentDetailsMapperSpec extends SpecBase with MustMatchers
+class AgentDetailsMapperSpec extends SpecBase with Matchers
   with OptionValues with Generators {
 
   private val agentMapper = injector.instanceOf[AgentDetailsMapper]

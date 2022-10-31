@@ -21,7 +21,7 @@ import config.annotations.EstateRegistration
 import forms.AgentTelephoneNumberFormProvider
 import models.{NormalMode, UserAnswers}
 import navigation.Navigator
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import pages.{AgentNamePage, AgentTelephoneNumberPage}
 import play.api.Application
 import play.api.inject.bind
