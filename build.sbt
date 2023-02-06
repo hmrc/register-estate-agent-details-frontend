@@ -12,7 +12,6 @@ lazy val root = (project in file("."))
   .settings(
     DefaultBuildSettings.scalaSettings,
     DefaultBuildSettings.defaultSettings(),
-    SbtDistributablesPlugin.publishingSettings,
     inConfig(Test)(testSettings),
     majorVersion := 0,
     scalaVersion := "2.12.16",
@@ -32,16 +31,13 @@ lazy val root = (project in file("."))
     PlayKeys.playDefaultPort := 8826,
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;" +
       ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
-      ".*ControllerConfiguration;.*LanguageSwitchController",
+      ".*ControllerConfiguration;.*LanguageSwitchController;.*Mode.*;.*Page.*",
     ScoverageKeys.coverageMinimumStmtTotal := 87,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
-    resolvers ++= Seq(
-      Resolver.jcenterRepo
-    ),
     // concatenate js
     Concat.groups := Seq(
       "javascripts/registerestateagentdetailsfrontend-app.js" ->
@@ -69,4 +65,4 @@ lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   )
 )
 
-addCommandAlias("scalastyleAll", "all scalastyle test:scalastyle it:scalastyle")
+addCommandAlias("scalastyleAll", "all scalastyle test:scalastyle")

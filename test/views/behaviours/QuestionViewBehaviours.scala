@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         }
         "not render an error summary" in {
           val doc = asDocument(createView(form))
-          assertNotRenderedById(doc, "error-summary-title")
+          assertNotRenderedByClass(doc, "govuk-error-summary")
         }
       }
 
@@ -60,7 +60,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         s"rendered with an error with field '$field'" must {
           "show an error summary" in {
             val doc = asDocument(createView(form.withError(FormError(field, "error"))))
-            assertRenderedById(doc, "error-summary-title")
+            assertRenderedByClass(doc, "govuk-error-summary")
           }
           s"show an error in the label for field '$field'" in {
             val doc = asDocument(createView(form.withError(FormError(field, "error"))))
