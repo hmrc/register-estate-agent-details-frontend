@@ -32,19 +32,19 @@ case class UKAddress(
 object UKAddress {
 
   implicit val reads: Reads[UKAddress] =
-    ((__ \ 'line1).read[String] and
-      (__ \ 'line2).read[String] and
-      (__ \ 'line3).readNullable[String] and
-      (__ \ 'line4).readNullable[String] and
-      (__ \ 'postCode).read[String]).apply(UKAddress.apply _)
+    ((__ \ Symbol("line1")).read[String] and
+      (__ \ Symbol("line2")).read[String] and
+      (__ \ Symbol("line3")).readNullable[String] and
+      (__ \ Symbol("line4")).readNullable[String] and
+      (__ \ Symbol("postCode")).read[String]).apply(UKAddress.apply _)
 
   implicit val writes: Writes[UKAddress] =
-    ((__ \ 'line1).write[String] and
-      (__ \ 'line2).write[String] and
-      (__ \ 'line3).writeNullable[String] and
-      (__ \ 'line4).writeNullable[String] and
-      (__ \ 'postCode).write[String] and
-      (__ \ 'country).write[String]
+    ((__ \ Symbol("line1")).write[String] and
+      (__ \ Symbol("line2")).write[String] and
+      (__ \ Symbol("line3")).writeNullable[String] and
+      (__ \ Symbol("line4")).writeNullable[String] and
+      (__ \ Symbol("postCode")).write[String] and
+      (__ \ Symbol("country")).write[String]
       ).apply(address => (
       address.line1,
       address.line2,
@@ -54,7 +54,7 @@ object UKAddress {
       "GB"
     ))
 
-  implicit val format = Format[UKAddress](reads, writes)
+  implicit val format: Format[UKAddress] = Format[UKAddress](reads, writes)
 }
 
 final case class InternationalAddress(
@@ -65,7 +65,7 @@ final case class InternationalAddress(
                                      ) extends Address
 
 object InternationalAddress {
-  implicit val format = Json.format[InternationalAddress]
+  implicit val format: OFormat[InternationalAddress] = Json.format[InternationalAddress]
 }
 
 

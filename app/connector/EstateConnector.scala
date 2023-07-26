@@ -31,7 +31,7 @@ class EstateConnector @Inject()(http: HttpClient, config: FrontendAppConfig) {
   private def addAgentDetailsUrl() = s"${config.estatesUrl}/estates/agent-details"
 
   def addAgentDetails(agentDetails: AgentDetails)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
-    http.POST[JsValue, HttpResponse](addAgentDetailsUrl, Json.toJson(agentDetails))
+    http.POST[JsValue, HttpResponse](addAgentDetailsUrl(), Json.toJson(agentDetails))
   }
 
 }

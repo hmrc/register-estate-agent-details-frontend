@@ -119,7 +119,7 @@ trait ViewBehaviours extends ViewSpecBase {
     }
   }
 
-  def pageWithASubmitButton(view: HtmlFormat.Appendable) = {
+  def pageWithASubmitButton(view: HtmlFormat.Appendable): Unit = {
 
     "behave like a page with a submit button" must {
       "have a submit button" in {
@@ -129,7 +129,7 @@ trait ViewBehaviours extends ViewSpecBase {
     }
   }
 
-  def pageWithoutLogoutButton(view: HtmlFormat.Appendable) = {
+  def pageWithoutLogoutButton(view: HtmlFormat.Appendable): Unit = {
 
     "behave like a page without a logout button" must {
       "not have a logout button" in {

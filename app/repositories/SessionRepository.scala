@@ -47,7 +47,8 @@ class DefaultSessionRepository @Inject()( val mongo: MongoComponent,
         Indexes.ascending("internalId"),
         IndexOptions().name("internal-auth-id-index")
       )
-    ), replaceIndexes = config.dropIndexes
+    ).toList,
+    replaceIndexes = config.dropIndexes
   )
     with SessionRepository {
 

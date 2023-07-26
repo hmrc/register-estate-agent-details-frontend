@@ -38,7 +38,7 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
 
     "add agent details" must {
 
-      def addAgentDetailsUrl = "/estates/agent-details"
+      def addAgentDetailsUrl() = "/estates/agent-details"
 
       val agentDetails = AgentDetails(
         arn = "SARN123456",
@@ -61,7 +61,7 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
         val connector = application.injector.instanceOf[EstateConnector]
 
         server.stubFor(
-          post(urlEqualTo(addAgentDetailsUrl))
+          post(urlEqualTo(addAgentDetailsUrl()))
             .willReturn(ok)
         )
 
@@ -85,7 +85,7 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
         val connector = application.injector.instanceOf[EstateConnector]
 
         server.stubFor(
-          post(urlEqualTo(addAgentDetailsUrl))
+          post(urlEqualTo(addAgentDetailsUrl()))
             .willReturn(badRequest)
         )
 
