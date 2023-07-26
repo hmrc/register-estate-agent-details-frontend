@@ -24,7 +24,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
   val errorKey = "value"
   val errorMessage = "error.number"
-  val error = FormError(errorKey, errorMessage)
+  val error: FormError = FormError(errorKey, errorMessage)
 
   val form: Form[A]
 
@@ -32,7 +32,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
                          createView: Form[A] => HtmlFormat.Appendable,
                          messageKeyPrefix: String,
                          fields: Seq[(String, Option[String])],
-                         args: String*) = {
+                         args: String*): Unit = {
 
     "behave like a question page" when {
 
@@ -45,7 +45,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         }
         "not render an error summary" in {
           val doc = asDocument(createView(form))
-          assertNotRenderedByClass(doc, "govuk-error-summary")
+          assertNotRenderedById(doc, "govuk-error-summary")
         }
       }
 

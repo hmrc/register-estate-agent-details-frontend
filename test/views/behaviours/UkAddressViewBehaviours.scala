@@ -26,13 +26,13 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
 
   val errorKey = "value"
   val errorMessage = "error.number"
-  val error = FormError(errorKey, errorMessage)
+  val error: FormError = FormError(errorKey, errorMessage)
 
   val form: Form[UKAddress]
 
   def ukAddressPage(createView: Form[UKAddress] => HtmlFormat.Appendable,
                     messageKeyPrefix: Option[String],
-                    args: String*) = {
+                    args: String*): Unit = {
 
     val prefix = messageKeyPrefix.getOrElse("site.address.uk")
 
@@ -57,7 +57,7 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
         "not render an error summary" in {
 
           val doc = asDocument(createView(form))
-          assertNotRenderedByClass(doc, "govuk-error-summary")
+          assertNotRenderedById(doc, "govuk-error-summary")
         }
       }
 

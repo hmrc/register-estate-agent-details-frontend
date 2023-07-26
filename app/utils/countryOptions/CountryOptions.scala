@@ -27,10 +27,10 @@ import play.api.libs.json.Json
 class CountryOptions @Inject()(environment: Environment, config: FrontendAppConfig) {
 
   def options()(implicit messages: Messages): Seq[InputOption] = {
-    CountryOptions.getCountries(environment, getFileName)
+    CountryOptions.getCountries(environment, getFileName())
   }
 
-  def getFileName()(implicit messages: Messages) = {
+  def getFileName()(implicit messages: Messages): String = {
     val isWelsh = messages.lang.code == config.WELSH
     if (isWelsh) config.locationCanonicalListCY else config.locationCanonicalList
   }

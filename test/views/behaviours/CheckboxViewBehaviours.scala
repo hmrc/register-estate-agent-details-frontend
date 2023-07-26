@@ -88,7 +88,7 @@ trait CheckboxViewBehaviours[A] extends ViewBehaviours {
 
       "not render an error summary" in {
         val doc = asDocument(createView(form))
-        assertNotRenderedByClass(doc, "govuk-error-summary")
+        assertNotRenderedById(doc, "govuk-error-summary")
       }
 
 

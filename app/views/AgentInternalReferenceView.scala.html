@@ -34,7 +34,7 @@
     showBackLink = true
     ) {
 
-    @formHelper(action = AgentInternalReferenceController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = AgentInternalReferenceController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors)
 

@@ -33,7 +33,7 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
     }
 
   private def country(code: String)(implicit messages: Messages): Html =
-    HtmlFormat.escape(countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse(""))
+    HtmlFormat.escape(countryOptions.options().find(_.value.equals(code)).map(_.label).getOrElse(""))
 
   def ukAddress(address: UKAddress): Html = {
     val lines =

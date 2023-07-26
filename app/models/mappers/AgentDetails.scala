@@ -30,21 +30,21 @@ object AgentDetails {
   implicit val agentDetailsFormat: Format[AgentDetails] = Json.format[AgentDetails]
 
   implicit val reads: Reads[AgentDetails] =
-    ((__ \ 'arn).read[String] and
-      (__ \ 'agentName).read[String] and
-      (__ \ 'agentAddress).read[Address] and
-      (__ \ 'agentTelephoneNumber).read[String] and
-      (__ \ 'clientReference).read[String]).tupled.map{
+    ((__ \ Symbol("arn")).read[String] and
+      (__ \ Symbol("agentName")).read[String] and
+      (__ \ Symbol("agentAddress")).read[Address] and
+      (__ \ Symbol("agentTelephoneNumber")).read[String] and
+      (__ \ Symbol("clientReference")).read[String]).tupled.map{
 
       case (arn, name, address, phoneNumber, clientRef) =>
         AgentDetails(arn, name, address, phoneNumber, clientRef)
     }
 
   implicit val writes: Writes[AgentDetails] =
-    ((__ \ 'arn).write[String] and
-      (__ \ 'agentName).write[String] and
-      (__ \ 'agentAddress).write[Address] and
-      (__ \ 'agentTelephoneNumber).write[String] and
+    ((__ \ Symbol("arn")).write[String] and
+      (__ \ Symbol("agentName")).write[String] and
+      (__ \ Symbol("agentAddress")).write[Address] and
+      (__ \ Symbol("agentTelephoneNumber")).write[String] and
       (__ \ "clientReference").write[String]
       ).apply(unlift(AgentDetails.unapply))
 

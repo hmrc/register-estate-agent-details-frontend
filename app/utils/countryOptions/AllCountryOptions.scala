@@ -26,7 +26,7 @@ class AllCountryOptions @Inject()(environment: Environment, config: FrontendAppC
   extends CountryOptions(environment, config) {
 
   override def options()(implicit messages: Messages): Seq[InputOption] = {
-    CountryOptions.getCountries(environment, getFileName)
+    CountryOptions.getCountries(environment, getFileName())
   }
 
 }

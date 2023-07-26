@@ -21,5 +21,5 @@ import play.api.libs.json._
 case class AgentUKAddress (field1: String, field2: String)
 
 object AgentUKAddress {
-  implicit val format = Json.format[AgentUKAddress]
+  implicit val format: OFormat[AgentUKAddress] = Json.format[AgentUKAddress]
 }
