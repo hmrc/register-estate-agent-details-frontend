@@ -16,7 +16,7 @@
 
 package navigation
 
-import models.{Mode, NormalMode, UserAnswers}
+import models.{Mode, UserAnswers}
 import pages._
 import play.api.mvc.Call
 
