@@ -21,17 +21,13 @@ import controllers.routes
 import play.api.Configuration
 import play.api.i18n.Lang
 import play.api.mvc.Call
-import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 
 @Singleton
-class FrontendAppConfig @Inject() (configuration: Configuration,
-                                   contactFrontendConfig: ContactFrontendConfig) {
+class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   final val ENGLISH = "en"
   final val WELSH = "cy"
   final val UK_COUNTRY_CODE = "GB"
-
-  val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl.get}/contact/beta-feedback?service=${contactFrontendConfig.serviceId.get}"
 
   lazy val authUrl: String = configuration.get[Service]("auth").baseUrl
   lazy val loginUrl: String = configuration.get[String]("urls.login")
