@@ -18,11 +18,10 @@ package utils.countryOptions
 
 import base.SpecBase
 import com.typesafe.config.ConfigException
-import org.mockito.MockitoSugar
 import play.api.i18n.{Lang, MessagesApi, MessagesImpl}
 import play.api.inject.guice.GuiceApplicationBuilder
 
-class CountryOptionsSpec extends SpecBase with MockitoSugar {
+class CountryOptionsSpec extends SpecBase {
 
   "Country Options" must {
 
