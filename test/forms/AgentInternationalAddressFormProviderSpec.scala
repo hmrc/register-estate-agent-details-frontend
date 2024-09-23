@@ -158,7 +158,7 @@ class AgentInternationalAddressFormProviderSpec extends StringFieldBehaviours {
     "bind whitespace, trim text, and replace smart apostrophes with single quotes" in {
       val addressLine = s"‘AddressLine’  "
       val result = form.bind(
-        Map("line1" -> addressLine, "line2" -> addressLine, "line3" -> addressLine, "line4" -> addressLine, "country" -> "Scotland")
+        Map("line1" -> addressLine, "line2" -> addressLine, "line3" -> addressLine, "country" -> "Scotland")
       )
 
       result.value.value shouldBe InternationalAddress("'AddressLine'", "'AddressLine'", Some("'AddressLine'"), "Scotland")
