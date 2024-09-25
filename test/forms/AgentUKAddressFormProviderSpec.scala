@@ -17,6 +17,7 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
+import models.pages.UKAddress
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.data.FormError
@@ -190,5 +191,16 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
       requiredError = FormError(fieldName, invalidKey)
     )
 
+  }
+
+  "address lines" must {
+    "bind whitespace, trim text, and replace smart apostrophes with single quotes" in {
+      val addressLine = s"‘AddressLine’  "
+      val result = form.bind(
+        Map("line1" -> addressLine, "line2" -> addressLine, "line3" -> addressLine, "line4" -> addressLine, "postcode" -> "AB12CD")
+      )
+
+      result.value.value shouldBe UKAddress("'AddressLine'", "'AddressLine'", Some("'AddressLine'"), Some("'AddressLine'"), "AB12CD")
+    }
   }
 }
