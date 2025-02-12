@@ -17,8 +17,9 @@
 package controllers
 
 import base.SpecBase
+import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.{never, verify}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -48,7 +49,7 @@ class LogoutControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustBe frontendAppConfig.logoutUrl
 
         verify(mockAuditConnector)
-          .sendExplicitAudit(any(), any[Map[String, String]])(any(), any())
+          .sendExplicitAudit(ArgumentMatchers.eq("estates"), any[Map[String, String]])(any(), any())
 
         application.stop()
 
@@ -73,8 +74,8 @@ class LogoutControllerSpec extends SpecBase with MockitoSugar {
 
         redirectLocation(result).value mustBe frontendAppConfig.logoutUrl
 
-        verify(mockAuditConnector)
-          .sendExplicitAudit(any(), any[Map[String, String]])(any(), any())
+        verify(mockAuditConnector, never())
+          .sendExplicitAudit(ArgumentMatchers.eq("estates"), any[Map[String, String]])(any(), any())
 
         application.stop()
 
