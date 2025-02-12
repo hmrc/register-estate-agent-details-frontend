@@ -19,6 +19,8 @@ package controllers.actions
 import base.SpecBase
 import config.FrontendAppConfig
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar.mock
 import org.scalatestplus.play.PlaySpec
 import play.api.mvc.{Action, AnyContent, DefaultActionBuilder, Results}
 import play.api.test.Helpers._
