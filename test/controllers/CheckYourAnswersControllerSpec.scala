@@ -21,8 +21,9 @@ import connector.EstateConnector
 import models.mappers.AgentDetails
 import models.pages.UKAddress
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import org.scalatest.concurrent.ScalaFutures
-import org.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
 import play.api.libs.json.{JsError, JsSuccess}
 import play.api.test.FakeRequest
