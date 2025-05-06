@@ -31,7 +31,7 @@ import utils.mappers.AgentDetailsMapper
 import utils.print.AgentDetailsPrinter
 import views.html.CheckYourAnswersView
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -43,11 +43,10 @@ class CheckYourAnswersController @Inject()(
                                             view: CheckYourAnswersView,
                                             printHelper: AgentDetailsPrinter,
                                             errorHandler: ErrorHandler
-                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+                                          )(implicit val ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   def onPageLoad(): Action[AnyContent] = actions.authWithData {
     implicit request =>
-
       Ok(view(Seq(printHelper(request.userAnswers))))
   }
 
@@ -63,7 +62,7 @@ class CheckYourAnswersController @Inject()(
           }
         case JsError(errors) =>
           logger.error(s"[Session ID: ${Session.id(hc)}] Unable to map agent details for submission: $errors")
-          Future.successful(InternalServerError(errorHandler.internalServerErrorTemplate))
+          errorHandler.internalServerErrorTemplate.map(html => InternalServerError(html))
       }
   }
 
