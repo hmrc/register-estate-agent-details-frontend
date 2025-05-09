@@ -17,21 +17,25 @@
 package connector
 
 import config.FrontendAppConfig
+
 import javax.inject.Inject
 import models.mappers.AgentDetails
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import uk.gov.hmrc.http.HttpClient
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class EstateConnector @Inject()(http: HttpClient, config: FrontendAppConfig) {
-
-  private def addAgentDetailsUrl() = s"${config.estatesUrl}/estates/agent-details"
+class EstateConnector @Inject()(http: HttpClientV2, config: FrontendAppConfig) {
 
   def addAgentDetails(agentDetails: AgentDetails)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
-    http.POST[JsValue, HttpResponse](addAgentDetailsUrl(), Json.toJson(agentDetails))
+    def addAgentDetailsUrl = s"${config.estatesUrl}/estates/agent-details"
+
+    http
+        .post(url"$addAgentDetailsUrl")
+        .withBody(Json.toJson(agentDetails))
+        .execute[HttpResponse]
   }
 
 }

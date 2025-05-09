@@ -22,6 +22,7 @@ import models.mappers.AgentDetails
 import models.pages.UKAddress
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
@@ -36,7 +37,7 @@ import views.html.CheckYourAnswersView
 
 import scala.concurrent.Future
 
-class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures {
+class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures with BeforeAndAfterEach {
 
   private lazy val submitRoute: String = controllers.routes.CheckYourAnswersController.onSubmit.url
   private lazy val completedRoute = "http://localhost:8822/register-an-estate/registration-progress"
@@ -109,7 +110,9 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
 
     "return internal server error template when mapper fails" in {
 
-      val mockMapper = mock[AgentDetailsMapper]
+//      val mockMapper = mock[AgentDetailsMapper]
+      val mockMapper: AgentDetailsMapper = mock[AgentDetailsMapper]
+//      when(mockMapper.apply(any())).thenReturn(None)
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
         .overrides(bind[AgentDetailsMapper].toInstance(mockMapper))
@@ -124,7 +127,7 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
       status(result) mustEqual INTERNAL_SERVER_ERROR
 
       contentAsString(result) mustEqual
-        errorHandler.internalServerErrorTemplate(request).toString
+        errorHandler.internalServerErrorTemplate(request).futureValue.toString()
 
       application.stop()
     }

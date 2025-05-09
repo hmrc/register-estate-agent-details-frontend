@@ -27,7 +27,7 @@
     submitButton: SubmitButton
 )
 
-@(form: Form[_], countryOptions: Seq[InputOption], mode: Mode, agencyName: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], countryOptions: Seq[InputOption], mode: Mode, agencyName: String)(implicit request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = s"${errorPrefix(form)}${messages("site.address.international.title")}",
