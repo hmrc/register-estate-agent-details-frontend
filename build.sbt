@@ -1,6 +1,6 @@
 
 
-ThisBuild / scalaVersion := "2.13.18"
+ThisBuild / scalaVersion := "2.13.16"
 ThisBuild / majorVersion := 0
 
 lazy val microservice = Project("register-estate-agent-details-frontend", file("."))
