@@ -22,10 +22,10 @@ import wolfendale.scalacheck.regexp.RegexpGen
 
 class AgentInternalReferenceFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "agentInternalReference.error.required"
-  val lengthKey = "agentInternalReference.error.length"
+  val requiredKey      = "agentInternalReference.error.required"
+  val lengthKey        = "agentInternalReference.error.length"
   val invalidFormatKey = "agentInternalReference.error.invalidFormat"
-  val maxLength = 56
+  val maxLength        = 56
 
   val form = new AgentInternalReferenceFormProvider()()
 
@@ -66,4 +66,5 @@ class AgentInternalReferenceFormProviderSpec extends StringFieldBehaviours {
       error = FormError(fieldName, invalidFormatKey, Seq(Validation.clientRefRegex))
     )
   }
+
 }

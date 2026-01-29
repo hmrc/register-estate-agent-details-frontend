@@ -22,11 +22,10 @@ import play.api.Environment
 import play.api.i18n.Messages
 
 @Singleton
-class AllCountryOptions @Inject()(environment: Environment, config: FrontendAppConfig)
-  extends CountryOptions(environment, config) {
+class AllCountryOptions @Inject() (environment: Environment, config: FrontendAppConfig)
+    extends CountryOptions(environment, config) {
 
-  override def options()(implicit messages: Messages): Seq[InputOption] = {
+  override def options()(implicit messages: Messages): Seq[InputOption] =
     CountryOptions.getCountries(environment, getFileName())
-  }
 
 }

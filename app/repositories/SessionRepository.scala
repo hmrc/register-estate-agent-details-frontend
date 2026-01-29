@@ -31,25 +31,27 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DefaultSessionRepository @Inject()( val mongo: MongoComponent,
-                                          val config: FrontendAppConfig)
-                                        (implicit val ec: ExecutionContext)
-
-  extends PlayMongoRepository[UserAnswers](
-    mongoComponent = mongo,
-    domainFormat = Format(UserAnswers.reads,UserAnswers.writes),
-    collectionName = "user-answers",
-    indexes = Seq(
-      IndexModel(
-        Indexes.ascending("lastUpdated"),
-        IndexOptions().name("user-answers-last-updated-index").expireAfter(config.cachettlInSeconds, TimeUnit.SECONDS).unique(false)),
-      IndexModel(
-        Indexes.ascending("internalId"),
-        IndexOptions().name("internal-auth-id-index")
-      )
-    ).toList,
-    replaceIndexes = config.dropIndexes
-  )
+class DefaultSessionRepository @Inject() (val mongo: MongoComponent, val config: FrontendAppConfig)(implicit
+  val ec: ExecutionContext
+) extends PlayMongoRepository[UserAnswers](
+      mongoComponent = mongo,
+      domainFormat = Format(UserAnswers.reads, UserAnswers.writes),
+      collectionName = "user-answers",
+      indexes = Seq(
+        IndexModel(
+          Indexes.ascending("lastUpdated"),
+          IndexOptions()
+            .name("user-answers-last-updated-index")
+            .expireAfter(config.cachettlInSeconds, TimeUnit.SECONDS)
+            .unique(false)
+        ),
+        IndexModel(
+          Indexes.ascending("internalId"),
+          IndexOptions().name("internal-auth-id-index")
+        )
+      ).toList,
+      replaceIndexes = config.dropIndexes
+    )
     with SessionRepository {
 
   def get(id: String): Future[Option[UserAnswers]] = {
@@ -68,17 +70,19 @@ class DefaultSessionRepository @Inject()( val mongo: MongoComponent,
 
     val selector = equal("_id", userAnswers.id)
 
-    collection.replaceOne(selector, userAnswers.copy(lastUpdated = LocalDateTime.now), ReplaceOptions().upsert(true))
+    collection
+      .replaceOne(selector, userAnswers.copy(lastUpdated = LocalDateTime.now), ReplaceOptions().upsert(true))
       .head()
       .map(_.wasAcknowledged())
   }
 
   def resetCache(internalId: String): Future[Boolean] = {
 
-    val selector = equal("_id",internalId)
+    val selector = equal("_id", internalId)
 
     collection.deleteOne(selector).headOption().map(_.exists(_.wasAcknowledged()))
   }
+
 }
 
 @ImplementedBy(classOf[DefaultSessionRepository])

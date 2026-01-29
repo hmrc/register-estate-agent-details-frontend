@@ -22,7 +22,7 @@ import wolfendale.scalacheck.regexp.RegexpGen
 
 class AgentTelephoneNumberFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "agentTelephoneNumber.error.required"
+  val requiredKey    = "agentTelephoneNumber.error.required"
   val invalidCharKey = "agentTelephoneNumber.error.invalid.characters"
 
   val form = new AgentTelephoneNumberFormProvider()()
@@ -55,4 +55,5 @@ class AgentTelephoneNumberFormProviderSpec extends StringFieldBehaviours {
       requiredError = FormError(fieldName, invalidCharKey, Seq(fieldName))
     )
   }
+
 }

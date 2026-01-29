@@ -24,7 +24,7 @@ import viewmodels.AnswerSection
 
 import javax.inject.Inject
 
-class AgentDetailsPrinter @Inject()(checkYourAnswersHelper: CheckYourAnswersHelper) {
+class AgentDetailsPrinter @Inject() (checkYourAnswersHelper: CheckYourAnswersHelper) {
 
   def apply(userAnswers: UserAnswers)(implicit messages: Messages): AnswerSection = {
 
@@ -35,12 +35,32 @@ class AgentDetailsPrinter @Inject()(checkYourAnswersHelper: CheckYourAnswersHelp
     AnswerSection(
       None,
       Seq(
-        bound.stringQuestion(AgentInternalReferencePage, "agentInternalReference", AgentInternalReferenceController.onPageLoad(CheckMode).url),
+        bound.stringQuestion(
+          AgentInternalReferencePage,
+          "agentInternalReference",
+          AgentInternalReferenceController.onPageLoad(CheckMode).url
+        ),
         bound.stringQuestion(AgentNamePage, "agentName", AgentNameController.onPageLoad(CheckMode).url),
-        bound.yesNoQuestion(AgentUKAddressYesNoPage, "agentUKAddressYesNo", AgentUKAddressYesNoController.onPageLoad(CheckMode).url),
-        bound.ukAddressQuestion(AgentUKAddressPage, "site.address.uk", AgentUKAddressController.onPageLoad(CheckMode).url),
-        bound.internationalAddressQuestion(AgentInternationalAddressPage, "site.address.international", AgentInternationalAddressController.onPageLoad(CheckMode).url),
-        bound.stringQuestion(AgentTelephoneNumberPage, "agentTelephoneNumber", AgentTelephoneNumberController.onPageLoad(CheckMode).url)
+        bound.yesNoQuestion(
+          AgentUKAddressYesNoPage,
+          "agentUKAddressYesNo",
+          AgentUKAddressYesNoController.onPageLoad(CheckMode).url
+        ),
+        bound.ukAddressQuestion(
+          AgentUKAddressPage,
+          "site.address.uk",
+          AgentUKAddressController.onPageLoad(CheckMode).url
+        ),
+        bound.internationalAddressQuestion(
+          AgentInternationalAddressPage,
+          "site.address.international",
+          AgentInternationalAddressController.onPageLoad(CheckMode).url
+        ),
+        bound.stringQuestion(
+          AgentTelephoneNumberPage,
+          "agentTelephoneNumber",
+          AgentTelephoneNumberController.onPageLoad(CheckMode).url
+        )
       ).flatten
     )
 

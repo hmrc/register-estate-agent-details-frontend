@@ -27,15 +27,17 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class EstateConnector @Inject()(http: HttpClientV2, config: FrontendAppConfig) {
+class EstateConnector @Inject() (http: HttpClientV2, config: FrontendAppConfig) {
 
-  def addAgentDetails(agentDetails: AgentDetails)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
+  def addAgentDetails(
+    agentDetails: AgentDetails
+  )(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     def addAgentDetailsUrl = s"${config.estatesUrl}/estates/agent-details"
 
     http
-        .post(url"$addAgentDetailsUrl")
-        .withBody(Json.toJson(agentDetails))
-        .execute[HttpResponse]
+      .post(url"$addAgentDetailsUrl")
+      .withBody(Json.toJson(agentDetails))
+      .execute[HttpResponse]
   }
 
 }

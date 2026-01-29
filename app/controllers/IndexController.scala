@@ -26,26 +26,25 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IndexController @Inject()(
-                                 val controllerComponents: MessagesControllerComponents,
-                                 actions: Actions,
-                                 repository: SessionRepository
-                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IndexController @Inject() (
+  val controllerComponents: MessagesControllerComponents,
+  actions: Actions,
+  repository: SessionRepository
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = actions.authWithSession.async {
-    implicit request =>
+  def onPageLoad: Action[AnyContent] = actions.authWithSession.async { implicit request =>
+    val mode = NormalMode
 
-      val mode = NormalMode
-
-      request.userAnswers match {
-        case Some(_) =>
-          Future.successful(Redirect(controllers.routes.AgentInternalReferenceController.onPageLoad(mode)))
-        case None =>
-          val userAnswers: UserAnswers = UserAnswers(request.internalId)
-          repository.set(userAnswers).map { _ =>
-            Redirect(controllers.routes.AgentInternalReferenceController.onPageLoad(mode))
-          }
-      }
+    request.userAnswers match {
+      case Some(_) =>
+        Future.successful(Redirect(controllers.routes.AgentInternalReferenceController.onPageLoad(mode)))
+      case None    =>
+        val userAnswers: UserAnswers = UserAnswers(request.internalId)
+        repository.set(userAnswers).map { _ =>
+          Redirect(controllers.routes.AgentInternalReferenceController.onPageLoad(mode))
+        }
+    }
   }
 
 }

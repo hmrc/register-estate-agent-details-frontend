@@ -33,9 +33,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
   type RetrievalType = Option[String] ~ Option[AffinityGroup] ~ Enrolments
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
-  val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
-  val action: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
-  val fakeAction: Action[AnyContent] = action { _ => Results.Ok }
+  val appConfig: FrontendAppConfig     = injector.instanceOf[FrontendAppConfig]
+  val action: DefaultActionBuilder     = app.injector.instanceOf[DefaultActionBuilder]
+  val fakeAction: Action[AnyContent]   = action(_ => Results.Ok)
 
   val utr = "0987654321"
 
@@ -43,10 +43,15 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
   private val noEnrollment = Enrolments(Set())
 
-  private def authRetrievals(affinityGroup: AffinityGroup, enrolment: Enrolments): Future[Some[String] ~ Some[AffinityGroup] ~ Enrolments] =
+  private def authRetrievals(
+    affinityGroup: AffinityGroup,
+    enrolment: Enrolments
+  ): Future[Some[String] ~ Some[AffinityGroup] ~ Enrolments] =
     Future.successful(new ~(new ~(Some("id"), Some(affinityGroup)), enrolment))
 
-  private val agentEnrolment = Enrolments(Set(Enrolment("HMRC-AS-AGENT", List(EnrolmentIdentifier("AgentReferenceNumber", "SomeVal")), "Activated", None)))
+  private val agentEnrolment = Enrolments(
+    Set(Enrolment("HMRC-AS-AGENT", List(EnrolmentIdentifier("AgentReferenceNumber", "SomeVal")), "Activated", None))
+  )
 
   "invoking an AuthenticatedIdentifier" when {
     "an Agent user" when {
@@ -60,7 +65,7 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
           val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
-          status(result) mustBe SEE_OTHER
+          status(result)                 mustBe SEE_OTHER
           redirectLocation(result).value mustBe s"${appConfig.createAgentServicesAccountUrl}"
           application.stop()
         }
@@ -92,7 +97,7 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
-        status(result) mustBe SEE_OTHER
+        status(result)                 mustBe SEE_OTHER
         redirectLocation(result).value mustBe s"${appConfig.loginUrl}"
         application.stop()
       }
@@ -108,7 +113,7 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
-        status(result) mustBe SEE_OTHER
+        status(result)           mustBe SEE_OTHER
         redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad.url)
 
         application.stop()
@@ -120,7 +125,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed MissingBearerToken())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed MissingBearerToken())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -136,7 +143,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed BearerTokenExpired())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed BearerTokenExpired())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -152,7 +161,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed InsufficientEnrolments())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed InsufficientEnrolments())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -168,7 +179,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed InsufficientConfidenceLevel())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed InsufficientConfidenceLevel())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -184,7 +197,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed UnsupportedAuthProvider())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed UnsupportedAuthProvider())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -200,7 +215,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed UnsupportedAffinityGroup())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed UnsupportedAffinityGroup())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -216,7 +233,9 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
 
         val application = applicationBuilder(userAnswers = None).build()
 
-        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())) thenReturn (Future failed UnsupportedCredentialRole())
+        when(
+          mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any())
+        ) thenReturn (Future failed UnsupportedCredentialRole())
 
         val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
 
@@ -227,5 +246,5 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
       }
     }
   }
-}
 
+}

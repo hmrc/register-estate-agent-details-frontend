@@ -29,6 +29,9 @@ class AgentInternalReferenceFormProvider @Inject() extends Mappings {
           firstError(
             maxLength(56, "agentInternalReference.error.length"),
             isNotEmpty("value", "agentInternalReference.error.required"),
-            regexp(Validation.clientRefRegex, "agentInternalReference.error.invalidFormat")))
+            regexp(Validation.clientRefRegex, "agentInternalReference.error.invalidFormat")
+          )
+        )
     )
+
 }

@@ -33,37 +33,33 @@ import views.html.CheckYourAnswersView
 
 import scala.concurrent.ExecutionContext
 
-class CheckYourAnswersController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            val appConfig: FrontendAppConfig,
-                                            actions: Actions,
-                                            agentMapper: AgentDetailsMapper,
-                                            estateConnector: EstateConnector,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            view: CheckYourAnswersView,
-                                            printHelper: AgentDetailsPrinter,
-                                            errorHandler: ErrorHandler
-                                          )(implicit val ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+class CheckYourAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  val appConfig: FrontendAppConfig,
+  actions: Actions,
+  agentMapper: AgentDetailsMapper,
+  estateConnector: EstateConnector,
+  val controllerComponents: MessagesControllerComponents,
+  view: CheckYourAnswersView,
+  printHelper: AgentDetailsPrinter,
+  errorHandler: ErrorHandler
+)(implicit val ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad(): Action[AnyContent] = actions.authWithData {
-    implicit request =>
-      Ok(view(Seq(printHelper(request.userAnswers))))
+  def onPageLoad(): Action[AnyContent] = actions.authWithData { implicit request =>
+    Ok(view(Seq(printHelper(request.userAnswers))))
   }
 
-  def onSubmit(): Action[AnyContent] = actions.authWithData.async {
-    implicit request =>
-
-      agentMapper(request.userAnswers) match {
-        case JsSuccess(agentDetails, _) =>
-          for {
-            _ <- estateConnector.addAgentDetails(agentDetails)
-          } yield {
-            Redirect(appConfig.registrationProgress)
-          }
-        case JsError(errors) =>
-          logger.error(s"[Session ID: ${Session.id(hc)}] Unable to map agent details for submission: $errors")
-          errorHandler.internalServerErrorTemplate.map(html => InternalServerError(html))
-      }
+  def onSubmit(): Action[AnyContent] = actions.authWithData.async { implicit request =>
+    agentMapper(request.userAnswers) match {
+      case JsSuccess(agentDetails, _) =>
+        for {
+          _ <- estateConnector.addAgentDetails(agentDetails)
+        } yield Redirect(appConfig.registrationProgress)
+      case JsError(errors)            =>
+        logger.error(s"[Session ID: ${Session.id(hc)}] Unable to map agent details for submission: $errors")
+        errorHandler.internalServerErrorTemplate.map(html => InternalServerError(html))
+    }
   }
 
 }

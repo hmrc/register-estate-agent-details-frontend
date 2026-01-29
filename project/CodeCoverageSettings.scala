@@ -1,4 +1,3 @@
-
 import sbt.Setting
 import scoverage.ScoverageKeys.*
 

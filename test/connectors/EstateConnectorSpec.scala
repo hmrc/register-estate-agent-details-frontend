@@ -30,8 +30,15 @@ import utils.WireMockHelper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class EstateConnectorSpec extends RegistrationSpecBase with Generators with WireMockHelper with ScalaFutures
-  with Inside with BeforeAndAfterAll with BeforeAndAfterEach with IntegrationPatience {
+class EstateConnectorSpec
+    extends RegistrationSpecBase
+    with Generators
+    with WireMockHelper
+    with ScalaFutures
+    with Inside
+    with BeforeAndAfterAll
+    with BeforeAndAfterEach
+    with IntegrationPatience {
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
   "estate connector" when {
@@ -54,9 +61,10 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
           .configure(
             Seq(
               "microservice.services.estates.port" -> server.port(),
-              "auditing.enabled" -> false
+              "auditing.enabled"                   -> false
             ): _*
-          ).build()
+          )
+          .build()
 
         val connector = application.injector.instanceOf[EstateConnector]
 
@@ -78,9 +86,10 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
           .configure(
             Seq(
               "microservice.services.estates.port" -> server.port(),
-              "auditing.enabled" -> false
+              "auditing.enabled"                   -> false
             ): _*
-          ).build()
+          )
+          .build()
 
         val connector = application.injector.instanceOf[EstateConnector]
 
@@ -98,4 +107,5 @@ class EstateConnectorSpec extends RegistrationSpecBase with Generators with Wire
 
     }
   }
+
 }

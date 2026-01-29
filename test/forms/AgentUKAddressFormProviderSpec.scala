@@ -29,10 +29,10 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
 
   ".line1" must {
 
-    val fieldName = "line1"
+    val fieldName   = "line1"
     val requiredKey = "ukAddress.error.line1.required"
-    val lengthKey = "ukAddress.error.line1.length"
-    val maxLength = 35
+    val lengthKey   = "ukAddress.error.line1.length"
+    val maxLength   = 35
 
     behave like fieldThatBindsValidData(
       form,
@@ -63,10 +63,10 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
 
   ".line2" must {
 
-    val fieldName = "line2"
+    val fieldName   = "line2"
     val requiredKey = "ukAddress.error.line2.required"
-    val lengthKey = "ukAddress.error.line2.length"
-    val maxLength = 35
+    val lengthKey   = "ukAddress.error.line2.length"
+    val maxLength   = 35
 
     behave like fieldThatBindsValidData(
       form,
@@ -115,17 +115,23 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
     )
 
     "bind whitespace trim values" in {
-      val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  line3  ", "line4" -> "line4", "postcode" -> "AB12CD"))
+      val result = form.bind(
+        Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  line3  ", "line4" -> "line4", "postcode" -> "AB12CD")
+      )
       result.value.value.line3 shouldBe Some("line3")
     }
 
     "bind whitespace blank values" in {
-      val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  ", "line4" -> "line4", "postcode" -> "AB12CD"))
+      val result = form.bind(
+        Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  ", "line4" -> "line4", "postcode" -> "AB12CD")
+      )
       result.value.value.line3 shouldBe None
     }
 
     "bind whitespace no values" in {
-      val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "", "line4" -> "line4", "postcode" -> "AB12CD"))
+      val result = form.bind(
+        Map("line1" -> "line1", "line2" -> "line2", "line3" -> "", "line4" -> "line4", "postcode" -> "AB12CD")
+      )
       result.value.value.line3 shouldBe None
     }
   }
@@ -150,26 +156,32 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
     )
 
     "bind whitespace trim values" in {
-      val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  line4  ", "postcode" -> "AB12CD"))
+      val result = form.bind(
+        Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  line4  ", "postcode" -> "AB12CD")
+      )
       result.value.value.line4 shouldBe Some("line4")
     }
 
     "bind whitespace blank values" in {
-      val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  ", "postcode" -> "AB12CD"))
+      val result = form.bind(
+        Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  ", "postcode" -> "AB12CD")
+      )
       result.value.value.line4 shouldBe None
     }
 
     "bind whitespace no values" in {
-      val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "", "postcode" -> "AB12CD"))
+      val result = form.bind(
+        Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "", "postcode" -> "AB12CD")
+      )
       result.value.value.line4 shouldBe None
     }
   }
 
   ".postcode" must {
 
-    val fieldName = "postcode"
+    val fieldName   = "postcode"
     val requiredKey = "ukAddress.error.postcode.required"
-    val invalidKey = "error.postcodeInvalid"
+    val invalidKey  = "error.postcodeInvalid"
 
     behave like fieldWithRegexpWithGenerator(
       form,
@@ -196,11 +208,24 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
   "address lines" must {
     "bind whitespace, trim text, and replace smart apostrophes with single quotes" in {
       val addressLine = s"‘AddressLine’  "
-      val result = form.bind(
-        Map("line1" -> addressLine, "line2" -> addressLine, "line3" -> addressLine, "line4" -> addressLine, "postcode" -> "AB12CD")
+      val result      = form.bind(
+        Map(
+          "line1"    -> addressLine,
+          "line2"    -> addressLine,
+          "line3"    -> addressLine,
+          "line4"    -> addressLine,
+          "postcode" -> "AB12CD"
+        )
       )
 
-      result.value.value shouldBe UKAddress("'AddressLine'", "'AddressLine'", Some("'AddressLine'"), Some("'AddressLine'"), "AB12CD")
+      result.value.value shouldBe UKAddress(
+        "'AddressLine'",
+        "'AddressLine'",
+        Some("'AddressLine'"),
+        Some("'AddressLine'"),
+        "AB12CD"
+      )
     }
   }
+
 }

@@ -18,7 +18,7 @@ package models
 
 import play.api.libs.json._
 
-case class AgentUKAddress (field1: String, field2: String)
+case class AgentUKAddress(field1: String, field2: String)
 
 object AgentUKAddress {
   implicit val format: OFormat[AgentUKAddress] = Json.format[AgentUKAddress]

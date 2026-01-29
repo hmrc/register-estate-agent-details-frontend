@@ -40,4 +40,5 @@ class IndexControllerSpec extends RegistrationSpecBase {
       application.stop()
     }
   }
+
 }

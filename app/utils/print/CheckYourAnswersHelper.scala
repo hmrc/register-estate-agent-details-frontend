@@ -26,34 +26,31 @@ import viewmodels.AnswerRow
 
 import javax.inject.Inject
 
-class CheckYourAnswersHelper @Inject()(checkAnswersFormatters: CheckAnswersFormatters) {
+class CheckYourAnswersHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters) {
 
   def bind(userAnswers: UserAnswers, name: String)(implicit messages: Messages): Bound = new Bound(userAnswers, name)
 
-  class Bound(userAnswers: UserAnswers, agencyName: String)
-             (implicit messages: Messages) {
+  class Bound(userAnswers: UserAnswers, agencyName: String)(implicit messages: Messages) {
 
-    def stringQuestion(query: Gettable[String], labelKey: String, changeUrl: String): Option[AnswerRow] = {
+    def stringQuestion(query: Gettable[String], labelKey: String, changeUrl: String): Option[AnswerRow] =
       question(query, labelKey, HtmlFormat.escape, changeUrl)
-    }
 
-    def yesNoQuestion(query: Gettable[Boolean], labelKey: String, changeUrl: String): Option[AnswerRow] = {
+    def yesNoQuestion(query: Gettable[Boolean], labelKey: String, changeUrl: String): Option[AnswerRow] =
       question(query, labelKey, checkAnswersFormatters.yesOrNo, changeUrl)
-    }
 
-    def ukAddressQuestion(query: Gettable[UKAddress], labelKey: String, changeUrl: String): Option[AnswerRow] = {
+    def ukAddressQuestion(query: Gettable[UKAddress], labelKey: String, changeUrl: String): Option[AnswerRow] =
       question(query, labelKey, checkAnswersFormatters.ukAddress, changeUrl)
-    }
 
-    def internationalAddressQuestion(query: Gettable[InternationalAddress], labelKey: String, changeUrl: String): Option[AnswerRow] = {
+    def internationalAddressQuestion(
+      query: Gettable[InternationalAddress],
+      labelKey: String,
+      changeUrl: String
+    ): Option[AnswerRow] =
       question(query, labelKey, checkAnswersFormatters.internationalAddress, changeUrl)
-    }
 
-    private def question[T](query: Gettable[T],
-                            labelKey: String,
-                            format: T => Html,
-                            changeUrl: String)
-                           (implicit rds: Reads[T]): Option[AnswerRow] = {
+    private def question[T](query: Gettable[T], labelKey: String, format: T => Html, changeUrl: String)(implicit
+      rds: Reads[T]
+    ): Option[AnswerRow] =
       userAnswers.get(query) map { x =>
         AnswerRow(
           label = s"$labelKey.checkYourAnswersLabel",
@@ -62,6 +59,7 @@ class CheckYourAnswersHelper @Inject()(checkAnswersFormatters: CheckAnswersForma
           labelArg = agencyName
         )
       }
-    }
+
   }
+
 }

@@ -23,7 +23,7 @@ import utils.countryOptions.CountryOptions
 
 import javax.inject.Inject
 
-class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
+class CheckAnswersFormatters @Inject() (countryOptions: CountryOptions) {
 
   def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
     if (answer) {
@@ -60,8 +60,7 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
     breakLines(lines)
   }
 
-  private def breakLines(lines: Seq[Html]): Html = {
+  private def breakLines(lines: Seq[Html]): Html =
     Html(lines.mkString("<br />"))
-  }
 
 }

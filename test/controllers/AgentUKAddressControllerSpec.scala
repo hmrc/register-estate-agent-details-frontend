@@ -32,8 +32,8 @@ import views.html.AgentUKAddressView
 class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   private val formProvider = new AgentUKAddressFormProvider()
-  private val form = formProvider()
-  private val agencyName = "Hadrian"
+  private val form         = formProvider()
+  private val agencyName   = "Hadrian"
 
   private lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(NormalMode).url
 
@@ -41,8 +41,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -63,8 +62,12 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers
-        .set(AgentUKAddressPage,  UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")).success.value
-        .set(AgentNamePage, agencyName).success.value
+        .set(AgentUKAddressPage, UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"), "line 5"))
+        .success
+        .value
+        .set(AgentNamePage, agencyName)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -77,15 +80,18 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), NormalMode, agencyName)(request, messages).toString
+        view(
+          form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"), "line 5")),
+          NormalMode,
+          agencyName
+        )(request, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
@@ -94,7 +100,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
 
       val request =
         FakeRequest(POST, agentUKAddressRoute)
-          .withFormUrlEncodedBody(("line1", "value 1"), ("line2", "value 2"),("postcode", "NE1 1ZZ"))
+          .withFormUrlEncodedBody(("line1", "value 1"), ("line2", "value 2"), ("postcode", "NE1 1ZZ"))
 
       val result = route(application, request).value
 
@@ -107,8 +113,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -127,7 +132,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
       contentAsString(result) mustEqual
         view(boundForm, NormalMode, agencyName)(request, messages).toString
 
-       application.stop()
+      application.stop()
     }
 
     "redirect to Session Expired for a GET if no existing data is found" in {
@@ -177,4 +182,5 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase with MockitoSuga
     }
 
   }
+
 }

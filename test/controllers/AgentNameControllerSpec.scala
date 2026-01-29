@@ -31,7 +31,7 @@ import views.html.AgentNameView
 class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   private val formProvider = new AgentNameFormProvider()
-  private val form = formProvider()
+  private val form         = formProvider()
 
   private lazy val agentNameRoute = routes.AgentNameController.onPageLoad(NormalMode).url
 
@@ -150,4 +150,5 @@ class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
       application.stop()
     }
   }
+
 }

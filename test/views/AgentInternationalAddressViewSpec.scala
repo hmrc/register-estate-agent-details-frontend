@@ -28,7 +28,7 @@ import views.html.AgentInternationalAddressView
 class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[InternationalAddress] {
 
   val messageKeyPrefix = "site.address.international"
-  val agencyName = "Hadrian"
+  val agencyName       = "Hadrian"
 
   override val form = new AgentInternationalAddressFormProvider()()
 
@@ -41,7 +41,6 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[Internati
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, countryOptions, NormalMode, agencyName)(fakeRequest, messages)
 
-
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName)
 
     behave like pageWithBackLink(applyView(form))
@@ -50,10 +49,11 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[Internati
       form,
       applyView,
       messageKeyPrefix,
-      Seq(("line1",None), ("line2",None), ("line3", None)),
+      Seq(("line1", None), ("line2", None), ("line3", None)),
       agencyName
     )
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

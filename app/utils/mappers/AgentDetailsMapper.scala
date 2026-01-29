@@ -33,16 +33,15 @@ class AgentDetailsMapper extends Logging {
         readAddress and
         AgentTelephoneNumberPage.path.read[String] and
         AgentInternalReferencePage.path.read[String]
-      )(AgentDetails.apply _)
+    )(AgentDetails.apply _)
 
     answers.data.validate[AgentDetails](readFromUserAnswers)
   }
 
-  private def readAddress: Reads[Address] = {
+  private def readAddress: Reads[Address] =
     AgentUKAddressYesNoPage.path.read[Boolean].flatMap[Address] {
-      case true => AgentUKAddressPage.path.read[UKAddress].widen[Address]
+      case true  => AgentUKAddressPage.path.read[UKAddress].widen[Address]
       case false => AgentInternationalAddressPage.path.read[InternationalAddress].widen[Address]
     }
-  }
 
 }

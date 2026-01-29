@@ -27,50 +27,114 @@ import controllers.routes._
 class AgentDetailsPrinterSpec extends SpecBase {
 
   val printHelper: AgentDetailsPrinter = injector.instanceOf[AgentDetailsPrinter]
-  val agentName: String = "Name"
+  val agentName: String                = "Name"
 
   "AgentDetailsPrinter" must {
 
     "return answer section" when {
 
       val baseAnswers = emptyUserAnswers
-        .set(AgentInternalReferencePage, "ref").success.value
-        .set(AgentNamePage, agentName).success.value
-        .set(AgentTelephoneNumberPage, "tel").success.value
+        .set(AgentInternalReferencePage, "ref")
+        .success
+        .value
+        .set(AgentNamePage, agentName)
+        .success
+        .value
+        .set(AgentTelephoneNumberPage, "tel")
+        .success
+        .value
 
       "UK address" in {
         val answers = baseAnswers
-          .set(AgentUKAddressYesNoPage, true).success.value
-          .set(AgentUKAddressPage, UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")).success.value
+          .set(AgentUKAddressYesNoPage, true)
+          .success
+          .value
+          .set(AgentUKAddressPage, UKAddress("Line 1", "Line 2", None, None, "AB1 1AB"))
+          .success
+          .value
 
         val result = printHelper.apply(answers)
         result mustBe AnswerSection(
           headingKey = None,
           rows = Seq(
-            AnswerRow("agentInternalReference.checkYourAnswersLabel", Html("ref"), Some(AgentInternalReferenceController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(AgentNameController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentUKAddressYesNo.checkYourAnswersLabel", Html("Yes"), Some(AgentUKAddressYesNoController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("site.address.uk.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />AB1 1AB"), Some(AgentUKAddressController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("tel"), Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url), agentName)
+            AnswerRow(
+              "agentInternalReference.checkYourAnswersLabel",
+              Html("ref"),
+              Some(AgentInternalReferenceController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "agentName.checkYourAnswersLabel",
+              Html(agentName),
+              Some(AgentNameController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "agentUKAddressYesNo.checkYourAnswersLabel",
+              Html("Yes"),
+              Some(AgentUKAddressYesNoController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "site.address.uk.checkYourAnswersLabel",
+              Html("Line 1<br />Line 2<br />AB1 1AB"),
+              Some(AgentUKAddressController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "agentTelephoneNumber.checkYourAnswersLabel",
+              Html("tel"),
+              Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url),
+              agentName
+            )
           ),
           sectionKey = None
         )
       }
       "international address" in {
         val answers = baseAnswers
-          .set(AgentUKAddressYesNoPage, false).success.value
-          .set(AgentInternationalAddressPage, InternationalAddress("Line 1", "Line 2", None, "FR")).success.value
+          .set(AgentUKAddressYesNoPage, false)
+          .success
+          .value
+          .set(AgentInternationalAddressPage, InternationalAddress("Line 1", "Line 2", None, "FR"))
+          .success
+          .value
 
         val result = printHelper.apply(answers)
 
         result mustBe AnswerSection(
           headingKey = None,
           rows = Seq(
-            AnswerRow("agentInternalReference.checkYourAnswersLabel", Html("ref"), Some(AgentInternalReferenceController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(AgentNameController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentUKAddressYesNo.checkYourAnswersLabel", Html("No"), Some(AgentUKAddressYesNoController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("site.address.international.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />France"), Some(AgentInternationalAddressController.onPageLoad(CheckMode).url), agentName),
-            AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("tel"), Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url), agentName)
+            AnswerRow(
+              "agentInternalReference.checkYourAnswersLabel",
+              Html("ref"),
+              Some(AgentInternalReferenceController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "agentName.checkYourAnswersLabel",
+              Html(agentName),
+              Some(AgentNameController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "agentUKAddressYesNo.checkYourAnswersLabel",
+              Html("No"),
+              Some(AgentUKAddressYesNoController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "site.address.international.checkYourAnswersLabel",
+              Html("Line 1<br />Line 2<br />France"),
+              Some(AgentInternationalAddressController.onPageLoad(CheckMode).url),
+              agentName
+            ),
+            AnswerRow(
+              "agentTelephoneNumber.checkYourAnswersLabel",
+              Html("tel"),
+              Some(AgentTelephoneNumberController.onPageLoad(CheckMode).url),
+              agentName
+            )
           ),
           sectionKey = None
         )

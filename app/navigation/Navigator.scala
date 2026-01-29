@@ -15,6 +15,7 @@
  */
 
 package navigation
+
 import models.{Mode, UserAnswers}
 import pages.Page
 import play.api.mvc.Call

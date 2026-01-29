@@ -18,7 +18,6 @@ package pages
 
 import pages.behaviours.PageBehaviours
 
-
 class AgentTelephoneNumberPageSpec extends PageBehaviours {
 
   "AgentTelephoneNumberPage" must {
@@ -29,4 +28,5 @@ class AgentTelephoneNumberPageSpec extends PageBehaviours {
 
     beRemovable[String](AgentTelephoneNumberPage)
   }
+
 }

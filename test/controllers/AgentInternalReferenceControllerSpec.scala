@@ -31,7 +31,7 @@ import views.html.AgentInternalReferenceView
 class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   private val formProvider = new AgentInternalReferenceFormProvider()
-  private val form = formProvider()
+  private val form         = formProvider()
 
   private lazy val agentInternalReferenceRoute = routes.AgentInternalReferenceController.onPageLoad(NormalMode).url
 
@@ -149,4 +149,5 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with Moc
       application.stop()
     }
   }
+
 }

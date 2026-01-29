@@ -18,7 +18,6 @@ package pages
 
 import pages.behaviours.PageBehaviours
 
-
 class AgentInternalReferencePageSpec extends PageBehaviours {
 
   "AgentInternalReferencePage" must {
@@ -29,4 +28,5 @@ class AgentInternalReferencePageSpec extends PageBehaviours {
 
     beRemovable[String](AgentInternalReferencePage)
   }
+
 }

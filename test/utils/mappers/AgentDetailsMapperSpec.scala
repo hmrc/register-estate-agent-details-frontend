@@ -24,8 +24,7 @@ import org.scalatest.OptionValues
 import org.scalatest.matchers.must.Matchers
 import pages._
 
-class AgentDetailsMapperSpec extends SpecBase with Matchers
-  with OptionValues with Generators {
+class AgentDetailsMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 
   private val agentMapper = injector.instanceOf[AgentDetailsMapper]
 
@@ -46,12 +45,24 @@ class AgentDetailsMapperSpec extends SpecBase with Matchers
 
         val userAnswers =
           emptyUserAnswers
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
-            .set(AgentUKAddressPage, UKAddress("Line1", "Line2", None, Some("Newcastle"), "ab1 1ab")).success.value
-            .set(AgentTelephoneNumberPage, "+1234567890").success.value
-            .set(AgentInternalReferencePage, "1234-5678").success.value
-            .set(AgentUKAddressYesNoPage, true).success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
+            .set(AgentUKAddressPage, UKAddress("Line1", "Line2", None, Some("Newcastle"), "ab1 1ab"))
+            .success
+            .value
+            .set(AgentTelephoneNumberPage, "+1234567890")
+            .success
+            .value
+            .set(AgentInternalReferencePage, "1234-5678")
+            .success
+            .value
+            .set(AgentUKAddressYesNoPage, true)
+            .success
+            .value
 
         agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
@@ -66,12 +77,24 @@ class AgentDetailsMapperSpec extends SpecBase with Matchers
 
         val userAnswers =
           emptyUserAnswers
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
-            .set(AgentUKAddressPage, UKAddress("Line1", "Newcastle", None, None, "NE62RT")).success.value
-            .set(AgentTelephoneNumberPage, "+1234567890").success.value
-            .set(AgentInternalReferencePage, "1234-5678").success.value
-            .set(AgentUKAddressYesNoPage, true).success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
+            .set(AgentUKAddressPage, UKAddress("Line1", "Newcastle", None, None, "NE62RT"))
+            .success
+            .value
+            .set(AgentTelephoneNumberPage, "+1234567890")
+            .success
+            .value
+            .set(AgentInternalReferencePage, "1234-5678")
+            .success
+            .value
+            .set(AgentUKAddressYesNoPage, true)
+            .success
+            .value
 
         agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
@@ -86,12 +109,24 @@ class AgentDetailsMapperSpec extends SpecBase with Matchers
 
         val userAnswers =
           emptyUserAnswers
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
-            .set(AgentInternationalAddressPage,InternationalAddress("line1","line2",Some("line3"), "IN")).success.value
-            .set(AgentTelephoneNumberPage, "+1234567890").success.value
-            .set(AgentInternalReferencePage, "1234-5678").success.value
-            .set(AgentUKAddressYesNoPage, false).success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
+            .set(AgentInternationalAddressPage, InternationalAddress("line1", "line2", Some("line3"), "IN"))
+            .success
+            .value
+            .set(AgentTelephoneNumberPage, "+1234567890")
+            .success
+            .value
+            .set(AgentInternalReferencePage, "1234-5678")
+            .success
+            .value
+            .set(AgentUKAddressYesNoPage, false)
+            .success
+            .value
 
         agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
@@ -106,12 +141,24 @@ class AgentDetailsMapperSpec extends SpecBase with Matchers
 
         val userAnswers =
           emptyUserAnswers
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
-            .set(AgentInternationalAddressPage,InternationalAddress("line1","line2",None, "IN")).success.value
-            .set(AgentTelephoneNumberPage, "+1234567890").success.value
-            .set(AgentInternalReferencePage, "1234-5678").success.value
-            .set(AgentUKAddressYesNoPage, false).success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
+            .set(AgentInternationalAddressPage, InternationalAddress("line1", "line2", None, "IN"))
+            .success
+            .value
+            .set(AgentTelephoneNumberPage, "+1234567890")
+            .success
+            .value
+            .set(AgentInternalReferencePage, "1234-5678")
+            .success
+            .value
+            .set(AgentUKAddressYesNoPage, false)
+            .success
+            .value
 
         agentMapper(userAnswers).get mustBe AgentDetails(
           arn = "SARN123456",
@@ -125,10 +172,18 @@ class AgentDetailsMapperSpec extends SpecBase with Matchers
       "must not be able to create AgentDetails when no address available." in {
         val userAnswers =
           emptyUserAnswers
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
-            .set(AgentInternalReferencePage, "1234-5678").success.value
-            .set(AgentUKAddressYesNoPage, true).success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
+            .set(AgentInternalReferencePage, "1234-5678")
+            .success
+            .value
+            .set(AgentUKAddressYesNoPage, true)
+            .success
+            .value
         agentMapper(userAnswers).isError mustBe true
 
       }
@@ -136,13 +191,16 @@ class AgentDetailsMapperSpec extends SpecBase with Matchers
       "must not be able to create AgentDetails when no only agent name available." in {
         val userAnswers =
           emptyUserAnswers
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
         agentMapper(userAnswers).isError mustBe true
 
       }
     }
-
 
   }
 
