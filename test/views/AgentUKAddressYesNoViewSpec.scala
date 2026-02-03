@@ -26,8 +26,8 @@ import views.html.AgentUKAddressYesNoView
 class AgentUKAddressYesNoViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "agentUKAddressYesNo"
-  val name = "First Last"
-  val form = new AgentUKAddressYesNoFormProvider()()
+  val name             = "First Last"
+  val form             = new AgentUKAddressYesNoFormProvider()()
 
   "AgentUKAddressYesNo view" must {
 
@@ -44,4 +44,5 @@ class AgentUKAddressYesNoViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

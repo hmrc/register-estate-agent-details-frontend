@@ -26,8 +26,8 @@ import views.html.AgentTelephoneNumberView
 class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
 
   val messageKeyPrefix = "agentTelephoneNumber"
-  val agencyName = "FirstName LastName"
-  val hintKey = "agentTelephoneNumber.hint"
+  val agencyName       = "FirstName LastName"
+  val hintKey          = "agentTelephoneNumber.hint"
 
   val form = new AgentTelephoneNumberFormProvider()()
 
@@ -53,4 +53,5 @@ class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

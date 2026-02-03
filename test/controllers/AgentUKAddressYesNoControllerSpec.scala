@@ -36,8 +36,8 @@ import scala.concurrent.Future
 class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   private val formProvider = new AgentUKAddressYesNoFormProvider()
-  private val form = formProvider()
-  private val name = "name"
+  private val form         = formProvider()
+  private val name         = "name"
 
   private lazy val agentUKAddressYesNoRoute = routes.AgentUKAddressYesNoController.onPageLoad(NormalMode).url
 
@@ -46,7 +46,9 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
     "return OK and the correct view for a GET" in {
 
       val userAnswers = emptyUserAnswers
-        .set(AgentNamePage, name).success.value
+        .set(AgentNamePage, name)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -67,8 +69,12 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId)
-        .set(AgentUKAddressYesNoPage, true).success.value
-        .set(AgentNamePage, name).success.value
+        .set(AgentUKAddressYesNoPage, true)
+        .success
+        .value
+        .set(AgentNamePage, name)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -91,7 +97,9 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
       val mockSessionRepository = mock[SessionRepository]
 
       val userAnswers = emptyUserAnswers
-        .set(AgentNamePage, name).success.value
+        .set(AgentNamePage, name)
+        .success
+        .value
 
       when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
 
@@ -116,7 +124,9 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
     "return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers = emptyUserAnswers
-        .set(AgentNamePage, name).success.value
+        .set(AgentNamePage, name)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -170,4 +180,5 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
       application.stop()
     }
   }
+
 }

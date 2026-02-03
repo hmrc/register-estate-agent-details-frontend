@@ -30,42 +30,44 @@ class AgentNavigatorSpec extends RegistrationSpecBase {
 
       val mode = NormalMode
 
-      "Agent Internal Reference page -> Agent name page" in {
-        navigator.nextPage(AgentInternalReferencePage, mode, emptyUserAnswers)
+      "Agent Internal Reference page -> Agent name page" in
+        navigator
+          .nextPage(AgentInternalReferencePage, mode, emptyUserAnswers)
           .mustBe(controllers.routes.AgentNameController.onPageLoad(mode))
-      }
 
-      "Agent name page -> Agent UK Address Yes No page" in {
-        navigator.nextPage(AgentNamePage, mode, emptyUserAnswers)
+      "Agent name page -> Agent UK Address Yes No page" in
+        navigator
+          .nextPage(AgentNamePage, mode, emptyUserAnswers)
           .mustBe(controllers.routes.AgentUKAddressYesNoController.onPageLoad(mode))
-      }
 
       "Agent UK Address Yes No page -> Agent UK Address page - when user answers yes" in {
         val answers = emptyUserAnswers.set(AgentUKAddressYesNoPage, value = true).success.value
-        navigator.nextPage(AgentUKAddressYesNoPage, mode, answers)
+        navigator
+          .nextPage(AgentUKAddressYesNoPage, mode, answers)
           .mustBe(controllers.routes.AgentUKAddressController.onPageLoad(mode))
       }
 
-      "Agent UK Address-> Agent Telephone Number page" in {
-        navigator.nextPage(AgentUKAddressPage, mode, emptyUserAnswers)
+      "Agent UK Address-> Agent Telephone Number page" in
+        navigator
+          .nextPage(AgentUKAddressPage, mode, emptyUserAnswers)
           .mustBe(controllers.routes.AgentTelephoneNumberController.onPageLoad(mode))
-      }
 
       "Agent UK Address Yes No page -> Agent International Address page - when user answers no" in {
         val answers = emptyUserAnswers.set(AgentUKAddressYesNoPage, value = false).success.value
-        navigator.nextPage(AgentUKAddressYesNoPage, mode, answers)
+        navigator
+          .nextPage(AgentUKAddressYesNoPage, mode, answers)
           .mustBe(controllers.routes.AgentInternationalAddressController.onPageLoad(mode))
       }
 
-      "Agent International Address-> Agent Telephone Number page" in {
-        navigator.nextPage(AgentInternationalAddressPage, mode, emptyUserAnswers)
+      "Agent International Address-> Agent Telephone Number page" in
+        navigator
+          .nextPage(AgentInternationalAddressPage, mode, emptyUserAnswers)
           .mustBe(controllers.routes.AgentTelephoneNumberController.onPageLoad(mode))
-      }
 
-      "Agent Telephone Number page -> Check Answers page" in {
-        navigator.nextPage(AgentTelephoneNumberPage, mode, emptyUserAnswers)
+      "Agent Telephone Number page -> Check Answers page" in
+        navigator
+          .nextPage(AgentTelephoneNumberPage, mode, emptyUserAnswers)
           .mustBe(controllers.routes.CheckYourAnswersController.onPageLoad)
-      }
 
     }
 

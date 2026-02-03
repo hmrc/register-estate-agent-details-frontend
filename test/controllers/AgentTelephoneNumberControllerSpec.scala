@@ -35,8 +35,8 @@ import scala.concurrent.Future
 class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with MockitoSugar {
 
   private val formProvider = new AgentTelephoneNumberFormProvider()
-  private val form = formProvider()
-  private val agencyName = "FirstName LastName"
+  private val form         = formProvider()
+  private val agencyName   = "FirstName LastName"
 
   private lazy val agentTelephoneNumberRoute = routes.AgentTelephoneNumberController.onPageLoad(NormalMode).url
 
@@ -45,7 +45,9 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
     "return OK and the correct view for a GET" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -66,8 +68,12 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId)
-        .set(AgentNamePage, "FirstName LastName").success.value
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -88,8 +94,12 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
     "redirect to the next page when valid data is submitted" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application: Application =
         applicationBuilder(userAnswers = Some(userAnswers))
@@ -111,7 +121,9 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
     "return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -183,7 +195,9 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
     "redirect to AgentName page when AgentName is not answered" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application: Application =
         applicationBuilder(userAnswers = Some(userAnswers))
@@ -203,4 +217,5 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
     }
 
   }
+
 }

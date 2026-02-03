@@ -28,4 +28,5 @@ class AgentUKAddressYesNoPageSpec extends PageBehaviours {
 
     beRemovable[Boolean](AgentUKAddressYesNoPage)
   }
+
 }

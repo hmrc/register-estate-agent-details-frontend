@@ -32,4 +32,5 @@ class CheckYourAnswerViewSpec extends ViewBehaviours {
 
     behave like pageWithBackLink(applyView)
   }
+
 }

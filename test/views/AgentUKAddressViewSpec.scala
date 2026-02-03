@@ -26,7 +26,7 @@ import views.html.AgentUKAddressView
 class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
 
   val messageKeyPrefix = "site.address.uk"
-  val agencyName = "Hadrian"
+  val agencyName       = "Hadrian"
 
   override val form = new AgentUKAddressFormProvider()()
 
@@ -36,7 +36,6 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, NormalMode, agencyName)(fakeRequest, messages)
-
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName)
 
@@ -50,4 +49,5 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

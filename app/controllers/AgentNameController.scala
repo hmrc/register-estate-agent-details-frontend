@@ -31,36 +31,33 @@ import views.html.AgentNameView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AgentNameController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
-                                        @EstateRegistration navigator: Navigator,
-                                        formProvider: AgentNameFormProvider,
-                                        actions: Actions,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: AgentNameView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AgentNameController @Inject() (
+  override val messagesApi: MessagesApi,
+  sessionRepository: SessionRepository,
+  @EstateRegistration navigator: Navigator,
+  formProvider: AgentNameFormProvider,
+  actions: Actions,
+  val controllerComponents: MessagesControllerComponents,
+  view: AgentNameView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = actions.authWithData {
-    implicit request =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = actions.authWithData { implicit request =>
+    val preparedForm = request.userAnswers.get(AgentNamePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AgentNamePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, mode))
+    Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = actions.authWithData.async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-
+  def onSubmit(mode: Mode): Action[AnyContent] = actions.authWithData.async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentNamePage, value))
@@ -68,4 +65,5 @@ class AgentNameController @Inject()(
           } yield Redirect(navigator.nextPage(AgentNamePage, mode, updatedAnswers))
       )
   }
+
 }

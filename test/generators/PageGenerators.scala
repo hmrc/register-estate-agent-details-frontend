@@ -38,4 +38,5 @@ trait PageGenerators {
 
   implicit lazy val arbitraryAgentInternalReferencePage: Arbitrary[AgentInternalReferencePage.type] =
     Arbitrary(AgentInternalReferencePage)
+
 }

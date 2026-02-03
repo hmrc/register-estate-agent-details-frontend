@@ -29,4 +29,5 @@ class AgentUKAddressPageSpec extends PageBehaviours {
 
     beRemovable[UKAddress](AgentUKAddressPage)
   }
+
 }

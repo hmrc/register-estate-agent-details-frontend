@@ -49,4 +49,5 @@ class AgentInternalReferenceViewSpec extends StringViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

@@ -49,4 +49,5 @@ class AgentNameViewSpec extends StringViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

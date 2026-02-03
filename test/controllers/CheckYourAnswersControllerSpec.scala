@@ -37,17 +37,18 @@ import views.html.CheckYourAnswersView
 
 import scala.concurrent.Future
 
-class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures with BeforeAndAfterEach {
+class CheckYourAnswersControllerSpec
+    extends RegistrationSpecBase with MockitoSugar with ScalaFutures with BeforeAndAfterEach {
 
   private lazy val submitRoute: String = controllers.routes.CheckYourAnswersController.onSubmit.url
-  private lazy val completedRoute = "http://localhost:8822/register-an-estate/registration-progress"
+  private lazy val completedRoute      = "http://localhost:8822/register-an-estate/registration-progress"
 
   "Check Your Answers Controller" must {
 
     "return OK and the correct view for a GET" in {
 
       val mockPrintHelper: AgentDetailsPrinter = mock[AgentDetailsPrinter]
-      val fakeAnswerSection: AnswerSection = AnswerSection(None, Nil, None)
+      val fakeAnswerSection: AnswerSection     = AnswerSection(None, Nil, None)
       when(mockPrintHelper.apply(any())(any())).thenReturn(fakeAnswerSection)
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -83,10 +84,9 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
       application.stop()
     }
 
-
     "redirect to the estates progress when submitted" in {
 
-      val mockMapper = mock[AgentDetailsMapper]
+      val mockMapper          = mock[AgentDetailsMapper]
       val mockEstateConnector = mock[EstateConnector]
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -94,8 +94,11 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
         .overrides(bind[EstateConnector].toInstance(mockEstateConnector))
         .build()
 
-      when(mockMapper.apply(any())).thenReturn(JsSuccess(AgentDetails("arn", "name", UKAddress("Line 1", "Line 2", None, None, "AB1 1AB"), "tel", "red")))
-      when(mockEstateConnector.addAgentDetails(any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "Success response")))
+      when(mockMapper.apply(any())).thenReturn(
+        JsSuccess(AgentDetails("arn", "name", UKAddress("Line 1", "Line 2", None, None, "AB1 1AB"), "tel", "red"))
+      )
+      when(mockEstateConnector.addAgentDetails(any())(any(), any()))
+        .thenReturn(Future.successful(HttpResponse(OK, "Success response")))
 
       val request = FakeRequest(POST, submitRoute)
 
@@ -133,4 +136,5 @@ class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSu
     }
 
   }
+
 }

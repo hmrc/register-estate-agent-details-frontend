@@ -21,10 +21,10 @@ import play.api.data.FormError
 
 class AgentNameFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "agentName.error.required"
-  val lengthKey = "agentName.error.length"
+  val requiredKey      = "agentName.error.required"
+  val lengthKey        = "agentName.error.length"
   val invalidFormatKey = "agentName.error.invalidFormat"
-  val maxLength = 56
+  val maxLength        = 56
 
   val form = new AgentNameFormProvider()()
 
@@ -65,4 +65,5 @@ class AgentNameFormProviderSpec extends StringFieldBehaviours {
       error = FormError(fieldName, invalidFormatKey, Seq(Validation.nameRegex))
     )
   }
+
 }

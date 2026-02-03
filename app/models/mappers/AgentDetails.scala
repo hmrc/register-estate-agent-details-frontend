@@ -20,11 +20,13 @@ import models.pages.Address
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
-case class AgentDetails(arn: String,
-                        agentName: String,
-                        agentAddress: Address,
-                        agentTelephoneNumber: String,
-                        clientReference: String)
+case class AgentDetails(
+  arn: String,
+  agentName: String,
+  agentAddress: Address,
+  agentTelephoneNumber: String,
+  clientReference: String
+)
 
 object AgentDetails {
   implicit val agentDetailsFormat: Format[AgentDetails] = Json.format[AgentDetails]
@@ -34,10 +36,8 @@ object AgentDetails {
       (__ \ Symbol("agentName")).read[String] and
       (__ \ Symbol("agentAddress")).read[Address] and
       (__ \ Symbol("agentTelephoneNumber")).read[String] and
-      (__ \ Symbol("clientReference")).read[String]).tupled.map{
-
-      case (arn, name, address, phoneNumber, clientRef) =>
-        AgentDetails(arn, name, address, phoneNumber, clientRef)
+      (__ \ Symbol("clientReference")).read[String]).tupled.map { case (arn, name, address, phoneNumber, clientRef) =>
+      AgentDetails(arn, name, address, phoneNumber, clientRef)
     }
 
   implicit val writes: Writes[AgentDetails] =
@@ -45,7 +45,6 @@ object AgentDetails {
       (__ \ Symbol("agentName")).write[String] and
       (__ \ Symbol("agentAddress")).write[Address] and
       (__ \ Symbol("agentTelephoneNumber")).write[String] and
-      (__ \ "clientReference").write[String]
-      ).apply(unlift(AgentDetails.unapply))
+      (__ \ "clientReference").write[String]).apply(unlift(AgentDetails.unapply))
 
 }

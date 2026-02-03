@@ -27,4 +27,5 @@ class AgentUKAddressYesNoFormProvider @Inject() extends Mappings {
     Form(
       "value" -> boolean("agentUKAddressYesNo.error.required")
     )
+
 }
