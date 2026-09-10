@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package utils.countryOptions
+package models
 
-import config.FrontendAppConfig
-import javax.inject.{Inject, Singleton}
-import play.api.Environment
-import play.api.i18n.Messages
+import base.RegistrationSpecBase
 
-@Singleton
-class AllCountryOptions @Inject() (environment: Environment, config: FrontendAppConfig)
-    extends CountryOptions(environment, config) {
+class ModeSpec extends RegistrationSpecBase {
 
-  override def options()(implicit messages: Messages): Seq[InputOption] =
-    CountryOptions.getCountries(environment, getFileName())
+  "Mode" must {
+
+    "render NormalMode for reverse routing in JavaScript" in {
+      Mode.jsLiteral.to(NormalMode) mustBe "NormalMode"
+    }
+
+    "render CheckMode for reverse routing in JavaScript" in {
+      Mode.jsLiteral.to(CheckMode) mustBe "CheckMode"
+    }
+  }
 
 }

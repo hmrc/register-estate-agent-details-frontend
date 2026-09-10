@@ -35,8 +35,11 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   lazy val logoutUrl: String        = configuration.get[String]("urls.logout")
 
-  lazy val basGatewayBaseUrl: String       = configuration.get[String]("bas-gateway.host")
-  lazy val feedbackFrontendUrl: String     = configuration.get[String]("feedback-frontend.url")
+  lazy val basGatewayBaseUrl: String = configuration.get[String]("bas-gateway.host")
+
+  lazy val feedbackFrontendUrl: String =
+    s"${configuration.get[String]("feedback-frontend.url")}?useServiceNavigation"
+
   lazy val timeOutUrl: String              = configuration.get[String]("urls.timeOut")
   lazy val logoutWithBasGatewayUrl: String = s"$basGatewayBaseUrl$logoutUrl"
 
@@ -55,9 +58,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   lazy val locationCanonicalList: String   = configuration.get[String]("location.canonical.list.all")
   lazy val locationCanonicalListCY: String = configuration.get[String]("location.canonical.list.allCY")
 
-  lazy val languageTranslationEnabled: Boolean =
-    configuration.get[Boolean]("microservice.services.features.welsh-translation")
-
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang(ENGLISH),
     "cymraeg" -> Lang(WELSH)
@@ -67,8 +67,5 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
     (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
 
   val cachettlInSeconds: Long = configuration.get[Long]("mongodb.timeToLiveInSeconds")
-
-  val dropIndexes: Boolean =
-    configuration.getOptional[Boolean]("microservice.services.features.mongo.dropIndexes").getOrElse(false)
 
 }
