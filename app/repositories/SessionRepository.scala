@@ -25,7 +25,7 @@ import play.api.libs.json._
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -50,16 +50,13 @@ class DefaultSessionRepository @Inject() (val mongo: MongoComponent, val config:
           IndexOptions().name("internal-auth-id-index")
         )
       ).toList,
-      replaceIndexes = config.dropIndexes
+      replaceIndexes = true
     )
     with SessionRepository {
 
   def get(id: String): Future[Option[UserAnswers]] = {
-
-    val selector = equal("_id", id)
-
-    val modifier = Updates.set("updatedAt", LocalDateTime.now())
-
+    val selector     = equal("_id", id)
+    val modifier     = Updates.set("lastUpdated", Instant.now())
     val updateOption = new FindOneAndUpdateOptions().upsert(false)
 
     collection.findOneAndUpdate(selector, modifier, updateOption).toFutureOption()
@@ -71,7 +68,7 @@ class DefaultSessionRepository @Inject() (val mongo: MongoComponent, val config:
     val selector = equal("_id", userAnswers.id)
 
     collection
-      .replaceOne(selector, userAnswers.copy(lastUpdated = LocalDateTime.now), ReplaceOptions().upsert(true))
+      .replaceOne(selector, userAnswers.copy(lastUpdated = Instant.now), ReplaceOptions().upsert(true))
       .head()
       .map(_.wasAcknowledged())
   }

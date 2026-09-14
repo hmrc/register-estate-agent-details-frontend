@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/register-estate-agent-details-frontend.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{ISO8601} level=[%level] logger=[%logger] thread=[%thread] message=[%message] %replace(exception=[%xException]){'^exception=\[\]$',''}%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="uk.gov.hmrc.play.logging.JsonEncoder"/>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{ISO8601} level=[%level] logger=[%logger] thread=[%thread] rid=[%X{X-Request-ID}] user=[%X{Authorization}] message=[%message]
+                %replace(exception=[%xException]){'^exception=\[\]$',''}%n
+            </pattern>
+        </encoder>
     </appender>
 
     <logger name="uk.gov" level="INFO"/>
@@ -11,7 +23,8 @@
     <logger name="services" level="INFO"/>
     <logger name="repository" level="INFO"/>
 
-    <root level="ERROR">
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>
 

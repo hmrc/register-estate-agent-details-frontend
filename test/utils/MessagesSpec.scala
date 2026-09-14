@@ -25,11 +25,7 @@ import scala.util.matching.Regex
 
 class MessagesSpec extends SpecBase {
 
-  override lazy val fakeApplication: Application = new GuiceApplicationBuilder()
-    .configure(
-      Map("application.langs" -> "en,cy", "features.welsh-language-support" -> true)
-    )
-    .build()
+  override lazy val fakeApplication: Application = new GuiceApplicationBuilder().build()
 
   implicit override lazy val messages: Messages = messagesApi.preferred(Seq(Lang("en"), Lang("cy")))
 

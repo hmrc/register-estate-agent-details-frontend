@@ -25,6 +25,7 @@ import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{TestSuite, TryValues}
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
+import play.api.Application
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.inject.{Injector, bind}
@@ -39,6 +40,16 @@ trait SpecBase
 
   final val ENGLISH = "en"
   final val WELSH   = "cy"
+
+  protected val testConfiguration: Map[String, Seq[String]] = Map(
+    "play.filters.disabled" -> Seq(
+      "play.filters.csrf.CSRFFilter",
+      "play.filters.csp.CSPFilter"
+    )
+  )
+
+  override def fakeApplication(): Application =
+    new GuiceApplicationBuilder().configure(testConfiguration).build()
 
   val userAnswersId = "id"
 
@@ -60,6 +71,7 @@ trait SpecBase
 
   protected def applicationBuilder(userAnswers: Option[UserAnswers] = None): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
+      .configure(testConfiguration)
       .overrides(
         bind[DataRequiredAction].to[DataRequiredActionImpl],
         bind[IdentifierAction].to[FakeIdentifierAction],

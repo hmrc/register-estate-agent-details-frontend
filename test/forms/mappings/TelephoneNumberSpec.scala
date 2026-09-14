@@ -17,6 +17,7 @@
 package forms.mappings
 
 import base.RegistrationSpecBase
+import play.api.libs.json.{JsString, Json}
 
 class TelephoneNumberSpec extends RegistrationSpecBase {
 
@@ -51,6 +52,22 @@ class TelephoneNumberSpec extends RegistrationSpecBase {
       TelephoneNumber.isValid("07700 900 982")      mustBe true
       TelephoneNumber.isValid("+44 0808 157 0192")  mustBe true
       TelephoneNumber.isValid("+44(0)151 666 1337") mustBe true
+    }
+
+    "wrap a valid number" in {
+      TelephoneNumber("01632 960 001").value mustBe "01632 960 001"
+    }
+
+    "refuse to wrap an invalid number" in {
+      an[IllegalArgumentException] mustBe thrownBy(TelephoneNumber("07543"))
+    }
+
+    "serialise to a bare JSON string" in {
+      Json.toJson(TelephoneNumber("01632 960 001")) mustBe JsString("01632 960 001")
+    }
+
+    "deserialise from a bare JSON string" in {
+      JsString("01632 960 001").as[TelephoneNumber] mustBe TelephoneNumber("01632 960 001")
     }
   }
 

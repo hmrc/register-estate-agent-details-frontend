@@ -19,13 +19,11 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcAccessibleAutocompleteCss
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcAccessibleAutocompleteJavascript
-@import resources._
 
 
 @this(
     appConfig: FrontendAppConfig,
     hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
-    stylesheets: Stylesheets,
     hmrcStandardPage: HmrcStandardPage,
     govukBackLink: GovukBackLink,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
@@ -38,7 +36,6 @@
     contentHeader: Option[Html] = None,
     bodyClasses: Option[String] = None,
     mainClass: Option[String] = None,
-    scriptElem: Option[Html] = None,
     timeoutEnabled: Boolean = true,
     canSignOut: Boolean = true,
     showBackLink: Boolean = false
@@ -57,7 +54,6 @@
         )
     }
 
-    @stylesheets()
     @autocompleteCss()
 }
 

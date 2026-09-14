@@ -25,6 +25,7 @@ import play.api.mvc.{Action, AnyContent, DefaultActionBuilder, Results}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
+import uk.gov.hmrc.http.UnauthorizedException
 
 import scala.concurrent.Future
 
@@ -242,6 +243,59 @@ class AffinityGroupIdentifierActionSpec extends PlaySpec with SpecBase {
         status(result) mustBe SEE_OTHER
 
         redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad.url)
+        application.stop()
+      }
+    }
+
+    "the agent enrolment carries no agent reference number" must {
+      "redirect the user to the create agent services page" in {
+
+        val application = applicationBuilder(userAnswers = None).build()
+
+        val withoutArn = Enrolments(Set(Enrolment("HMRC-AS-AGENT", List.empty, "Activated", None)))
+
+        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any()))
+          .thenReturn(authRetrievals(AffinityGroup.Agent, withoutArn))
+
+        val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
+
+        status(result)                 mustBe SEE_OTHER
+        redirectLocation(result).value mustBe appConfig.createAgentServicesAccountUrl
+        application.stop()
+      }
+    }
+
+    "the agent reference number is empty" must {
+      "redirect the user to the create agent services page" in {
+
+        val application = applicationBuilder(userAnswers = None).build()
+
+        val emptyArn = Enrolments(
+          Set(Enrolment("HMRC-AS-AGENT", List(EnrolmentIdentifier("AgentReferenceNumber", "")), "Activated", None))
+        )
+
+        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any()))
+          .thenReturn(authRetrievals(AffinityGroup.Agent, emptyArn))
+
+        val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
+
+        status(result)                 mustBe SEE_OTHER
+        redirectLocation(result).value mustBe appConfig.createAgentServicesAccountUrl
+        application.stop()
+      }
+    }
+
+    "no internal id can be retrieved" must {
+      "fail, because the session cannot be identified" in {
+
+        val application = applicationBuilder(userAnswers = None).build()
+
+        when(mockAuthConnector.authorise(any(), any[Retrieval[RetrievalType]]())(any(), any()))
+          .thenReturn(Future.successful(new ~(new ~(None, Some(AffinityGroup.Agent)), agentEnrolment)))
+
+        val result = new AffinityGroupIdentifierAction(fakeAction, estatesAuth, appConfig).apply(fakeRequest)
+
+        whenReady(result.failed)(_ mustBe a[UnauthorizedException])
         application.stop()
       }
     }

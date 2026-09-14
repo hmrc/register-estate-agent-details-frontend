@@ -1,5 +1,5 @@
 ThisBuild / scalaVersion := "2.13.18"
-ThisBuild / majorVersion := 0
+ThisBuild / majorVersion := 1
 
 lazy val microservice = Project("register-estate-agent-details-frontend", file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
@@ -22,7 +22,6 @@ lazy val microservice = Project("register-estate-agent-details-frontend", file("
       "-Wconf:src=routes/.*:s",
       "-Wconf:cat=unused-imports&src=views/.*:s"
     ),
-    Test / javaOptions ++= Seq("-Dconfig.resource=test.application.conf"),
     libraryDependencies ++= AppDependencies()
   )
   .settings(CodeCoverageSettings())

@@ -18,13 +18,15 @@ package repositories
 
 import base.SpecBase
 import models.UserAnswers
-import org.mongodb.scala.bson.BsonDocument
+import org.bson.BsonType
+import org.mongodb.scala.bson.{BsonDateTime, BsonDocument, BsonString}
 import org.mongodb.scala.model.Filters
 import org.scalatest.BeforeAndAfterEach
 import play.api.libs.json.Json
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import uk.gov.hmrc.mongo.test.MongoSupport
 
+import java.time.Instant
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class SessionRepositorySpec extends SpecBase with MongoSupport with BeforeAndAfterEach {
@@ -99,6 +101,38 @@ class SessionRepositorySpec extends SpecBase with MongoSupport with BeforeAndAft
       checkAnswers(repository.get(internalId1).futureValue.value, user1Updated)
       checkAnswers(repository.get(internalId2).futureValue.value, user2Updated)
       repository.collection.countDocuments().toFuture().futureValue mustBe 2
+    }
+
+    "must read documents written before the LocalDateTime to Instant migration" in {
+      val legacyMillis = 1517443200000L
+
+      val legacyDocument = BsonDocument(
+        "_id"         -> BsonString(internalId1),
+        "data"        -> BsonDocument("test" -> BsonString("123")),
+        "lastUpdated" -> BsonDateTime(legacyMillis)
+      )
+
+      await(repository.collection.withDocumentClass[BsonDocument]().insertOne(legacyDocument).toFuture())
+
+      val result = repository.get(internalId1).futureValue.value
+
+      result.id          mustBe internalId1
+      result.data        mustBe Json.obj("test" -> "123")
+      result.lastUpdated mustBe Instant.ofEpochMilli(legacyMillis)
+    }
+
+    "must keep storing lastUpdated as a BSON date so the TTL index still applies" in {
+
+      repository.set(user1).futureValue mustBe true
+
+      val stored = await(
+        repository.collection
+          .withDocumentClass[BsonDocument]()
+          .find(Filters.equal("_id", internalId1))
+          .headOption()
+      ).value
+
+      stored.get("lastUpdated").getBsonType mustBe BsonType.DATE_TIME
     }
 
   }
