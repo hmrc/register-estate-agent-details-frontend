@@ -30,7 +30,7 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[Internati
   val messageKeyPrefix = "site.address.international"
   val agencyName       = "Hadrian"
 
-  override val form = new AgentInternationalAddressFormProvider()()
+  override val form: Form[InternationalAddress] = new AgentInternationalAddressFormProvider()()
 
   "AgentInternationalAddressView" must {
 
@@ -38,8 +38,8 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[Internati
 
     val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options()
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, countryOptions, NormalMode, agencyName)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, countryOptions, NormalMode, agencyName)(using fakeRequest, messages)
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName)
 

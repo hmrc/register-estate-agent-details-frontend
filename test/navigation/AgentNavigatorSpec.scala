@@ -17,8 +17,8 @@
 package navigation
 
 import base.RegistrationSpecBase
-import pages._
-import models._
+import pages.*
+import models.*
 
 class AgentNavigatorSpec extends RegistrationSpecBase {
 

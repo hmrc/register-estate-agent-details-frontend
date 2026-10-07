@@ -28,7 +28,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
 import play.api.libs.json.{JsError, JsSuccess}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.http.HttpResponse
 import utils.mappers.AgentDetailsMapper
 import utils.print.AgentDetailsPrinter
@@ -49,7 +49,7 @@ class CheckYourAnswersControllerSpec
 
       val mockPrintHelper: AgentDetailsPrinter = mock[AgentDetailsPrinter]
       val fakeAnswerSection: AnswerSection     = AnswerSection(None, Nil, None)
-      when(mockPrintHelper.apply(any())(any())).thenReturn(fakeAnswerSection)
+      when(mockPrintHelper.apply(any())(using any())).thenReturn(fakeAnswerSection)
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
         .overrides(bind[AgentDetailsPrinter].toInstance(mockPrintHelper))
@@ -64,7 +64,7 @@ class CheckYourAnswersControllerSpec
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(Seq(fakeAnswerSection))(request, messages).toString
+        view(Seq(fakeAnswerSection))(using request, messages).toString
 
       application.stop()
     }
@@ -97,7 +97,7 @@ class CheckYourAnswersControllerSpec
       when(mockMapper.apply(any())).thenReturn(
         JsSuccess(AgentDetails("arn", "name", UKAddress("Line 1", "Line 2", None, None, "AB1 1AB"), "tel", "red"))
       )
-      when(mockEstateConnector.addAgentDetails(any())(any(), any()))
+      when(mockEstateConnector.addAgentDetails(any())(using any(), any()))
         .thenReturn(Future.successful(HttpResponse(OK, "Success response")))
 
       val request = FakeRequest(POST, submitRoute)

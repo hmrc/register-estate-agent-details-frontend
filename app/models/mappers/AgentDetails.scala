@@ -17,8 +17,8 @@
 package models.mappers
 
 import models.pages.Address
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
+import play.api.libs.json.*
+import play.api.libs.functional.syntax.*
 
 case class AgentDetails(
   arn: String,

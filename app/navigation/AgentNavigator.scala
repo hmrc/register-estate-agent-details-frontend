@@ -18,7 +18,7 @@ package navigation
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import pages._
+import pages.*
 import play.api.mvc.Call
 
 class AgentNavigator @Inject() () extends Navigator {
@@ -47,7 +47,7 @@ class AgentNavigator @Inject() () extends Navigator {
 
   private def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call =
     ua.get(fromPage)
-      .map(if (_) yesCall else noCall)
+      .map(if _ then yesCall else noCall)
       .getOrElse(controllers.routes.SessionExpiredController.onPageLoad)
 
   def routes(mode: Mode): PartialFunction[Page, UserAnswers => Call] =

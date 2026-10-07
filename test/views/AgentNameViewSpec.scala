@@ -33,8 +33,8 @@ class AgentNameViewSpec extends StringViewBehaviours {
 
     val view = viewFor[AgentNameView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, NormalMode)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, NormalMode)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

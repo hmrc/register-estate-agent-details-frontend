@@ -20,7 +20,7 @@ import base.SpecBase
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
 import play.api.mvc.{AnyContent, BodyParsers, DefaultActionBuilder, Result, Results}
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.auth.core.AuthConnector
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -74,7 +74,7 @@ class IdentifierActionSpec extends SpecBase {
 
         val action = injector.instanceOf[DefaultActionBuilder].apply(_ => Results.Ok)
 
-        identifierAction.composeAction(action) mustBe a[AffinityGroupIdentifierAction[_]]
+        identifierAction.composeAction(action) mustBe a[AffinityGroupIdentifierAction[?]]
       }
     }
   }

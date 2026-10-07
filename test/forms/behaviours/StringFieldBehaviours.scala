@@ -19,42 +19,41 @@ package forms.behaviours
 import forms.Validation
 import forms.mappings.TelephoneNumber
 import org.scalacheck.Gen
-import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.data.{Form, FormError}
 import wolfendale.scalacheck.regexp.RegexpGen
 
 trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours {
 
-  def fieldWithMinLength(form: Form[_], fieldName: String, minLength: Int, lengthError: FormError): Unit =
+  def fieldWithMinLength(form: Form[?], fieldName: String, minLength: Int, lengthError: FormError): Unit =
 
     s"not bind strings shorter than $minLength characters" in {
 
-      val length = if (minLength > 0 && minLength < 2) minLength else minLength - 1
+      val length = if minLength > 0 && minLength < 2 then minLength else minLength - 1
 
       forAll(stringsWithMaxLength(length) -> "shortString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-        result.errors shouldEqual Seq(lengthError)
+        result.errors mustEqual Seq(lengthError)
       }
     }
 
-  def fieldWithMaxLength(form: Form[_], fieldName: String, maxLength: Int, lengthError: FormError): Unit =
+  def fieldWithMaxLength(form: Form[?], fieldName: String, maxLength: Int, lengthError: FormError): Unit =
 
     s"not bind strings longer than $maxLength characters" in
       forAll(stringsLongerThan(maxLength) -> "longString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-        result.errors shouldEqual Seq(lengthError)
+        result.errors mustEqual Seq(lengthError)
       }
 
-  def nonEmptyField(form: Form[_], fieldName: String, requiredError: FormError): Unit =
+  def nonEmptyField(form: Form[?], fieldName: String, requiredError: FormError): Unit =
 
     "not bind spaces" in {
 
       val result = form.bind(Map(fieldName -> "    ")).apply(fieldName)
-      result.errors shouldBe Seq(requiredError)
+      result.errors mustBe Seq(requiredError)
     }
 
   def fieldWithRegexpWithGenerator(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     regexp: String,
     generator: Gen[String],
@@ -65,18 +64,18 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
       forAll(generator) { string =>
         whenever(!string.matches(regexp) && string.nonEmpty) {
           val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors shouldEqual Seq(error)
+          result.errors mustEqual Seq(error)
         }
       }
 
-  def telephoneNumberField(form: Form[_], fieldName: String, requiredError: FormError): Unit =
+  def telephoneNumberField(form: Form[?], fieldName: String, requiredError: FormError): Unit =
 
     "not bind strings which do not match valid telephone number format" in {
       val generator = RegexpGen.from(Validation.telephoneRegex)
       forAll(generator) { string =>
         whenever(!TelephoneNumber.isValid(string)) {
           val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors shouldEqual Seq(requiredError)
+          result.errors mustEqual Seq(requiredError)
         }
       }
     }

@@ -16,9 +16,9 @@
 
 package utils.print
 
-import controllers.routes._
+import controllers.routes.*
 import models.{CheckMode, UserAnswers}
-import pages._
+import pages.*
 import play.api.i18n.Messages
 import viewmodels.AnswerSection
 

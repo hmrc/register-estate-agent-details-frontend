@@ -27,7 +27,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.{AgentNamePage, AgentUKAddressYesNoPage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import repositories.SessionRepository
 import views.html.AgentUKAddressYesNoView
 
@@ -61,7 +61,7 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, name)(request, messages).toString
+        view(form, NormalMode, name)(using request, messages).toString
 
       application.stop()
     }
@@ -87,7 +87,7 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), NormalMode, name)(request, messages).toString
+        view(form.fill(true), NormalMode, name)(using request, messages).toString
 
       application.stop()
     }
@@ -143,7 +143,7 @@ class AgentUKAddressYesNoControllerSpec extends RegistrationSpecBase with Mockit
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode, name)(request, messages).toString
+        view(boundForm, NormalMode, name)(using request, messages).toString
 
       application.stop()
     }

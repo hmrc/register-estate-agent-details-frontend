@@ -26,14 +26,14 @@
     submitButton: SubmitButton
 )
 
-@(form: Form[_], mode: Mode, agencyName: String)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], mode: Mode, agencyName: String)(implicit request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = s"${errorPrefix(form)}${messages("site.address.uk.title")}",
     showBackLink = true
     ) {
 
-    @formHelper(action = AgentUKAddressController.onSubmit(mode), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.AgentUKAddressController.onSubmit(mode), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors)
 

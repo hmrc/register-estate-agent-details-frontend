@@ -19,10 +19,10 @@ package utils.print
 import base.SpecBase
 import models.CheckMode
 import models.pages.{InternationalAddress, UKAddress}
-import pages._
+import pages.*
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
-import controllers.routes._
+import controllers.routes.*
 
 class AgentDetailsPrinterSpec extends SpecBase {
 

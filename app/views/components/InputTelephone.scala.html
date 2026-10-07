@@ -29,8 +29,7 @@ govukInput: GovukInput
   hint: Option[String] = None,
   prefix: Option[String] = None,
   suffix: Option[String] = None,
-  inputMode: Option[String] = None,
-  readOnly: Boolean = false
+  inputMode: Option[String] = None
 )(implicit messages: Messages)
 
 @govukInput(
@@ -44,7 +43,7 @@ govukInput: GovukInput
      autocomplete = Some("tel"),
      hint = hint.map(hint => Hint(content = Text(hint))),
      errorMessage = field.error match {
-     case Some(e) => Some(ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(e.message, e.args: _*))))
+     case Some(e) => Some(ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(e.message, e.args*))))
      case None => None
 },
  spellcheck = Some(false),

@@ -20,11 +20,6 @@ error.number = Nodwch rif dilys
 error.required = Nodwch werth
 error.summary.title = Mae problem wedi codi
 error.postcodeInvalid = Nodwch god post go iawn
-
-index.title = register-estate-agent-details-frontend
-index.heading = register-estate-agent-details-frontend
-index.guidance = Croeso i’ch pen blaen newydd. Gweler y ffeil README am arweiniad ynghylch sut i ddechrau arni.
-
 session_expired.title = Er eich diogelwch, gwnaethom eich allgofnodi
 session_expired.heading = Er eich diogelwch, gwnaethom eich allgofnodi
 session_expired.guidance = Mae hyn oherwydd eich bod wedi bod yn segur yn y gwasanaeth ers 15 munud.
@@ -39,7 +34,6 @@ site.no = Na
 site.yes = Iawn
 site.continue = Yn eich blaen
 service.name = Cofrestru ystâd
-site.textarea.char_limit = (Y terfyn yw {0} o gymeriadau)
 site.sign_out = Allgofnodi
 site.sign_in = Mewngofnodi
 site.error = Gwall:
@@ -78,8 +72,6 @@ site.address.international.line1 = Cyfeiriad – llinell 1
 site.address.international.line2 = Cyfeiriad – llinell 2
 site.address.international.line3 = Cyfeiriad – llinell 3 (dewisol)
 site.address.international.country = Gwlad
-
-address.country.select = Dewiswch wlad
 
 internationalAddress.error.line1.required = Nodwch gyfeiriad – llinell 1
 internationalAddress.error.line2.required = Nodwch gyfeiriad – llinell 2

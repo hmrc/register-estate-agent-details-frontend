@@ -19,7 +19,6 @@ package forms
 import forms.behaviours.StringFieldBehaviours
 import models.pages.UKAddress
 import org.scalacheck.Arbitrary.arbitrary
-import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.data.FormError
 import wolfendale.scalacheck.regexp.RegexpGen
 
@@ -118,21 +117,21 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
       val result = form.bind(
         Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  line3  ", "line4" -> "line4", "postcode" -> "AB12CD")
       )
-      result.value.value.line3 shouldBe Some("line3")
+      result.value.value.line3 mustBe Some("line3")
     }
 
     "bind whitespace blank values" in {
       val result = form.bind(
         Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  ", "line4" -> "line4", "postcode" -> "AB12CD")
       )
-      result.value.value.line3 shouldBe None
+      result.value.value.line3 mustBe None
     }
 
     "bind whitespace no values" in {
       val result = form.bind(
         Map("line1" -> "line1", "line2" -> "line2", "line3" -> "", "line4" -> "line4", "postcode" -> "AB12CD")
       )
-      result.value.value.line3 shouldBe None
+      result.value.value.line3 mustBe None
     }
   }
 
@@ -159,21 +158,21 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
       val result = form.bind(
         Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  line4  ", "postcode" -> "AB12CD")
       )
-      result.value.value.line4 shouldBe Some("line4")
+      result.value.value.line4 mustBe Some("line4")
     }
 
     "bind whitespace blank values" in {
       val result = form.bind(
         Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  ", "postcode" -> "AB12CD")
       )
-      result.value.value.line4 shouldBe None
+      result.value.value.line4 mustBe None
     }
 
     "bind whitespace no values" in {
       val result = form.bind(
         Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "", "postcode" -> "AB12CD")
       )
-      result.value.value.line4 shouldBe None
+      result.value.value.line4 mustBe None
     }
   }
 
@@ -218,7 +217,7 @@ class AgentUKAddressFormProviderSpec extends StringFieldBehaviours {
         )
       )
 
-      result.value.value shouldBe UKAddress(
+      result.value.value mustBe UKAddress(
         "'AddressLine'",
         "'AddressLine'",
         Some("'AddressLine'"),

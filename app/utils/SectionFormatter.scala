@@ -18,15 +18,14 @@ package utils
 
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
-import viewmodels.{AnswerRow, AnswerSection, RepeaterAnswerSection, Section}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
+import viewmodels.{AnswerRow, AnswerSection, Section}
 
 object SectionFormatter {
 
   def formatSections(answerSections: Seq[Section])(implicit messages: Messages): Seq[SummaryListRow] =
-    answerSections.flatMap {
-      case a: AnswerSection         => formatAnswerSection(a)
-      case _: RepeaterAnswerSection => throw new NotImplementedError("Not used anywhere in code.")
+    answerSections.flatMap { case a: AnswerSection =>
+      formatAnswerSection(a)
     }
 
   private def formatAnswerSection(section: AnswerSection)(implicit messages: Messages): Seq[SummaryListRow] =

@@ -16,8 +16,8 @@
 
 package models.pages
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json.{Json, Reads, Writes, _}
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.{Json, Reads, Writes, *}
 
 sealed trait Address
 
@@ -36,7 +36,7 @@ object UKAddress {
       (__ \ Symbol("line2")).read[String] and
       (__ \ Symbol("line3")).readNullable[String] and
       (__ \ Symbol("line4")).readNullable[String] and
-      (__ \ Symbol("postCode")).read[String]).apply(UKAddress.apply _)
+      (__ \ Symbol("postCode")).read[String]).apply(UKAddress.apply)
 
   implicit val writes: Writes[UKAddress] =
     ((__ \ Symbol("line1")).write[String] and
@@ -72,12 +72,15 @@ object InternationalAddress {
 object Address {
 
   implicit val reads: Reads[Address] =
-    __.read[UKAddress](UKAddress.reads).widen[Address] orElse
-      __.read[InternationalAddress](InternationalAddress.format).widen[Address]
+    __.read[UKAddress](UKAddress.reads)
+      .widen[Address]
+      .orElse(
+        __.read[InternationalAddress](InternationalAddress.format).widen[Address]
+      )
 
   implicit val writes: Writes[Address] = Writes {
-    case a: UKAddress            => Json.toJson(a)(UKAddress.writes)
-    case a: InternationalAddress => Json.toJson(a)(InternationalAddress.format)
+    case a: UKAddress            => Json.toJson(a)(using UKAddress.writes)
+    case a: InternationalAddress => Json.toJson(a)(using InternationalAddress.format)
   }
 
 }

@@ -20,8 +20,8 @@ import com.google.inject.ImplementedBy
 import config.FrontendAppConfig
 import models.UserAnswers
 import org.mongodb.scala.model.Filters.equal
-import org.mongodb.scala.model._
-import play.api.libs.json._
+import org.mongodb.scala.model.*
+import play.api.libs.json.*
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 
