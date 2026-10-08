@@ -18,7 +18,7 @@ package config
 
 import com.google.inject.AbstractModule
 import config.annotations.EstateRegistration
-import controllers.actions._
+import controllers.actions.*
 import navigation.{AgentNavigator, Navigator}
 import repositories.{DefaultSessionRepository, SessionRepository}
 

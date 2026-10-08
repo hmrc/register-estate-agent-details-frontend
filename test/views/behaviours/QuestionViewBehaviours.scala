@@ -39,7 +39,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
     "behave like a question page" when {
 
       "rendered" must {
-        for (field <- fields)
+        for field <- fields do
           s"contain an input for $field" in {
             val doc = asDocument(createView(form))
             assertRenderedById(doc, field._1)
@@ -57,13 +57,13 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
             doc,
             "title",
             ViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}"""
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args*)}"""
             )
           )
         }
       }
 
-      for ((field, hint) <- fields) {
+      for (field, hint) <- fields do {
         s"rendered with an error with field '$field'" must {
           "show an error summary" in {
             val doc = asDocument(createView(form.withError(FormError(field, "error"))))
@@ -85,7 +85,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
         s"show an error associated with the field '$field'" in {
 
-          val fieldId = if (field.contains("_")) {
+          val fieldId = if field.contains("_") then {
             field.replace("_", ".")
           } else {
             field

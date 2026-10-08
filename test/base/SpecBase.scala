@@ -17,14 +17,14 @@
 package base
 
 import config.FrontendAppConfig
-import controllers.actions._
+import controllers.actions.*
 import handlers.ErrorHandler
 import models.UserAnswers
 import navigation.FakeNavigator
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{TestSuite, TryValues}
 import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice._
+import org.scalatestplus.play.guice.*
 import play.api.Application
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.guice.GuiceApplicationBuilder

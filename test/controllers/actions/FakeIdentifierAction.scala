@@ -18,7 +18,7 @@ package controllers.actions
 
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
-import play.api.mvc._
+import play.api.mvc.*
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

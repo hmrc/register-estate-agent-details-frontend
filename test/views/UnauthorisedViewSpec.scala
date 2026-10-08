@@ -27,9 +27,15 @@ class UnauthorisedViewSpec extends ViewBehaviours {
 
     val view = application.injector.instanceOf[UnauthorisedView]
 
-    val applyView = view.apply()(fakeRequest, messages)
+    val applyView = view.apply()(using fakeRequest, messages)
 
     behave like normalPage(applyView, "unauthorised")
+
+    behave like pageRenderedViaRenderAndF(
+      applyView,
+      view.render(request = fakeRequest, messages = messages),
+      view.ref.f()(fakeRequest, messages)
+    )
   }
 
 }

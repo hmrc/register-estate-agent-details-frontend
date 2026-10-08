@@ -19,7 +19,7 @@ package controllers
 import base.RegistrationSpecBase
 import models.NormalMode
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 
 class IndexControllerSpec extends RegistrationSpecBase {
 
@@ -35,6 +35,20 @@ class IndexControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
+      redirectLocation(result).value mustBe routes.AgentInternalReferenceController.onPageLoad(NormalMode).url
+
+      application.stop()
+    }
+
+    "redirect to the first question when answers already exist" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustBe routes.AgentInternalReferenceController.onPageLoad(NormalMode).url
 
       application.stop()

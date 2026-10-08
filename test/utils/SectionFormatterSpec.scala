@@ -19,7 +19,7 @@ package utils
 import base.RegistrationSpecBase
 import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
-import viewmodels.{AnswerRow, AnswerSection, RepeaterAnswerRow, RepeaterAnswerSection}
+import viewmodels.{AnswerRow, AnswerSection}
 
 class SectionFormatterSpec extends RegistrationSpecBase {
 
@@ -82,24 +82,6 @@ class SectionFormatterSpec extends RegistrationSpecBase {
 
       "return nothing when there are no sections" in {
         SectionFormatter.formatSections(Nil) mustBe empty
-      }
-    }
-
-    "given a repeater answer section" must {
-
-      "throw, because the repeater pattern is not used by this service" in {
-
-        val repeater = RepeaterAnswerSection(
-          headingKey = "heading",
-          relevanceRow = row,
-          rows = Seq(RepeaterAnswerRow("answer", "/change", "/delete")),
-          addLinkKey = "add",
-          addLinkUrl = "/add"
-        )
-
-        intercept[NotImplementedError] {
-          SectionFormatter.formatSections(Seq(repeater))
-        }
       }
     }
   }

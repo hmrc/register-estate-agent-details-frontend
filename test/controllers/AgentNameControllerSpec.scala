@@ -25,7 +25,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.AgentNamePage
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.AgentNameView
 
 class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
@@ -52,7 +52,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode)(request, messages).toString
+        view(form, NormalMode)(using request, messages).toString
 
       application.stop()
     }
@@ -72,7 +72,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode)(request, messages).toString
+        view(form.fill("answer"), NormalMode)(using request, messages).toString
 
       application.stop()
     }
@@ -113,7 +113,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase with MockitoSugar {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode)(request, messages).toString
+        view(boundForm, NormalMode)(using request, messages).toString
 
       application.stop()
     }

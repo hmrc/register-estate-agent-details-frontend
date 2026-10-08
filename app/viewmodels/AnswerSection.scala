@@ -18,6 +18,6 @@ package viewmodels
 
 case class AnswerSection(
   headingKey: Option[String] = None,
-  rows: Seq[AnswerRow] = Nil,
+  rows: Seq[AnswerRow],
   sectionKey: Option[String] = None
 ) extends Section

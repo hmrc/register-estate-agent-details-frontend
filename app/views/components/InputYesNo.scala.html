@@ -19,10 +19,7 @@
 @(
     field: Field,
     label: String,
-    hint: Option[String] = None,
-    legendClass: Option[String] = None,
-    legendAsHeading: Boolean = true,
-    readOnly: Boolean = false
+    legendAsHeading: Boolean = true
 )(implicit messages: Messages)
 
 @govukRadios(Radios(
@@ -30,15 +27,14 @@
     name = field.name,
     classes = "govuk-radios--inline",
     errorMessage = field.error match {
-        case Some(e) => Some(ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(e.message, e.args: _*))))
+        case Some(e) => Some(ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(e.message, e.args*))))
         case None => None
     },
-    hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
     fieldset = Some(Fieldset(
         legend = Some(Legend(
             content = Text(label),
             isPageHeading = legendAsHeading,
-            classes = legendClass.getOrElse("govuk-fieldset__legend--l")
+            classes = "govuk-fieldset__legend--l"
         ))
     )),
     items = Seq(
@@ -46,15 +42,13 @@
             id = Some(field.id + "-yes"),
             value = Some("true"),
             checked = field.value.contains("true"),
-            content = Text(messages("site.yes")),
-            attributes = if(readOnly && !field.value.contains("true")) Map("disabled" -> "disabled") else Map.empty
+            content = Text(messages("site.yes"))
         ),
         RadioItem(
             id = Some(field.id + "-no"),
             value = Some("false"),
             checked = field.value.contains("false"),
-            content = Text(messages("site.no")),
-            attributes = if(readOnly && !field.value.contains("false")) Map("disabled" -> "disabled") else Map.empty
+            content = Text(messages("site.no"))
         )
     )
 

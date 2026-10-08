@@ -17,7 +17,7 @@
 package controllers
 
 import config.annotations.EstateRegistration
-import controllers.actions._
+import controllers.actions.*
 import forms.AgentNameFormProvider
 import javax.inject.Inject
 import models.Mode

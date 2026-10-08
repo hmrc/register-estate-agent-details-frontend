@@ -26,7 +26,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.countryOptions.{CountryOptionsNonUK, InputOption}
 import views.html.AgentInternationalAddressView
 
@@ -58,7 +58,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase with 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, NormalMode, agencyName)(request, messages).toString
+        view(form, countryOptions, NormalMode, agencyName)(using request, messages).toString
 
       application.stop()
     }
@@ -91,7 +91,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase with 
           countryOptions,
           NormalMode,
           agencyName
-        )(request, messages).toString
+        )(using request, messages).toString
 
       application.stop()
     }
@@ -139,7 +139,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase with 
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, NormalMode, agencyName)(request, messages).toString
+        view(boundForm, countryOptions, NormalMode, agencyName)(using request, messages).toString
 
       application.stop()
     }
