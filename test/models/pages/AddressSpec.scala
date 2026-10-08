@@ -57,4 +57,5 @@ class AddressSpec extends RegistrationSpecBase {
       Json.toJson[Address](intl) mustBe Json.toJson(intl)(using InternationalAddress.format)
     }
   }
+
 }

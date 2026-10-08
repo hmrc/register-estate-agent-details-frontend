@@ -28,14 +28,21 @@ class ErrorTemplateViewSpec extends ViewBehaviours {
 
     "show the heading and message" in {
       val doc = asDocument(applyView)
-      doc.select("h1").text mustBe "Heading"
+      doc.select("h1").text         mustBe "Heading"
       doc.select("p.govuk-body").text must include("Message")
     }
 
     behave like pageRenderedViaRenderAndF(
       applyView,
-      view.render(pageTitle = "Title", heading = "Heading", message = "Message", request = fakeRequest, messages = messages),
+      view.render(
+        pageTitle = "Title",
+        heading = "Heading",
+        message = "Message",
+        request = fakeRequest,
+        messages = messages
+      ),
       view.ref.f("Title", "Heading", "Message")(fakeRequest, messages)
     )
   }
+
 }

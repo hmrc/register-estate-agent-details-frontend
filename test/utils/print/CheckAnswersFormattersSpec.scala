@@ -30,4 +30,5 @@ class CheckAnswersFormattersSpec extends RegistrationSpecBase {
         "line1<br />line2<br />"
     }
   }
+
 }
