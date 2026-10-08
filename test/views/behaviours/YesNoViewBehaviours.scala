@@ -89,8 +89,8 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
           val doc       = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementsByClass("govuk-error-message").first
-          errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
-          doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
+          errorSpan.text                                                mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
+          doc.getElementsByTag("fieldset").first.attr("aria-describedby") must include(errorSpan.attr("id"))
         }
 
         "show an error prefix in the browser title" in {

@@ -35,7 +35,7 @@ class AgentDetailsMapper extends Logging {
         AgentInternalReferencePage.path.read[String]
     )(AgentDetails.apply)
 
-    answers.data.validate[AgentDetails](readFromUserAnswers)
+    answers.data.validate[AgentDetails](using readFromUserAnswers)
   }
 
   private def readAddress: Reads[Address] =

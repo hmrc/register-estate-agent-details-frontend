@@ -17,8 +17,7 @@
 package models.mappers
 
 import models.pages.Address
-import play.api.libs.json.*
-import play.api.libs.functional.syntax.*
+import play.api.libs.json.{Format, Json}
 
 case class AgentDetails(
   arn: String,
@@ -30,21 +29,4 @@ case class AgentDetails(
 
 object AgentDetails {
   implicit val agentDetailsFormat: Format[AgentDetails] = Json.format[AgentDetails]
-
-  implicit val reads: Reads[AgentDetails] =
-    ((__ \ Symbol("arn")).read[String] and
-      (__ \ Symbol("agentName")).read[String] and
-      (__ \ Symbol("agentAddress")).read[Address] and
-      (__ \ Symbol("agentTelephoneNumber")).read[String] and
-      (__ \ Symbol("clientReference")).read[String]).tupled.map { case (arn, name, address, phoneNumber, clientRef) =>
-      AgentDetails(arn, name, address, phoneNumber, clientRef)
-    }
-
-  implicit val writes: Writes[AgentDetails] =
-    ((__ \ Symbol("arn")).write[String] and
-      (__ \ Symbol("agentName")).write[String] and
-      (__ \ Symbol("agentAddress")).write[Address] and
-      (__ \ Symbol("agentTelephoneNumber")).write[String] and
-      (__ \ "clientReference").write[String]).apply(unlift(AgentDetails.unapply))
-
 }

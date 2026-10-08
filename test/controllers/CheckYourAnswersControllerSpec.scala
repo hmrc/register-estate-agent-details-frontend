@@ -130,7 +130,7 @@ class CheckYourAnswersControllerSpec
       status(result) mustEqual INTERNAL_SERVER_ERROR
 
       contentAsString(result) mustEqual
-        errorHandler.internalServerErrorTemplate(request).futureValue.toString()
+        errorHandler.internalServerErrorTemplate(using request).futureValue.toString()
 
       application.stop()
     }

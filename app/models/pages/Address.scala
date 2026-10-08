@@ -72,10 +72,10 @@ object InternationalAddress {
 object Address {
 
   implicit val reads: Reads[Address] =
-    __.read[UKAddress](UKAddress.reads)
+    __.read[UKAddress](using UKAddress.reads)
       .widen[Address]
       .orElse(
-        __.read[InternationalAddress](InternationalAddress.format).widen[Address]
+        __.read[InternationalAddress](using InternationalAddress.format).widen[Address]
       )
 
   implicit val writes: Writes[Address] = Writes {

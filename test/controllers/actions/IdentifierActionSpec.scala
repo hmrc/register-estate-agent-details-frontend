@@ -19,7 +19,7 @@ package controllers.actions
 import base.SpecBase
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
-import play.api.mvc.{AnyContent, BodyParsers, DefaultActionBuilder, Result, Results}
+import play.api.mvc.{AnyContent, BodyParsers, DefaultActionBuilder, Request, Result, Results}
 import play.api.test.Helpers.*
 import uk.gov.hmrc.auth.core.AuthConnector
 
@@ -72,7 +72,7 @@ class IdentifierActionSpec extends SpecBase {
 
       "wrap it in an affinity group check" in {
 
-        val action = injector.instanceOf[DefaultActionBuilder].apply(_ => Results.Ok)
+        val action = injector.instanceOf[DefaultActionBuilder].apply((_: Request[AnyContent]) => Results.Ok)
 
         identifierAction.composeAction(action) mustBe a[AffinityGroupIdentifierAction[?]]
       }

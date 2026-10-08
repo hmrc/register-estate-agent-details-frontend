@@ -22,18 +22,18 @@ import play.api.data.Forms.of
 trait Mappings extends Formatters with Constraints {
 
   protected def text(errorKey: String = "error.required"): FieldMapping[String] =
-    of(stringFormatter(errorKey))
+    of(using stringFormatter(errorKey))
 
   protected def postcode(
     requiredKey: String = "error.required",
     invalidKey: String = "error.postcodeInvalid"
   ): FieldMapping[String] =
-    of(postcodeFormatter(requiredKey, invalidKey))
+    of(using postcodeFormatter(requiredKey, invalidKey))
 
   protected def boolean(
     requiredKey: String = "error.required",
     invalidKey: String = "error.boolean"
   ): FieldMapping[Boolean] =
-    of(booleanFormatter(requiredKey, invalidKey))
+    of(using booleanFormatter(requiredKey, invalidKey))
 
 }

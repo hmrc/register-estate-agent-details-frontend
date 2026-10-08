@@ -81,7 +81,7 @@ object UserAnswers {
     (
       (__ \ "_id").read[String] and
         (__ \ "data").read[JsObject] and
-        (__ \ "lastUpdated").read(MongoJavatimeFormats.instantReads)
+        (__ \ "lastUpdated").read(using MongoJavatimeFormats.instantReads)
     )(UserAnswers.apply)
   }
 
@@ -92,7 +92,7 @@ object UserAnswers {
     (
       (__ \ "_id").write[String] and
         (__ \ "data").write[JsObject] and
-        (__ \ "lastUpdated").write(MongoJavatimeFormats.instantWrites)
+        (__ \ "lastUpdated").write(using MongoJavatimeFormats.instantWrites)
     )(o => Tuple.fromProductTyped(o))
   }
 

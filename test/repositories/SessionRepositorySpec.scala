@@ -21,6 +21,7 @@ import models.UserAnswers
 import org.bson.BsonType
 import org.mongodb.scala.bson.{BsonDateTime, BsonDocument, BsonString}
 import org.mongodb.scala.model.Filters
+import org.mongodb.scala.SingleObservableFuture
 import org.scalatest.BeforeAndAfterEach
 import play.api.libs.json.Json
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
