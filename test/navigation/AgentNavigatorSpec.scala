@@ -69,6 +69,11 @@ class AgentNavigatorSpec extends RegistrationSpecBase {
           .nextPage(AgentTelephoneNumberPage, mode, emptyUserAnswers)
           .mustBe(controllers.routes.CheckYourAnswersController.onPageLoad)
 
+      "Agent UK Address Yes No page -> Session Expired - when the question has not been answered" in
+        navigator
+          .nextPage(AgentUKAddressYesNoPage, mode, emptyUserAnswers)
+          .mustBe(controllers.routes.SessionExpiredController.onPageLoad)
+
     }
 
   }

@@ -49,6 +49,12 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
     )
 
     behave like pageWithASubmitButton(applyView(form))
+
+    behave like pageRenderedViaRenderAndF(
+      applyView(form),
+      view.render(form = form, mode = NormalMode, agencyName = agencyName, request = fakeRequest, messages = messages),
+      view.ref.f(form, NormalMode, agencyName)(fakeRequest, messages)
+    )
   }
 
 }

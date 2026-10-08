@@ -80,7 +80,7 @@ class MappingsSpec extends AnyWordSpec with Matchers with OptionValues with Mapp
 
     val testForm: Form[Boolean] =
       Form(
-        "value" -> boolean()
+        "value" -> boolean("error.required")
       )
 
     "bind true" in {

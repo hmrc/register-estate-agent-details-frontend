@@ -39,6 +39,20 @@ class IndexControllerSpec extends RegistrationSpecBase {
 
       application.stop()
     }
+
+    "redirect to the first question when answers already exist" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(GET, routes.IndexController.onPageLoad.url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustBe routes.AgentInternalReferenceController.onPageLoad(NormalMode).url
+
+      application.stop()
+    }
   }
 
 }

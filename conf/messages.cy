@@ -1,10 +1,6 @@
 checkYourAnswers.title = Gwirio manylion yr asiantaeth
 checkYourAnswers.heading = Gwirio manylion yr asiantaeth
 
-date.day = Diwrnod
-date.month = Mis
-date.year = Blwyddyn
-
 error.browser.title.prefix = Gwall:
 error.boolean = Rhowch ateb
 error.invalid_date = Rhowch ddyddiad cywir

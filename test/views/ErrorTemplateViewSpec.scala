@@ -16,27 +16,26 @@
 
 package views
 
-import viewmodels.AnswerSection
 import views.behaviours.ViewBehaviours
-import views.html.CheckYourAnswersView
+import views.html.ErrorTemplate
 
-class CheckYourAnswerViewSpec extends ViewBehaviours {
+class ErrorTemplateViewSpec extends ViewBehaviours {
 
-  "checkYourAnswers view" must {
+  "ErrorTemplate" must {
 
-    val view = viewFor[CheckYourAnswersView](Some(emptyUserAnswers))
+    val view      = viewFor[ErrorTemplate]()
+    val applyView = view.apply("Title", "Heading", "Message")(using fakeRequest, messages)
 
-    val applyView = view.apply(Seq(AnswerSection(None, Nil, None)))(using fakeRequest, messages)
-
-    behave like normalPage(applyView, "checkYourAnswers")
-
-    behave like pageWithBackLink(applyView)
+    "show the heading and message" in {
+      val doc = asDocument(applyView)
+      doc.select("h1").text mustBe "Heading"
+      doc.select("p.govuk-body").text must include("Message")
+    }
 
     behave like pageRenderedViaRenderAndF(
       applyView,
-      view.render(section = Seq(AnswerSection(None, Nil, None)), request = fakeRequest, messages = messages),
-      view.ref.f(Seq(AnswerSection(None, Nil, None)))(fakeRequest, messages)
+      view.render(pageTitle = "Title", heading = "Heading", message = "Message", request = fakeRequest, messages = messages),
+      view.ref.f("Title", "Heading", "Message")(fakeRequest, messages)
     )
   }
-
 }

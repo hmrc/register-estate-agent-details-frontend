@@ -133,4 +133,19 @@ trait ViewBehaviours extends ViewSpecBase {
       }
     }
 
+  def pageRenderedViaRenderAndF(
+    viaApply: HtmlFormat.Appendable,
+    viaRender: HtmlFormat.Appendable,
+    viaF: HtmlFormat.Appendable
+  ): Unit =
+    "behave the same when built via .render and .f" must
+      Seq(".render" -> viaRender, ".f" -> viaF).foreach { case (method, view) =>
+        s"have the same title and heading via $method" in {
+          val expected = asDocument(viaApply)
+          val doc      = asDocument(view)
+          doc.title             mustBe expected.title
+          doc.select("h1").text mustBe expected.select("h1").text
+        }
+      }
+
 }

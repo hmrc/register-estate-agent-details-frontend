@@ -24,8 +24,6 @@
 @(
     field: Field,
     label: String,
-    labelAsHeading: Boolean = false,
-    hint: Option[String] = None,
     placeholder: Option[String] = None,
     options: Seq[InputOption],
     formGroupClasses: Set[String] = Set.empty,
@@ -36,11 +34,10 @@
 @govukSelect(Select(
     id = field.id,
     name = field.name,
-    label = Label(isPageHeading = labelAsHeading,
+    label = Label(
         classes = labelClasses.mkString(" "),
         content = Text(label)
     ),
-    hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
     items = Seq(SelectItem(value = Some(""), text = placeholder.getOrElse(""))) ++
         options.map(valueOption =>
             SelectItem(

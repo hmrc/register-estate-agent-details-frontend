@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package utils
+package utils.print
 
-import play.api.i18n.Messages
+import base.RegistrationSpecBase
+import models.pages.InternationalAddress
 
-object DateErrorFormatter {
+class CheckAnswersFormattersSpec extends RegistrationSpecBase {
 
-  def formatArgs(args: Seq[Any])(implicit messages: Messages): Seq[String] =
-    args.map(arg => messages(s"date.$arg").toLowerCase)
+  private val formatters = injector.instanceOf[CheckAnswersFormatters]
 
+  "internationalAddress" must {
+
+    "leave the country blank when the code is not recognised" in {
+      formatters.internationalAddress(InternationalAddress("line1", "line2", None, "XX")).toString mustBe
+        "line1<br />line2<br />"
+    }
+  }
 }

@@ -32,6 +32,12 @@ class SessionExpiredViewSpec extends ViewBehaviours {
     behave like normalPage(applyView, "session_expired", "guidance")
 
     behave like pageWithoutLogoutButton(applyView)
+
+    behave like pageRenderedViaRenderAndF(
+      applyView,
+      view.render(request = fakeRequest, messages = messages),
+      view.ref.f()(fakeRequest, messages)
+    )
   }
 
 }

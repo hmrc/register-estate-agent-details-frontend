@@ -18,14 +18,10 @@
     button: GovukButton
 )
 
-@(overrideMessage: Option[String] = None, submitClass: Option[String] = None)(implicit messages: Messages)
+@(overrideMessage: Option[String] = None)(implicit messages: Messages)
 
 @button(Button(
     attributes = Map("id"->"submit"),
-    classes = s"button ${submitClass.getOrElse("")}",
-    content = if(overrideMessage.isEmpty) {
-        Text(messages("site.continue"))
-    } else {
-        Text(messages(overrideMessage.get))
-    }
+    classes = "button",
+    content = Text(messages(overrideMessage.getOrElse("site.continue")))
 ))

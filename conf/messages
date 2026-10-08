@@ -1,10 +1,6 @@
 checkYourAnswers.title = Check agency details
 checkYourAnswers.heading = Check agency details
 
-date.day = Day
-date.month = Month
-date.year = Year
-
 error.browser.title.prefix = Error:
 error.boolean = Please give an answer
 error.invalid_date = Give a correct date

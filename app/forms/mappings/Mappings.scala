@@ -25,13 +25,13 @@ trait Mappings extends Formatters with Constraints {
     of(using stringFormatter(errorKey))
 
   protected def postcode(
-    requiredKey: String = "error.required",
+    requiredKey: String,
     invalidKey: String = "error.postcodeInvalid"
   ): FieldMapping[String] =
     of(using postcodeFormatter(requiredKey, invalidKey))
 
   protected def boolean(
-    requiredKey: String = "error.required",
+    requiredKey: String,
     invalidKey: String = "error.boolean"
   ): FieldMapping[Boolean] =
     of(using booleanFormatter(requiredKey, invalidKey))

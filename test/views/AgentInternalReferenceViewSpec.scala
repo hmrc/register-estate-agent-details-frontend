@@ -48,6 +48,12 @@ class AgentInternalReferenceViewSpec extends StringViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
 
+    behave like pageRenderedViaRenderAndF(
+      applyView(form),
+      view.render(form = form, mode = NormalMode, request = fakeRequest, messages = messages),
+      view.ref.f(form, NormalMode)(fakeRequest, messages)
+    )
+
   }
 
 }

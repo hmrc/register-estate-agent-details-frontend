@@ -73,13 +73,6 @@ class DefaultSessionRepository @Inject() (val mongo: MongoComponent, val config:
       .map(_.wasAcknowledged())
   }
 
-  def resetCache(internalId: String): Future[Boolean] = {
-
-    val selector = equal("_id", internalId)
-
-    collection.deleteOne(selector).headOption().map(_.exists(_.wasAcknowledged()))
-  }
-
 }
 
 @ImplementedBy(classOf[DefaultSessionRepository])
@@ -88,6 +81,4 @@ trait SessionRepository {
   def get(id: String): Future[Option[UserAnswers]]
 
   def set(userAnswers: UserAnswers): Future[Boolean]
-
-  def resetCache(internalId: String): Future[Boolean]
 }

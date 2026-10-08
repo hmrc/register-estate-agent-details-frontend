@@ -54,6 +54,19 @@ class AgentInternationalAddressViewSpec extends QuestionViewBehaviours[Internati
     )
 
     behave like pageWithASubmitButton(applyView(form))
+
+    behave like pageRenderedViaRenderAndF(
+      applyView(form),
+      view.render(
+        form = form,
+        countryOptions = countryOptions,
+        mode = NormalMode,
+        agencyName = agencyName,
+        request = fakeRequest,
+        messages = messages
+      ),
+      view.ref.f(form, countryOptions, NormalMode, agencyName)(fakeRequest, messages)
+    )
   }
 
 }
