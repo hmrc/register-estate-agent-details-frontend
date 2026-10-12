@@ -47,7 +47,7 @@ class AgentNavigator @Inject() () extends Navigator {
 
   private def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call =
     ua.get(fromPage)
-      .map(if _ then yesCall else noCall)
+      .map(if (_) yesCall else noCall)
       .getOrElse(controllers.routes.SessionExpiredController.onPageLoad)
 
   def routes(mode: Mode): PartialFunction[Page, UserAnswers => Call] =

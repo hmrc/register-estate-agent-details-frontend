@@ -28,7 +28,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
 
     s"not bind strings shorter than $minLength characters" in {
 
-      val length = if minLength > 0 && minLength < 2 then minLength else minLength - 1
+      val length = if (minLength > 0 && minLength < 2) minLength else minLength - 1
 
       forAll(stringsWithMaxLength(length) -> "shortString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)

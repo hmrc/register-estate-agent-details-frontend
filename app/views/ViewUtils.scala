@@ -22,7 +22,7 @@ import play.api.i18n.Messages
 object ViewUtils {
 
   def errorPrefix(form: Form[?])(implicit messages: Messages): String =
-    if form.hasErrors || form.hasGlobalErrors then s"${messages("error.browser.title.prefix")} " else ""
+    if (form.hasErrors || form.hasGlobalErrors) s"${messages("error.browser.title.prefix")} " else ""
 
   def breadcrumbTitle(title: String)(implicit messages: Messages): String =
     s"$title - ${messages("service.name")} - GOV.UK"
@@ -35,7 +35,7 @@ object ViewUtils {
         s"${error.key}-yes"
       case _                                                                   =>
         val isSingleDateField = isDateError(error.message) && !error.message.toLowerCase.contains("yesno")
-        if isDateError(error.key) || isSingleDateField then {
+        if (isDateError(error.key) || isSingleDateField) {
           s"${error.key}.day"
         } else {
           s"${error.key}"

@@ -66,7 +66,7 @@ class AffinityGroupIdentifierAction[A] @Inject() (
           ) { enrolmentIdentifier =>
             val arn = enrolmentIdentifier.value
 
-            if arn.isEmpty then {
+            if (arn.isEmpty) {
               redirectToCreateAgentServicesAccount("agent reference number is empty")
             } else {
               action(IdentifierRequest(request, internalId, arn))

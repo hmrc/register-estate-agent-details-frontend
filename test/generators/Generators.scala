@@ -48,7 +48,7 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
   } yield chars.mkString
 
   def oneOf[T](xs: Seq[Gen[T]]): Gen[T] =
-    if xs.isEmpty then {
+    if (xs.isEmpty) {
       throw new IllegalArgumentException("oneOf called on empty collection")
     } else {
       val vector = xs.toVector

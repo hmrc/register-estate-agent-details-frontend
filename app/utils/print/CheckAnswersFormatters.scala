@@ -26,7 +26,7 @@ import javax.inject.Inject
 class CheckAnswersFormatters @Inject() (countryOptions: CountryOptions) {
 
   def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
-    if answer then {
+    if (answer) {
       HtmlFormat.escape(messages("site.yes"))
     } else {
       HtmlFormat.escape(messages("site.no"))

@@ -76,7 +76,7 @@ package object models {
 
       oldValue match {
         case oldValue: JsArray if index >= 0 && index <= oldValue.value.length =>
-          if index == oldValue.value.length then {
+          if (index == oldValue.value.length) {
             JsSuccess(oldValue.append(newValue))
           } else {
             JsSuccess(JsArray(oldValue.value.updated(index, newValue)))

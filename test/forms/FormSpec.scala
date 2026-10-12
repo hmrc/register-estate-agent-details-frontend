@@ -29,7 +29,7 @@ trait FormSpec extends AnyWordSpec with OptionValues with Matchers {
       .bind(data)
       .fold(
         formWithErrors => {
-          for error <- expectedErrors do
+          for (error <- expectedErrors)
             formWithErrors.errors      must contain(FormError(error.key, error.message, error.args))
           formWithErrors.errors.size mustBe expectedErrors.size
         },

@@ -59,7 +59,7 @@ trait Formatters {
           case None | Some("") => Left(Seq(FormError(key, requiredKey)))
           case Some(s)         =>
             val trimmed = s.trim.toUpperCase
-            if trimmed.matches(Validation.postcodeRegex) then {
+            if (trimmed.matches(Validation.postcodeRegex)) {
               Right(trimmed)
             } else {
               Left(Seq(FormError(key, invalidKey)))
