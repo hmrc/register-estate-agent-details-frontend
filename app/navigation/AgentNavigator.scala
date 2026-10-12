@@ -18,7 +18,7 @@ package navigation
 
 import javax.inject.Inject
 import models.{Mode, UserAnswers}
-import pages._
+import pages.*
 import play.api.mvc.Call
 
 class AgentNavigator @Inject() () extends Navigator {

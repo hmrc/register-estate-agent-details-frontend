@@ -27,7 +27,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 final case class RequiredAnswer[T](
   answer: Gettable[T],
-  redirect: Call = controllers.routes.SessionExpiredController.onPageLoad
+  redirect: Call
 )
 
 class RequiredAnswerAction[T] @Inject() (required: RequiredAnswer[T])(implicit

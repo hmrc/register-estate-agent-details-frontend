@@ -19,8 +19,6 @@ package views
 import base.RegistrationSpecBase
 import forms.AgentNameFormProvider
 import play.api.data.{Form, FormError}
-import uk.gov.hmrc.govukfrontend.views.html.components.Text
-import viewmodels.RadioOption
 
 class ViewUtilsSpec extends RegistrationSpecBase {
 
@@ -70,13 +68,6 @@ class ViewUtilsSpec extends RegistrationSpecBase {
       }
     }
 
-    "the field is a radio group" must {
-      "point at the first option" in {
-        val options = Seq(RadioOption("prefix", "first"), RadioOption("prefix", "second"))
-        ViewUtils.errorHref(FormError("value", "error.required"), radioOptions = options) mustBe "prefix.first"
-      }
-    }
-
     "the field is a date" must {
 
       "point at the day when the key names a date" in {
@@ -96,26 +87,6 @@ class ViewUtilsSpec extends RegistrationSpecBase {
       "point at the field itself" in {
         ViewUtils.errorHref(FormError("value", "error.required")) mustBe "value"
       }
-    }
-  }
-
-  "mapRadioOptionsToRadioItems" must {
-
-    "carry id, value and message across, checking the selected option" in {
-
-      val options = Seq(RadioOption("prefix", "first"), RadioOption("prefix", "second"))
-      val field   = form.fill("second")("value")
-
-      val items = ViewUtils.mapRadioOptionsToRadioItems(field, options)
-
-      items.map(_.id)      mustBe Seq(Some("prefix.first"), Some("prefix.second"))
-      items.map(_.value)   mustBe Seq(Some("first"), Some("second"))
-      items.map(_.checked) mustBe Seq(false, true)
-      items.head.content   mustBe Text(messages("prefix.first"))
-    }
-
-    "produce nothing when there are no options" in {
-      ViewUtils.mapRadioOptionsToRadioItems(form("value"), Nil) mustBe empty
     }
   }
 

@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package utils.mappers
+package utils.print
 
-import models.UserAnswers
+import base.RegistrationSpecBase
+import models.pages.InternationalAddress
 
-trait Mapping[T] {
+class CheckAnswersFormattersSpec extends RegistrationSpecBase {
 
-  def build(userAnswers: UserAnswers): Option[T]
+  private val formatters = injector.instanceOf[CheckAnswersFormatters]
+
+  "internationalAddress" must {
+
+    "leave the country blank when the code is not recognised" in {
+      formatters.internationalAddress(InternationalAddress("line1", "line2", None, "XX")).toString mustBe
+        "line1<br />line2<br />"
+    }
+  }
 
 }

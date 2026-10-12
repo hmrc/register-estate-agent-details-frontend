@@ -19,7 +19,7 @@ package models
 import java.time.Instant
 
 import play.api.Logging
-import play.api.libs.json._
+import play.api.libs.json.*
 import queries.{Gettable, Settable}
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
@@ -76,24 +76,24 @@ object UserAnswers {
 
   implicit lazy val reads: Reads[UserAnswers] = {
 
-    import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax.*
 
     (
       (__ \ "_id").read[String] and
         (__ \ "data").read[JsObject] and
-        (__ \ "lastUpdated").read(MongoJavatimeFormats.instantReads)
-    )(UserAnswers.apply _)
+        (__ \ "lastUpdated").read(using MongoJavatimeFormats.instantReads)
+    )(UserAnswers.apply)
   }
 
   implicit lazy val writes: OWrites[UserAnswers] = {
 
-    import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax.*
 
     (
       (__ \ "_id").write[String] and
         (__ \ "data").write[JsObject] and
-        (__ \ "lastUpdated").write(MongoJavatimeFormats.instantWrites)
-    )(unlift(UserAnswers.unapply))
+        (__ \ "lastUpdated").write(using MongoJavatimeFormats.instantWrites)
+    )(o => Tuple.fromProductTyped(o))
   }
 
 }

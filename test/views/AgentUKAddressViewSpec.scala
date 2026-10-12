@@ -18,6 +18,7 @@ package views
 
 import forms.AgentUKAddressFormProvider
 import models.NormalMode
+import models.pages.UKAddress
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.UkAddressViewBehaviours
@@ -28,14 +29,14 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
   val messageKeyPrefix = "site.address.uk"
   val agencyName       = "Hadrian"
 
-  override val form = new AgentUKAddressFormProvider()()
+  override val form: Form[UKAddress] = new AgentUKAddressFormProvider()()
 
   "AgentUKAddressView" must {
 
     val view = viewFor[AgentUKAddressView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, NormalMode, agencyName)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, NormalMode, agencyName)(using fakeRequest, messages)
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName)
 
@@ -48,6 +49,12 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
     )
 
     behave like pageWithASubmitButton(applyView(form))
+
+    behave like pageRenderedViaRenderAndF(
+      applyView(form),
+      view.render(form = form, mode = NormalMode, agencyName = agencyName, request = fakeRequest, messages = messages),
+      view.ref.f(form, NormalMode, agencyName)(fakeRequest, messages)
+    )
   }
 
 }

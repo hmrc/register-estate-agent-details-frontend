@@ -35,8 +35,8 @@ class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
 
     val view = viewFor[AgentTelephoneNumberView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, NormalMode, agencyName)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, NormalMode, agencyName)(using fakeRequest, messages)
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName, "hint")
 
@@ -51,6 +51,12 @@ class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
     )
 
     behave like pageWithASubmitButton(applyView(form))
+
+    behave like pageRenderedViaRenderAndF(
+      applyView(form),
+      view.render(form = form, mode = NormalMode, agencyName = agencyName, request = fakeRequest, messages = messages),
+      view.ref.f(form, NormalMode, agencyName)(fakeRequest, messages)
+    )
 
   }
 

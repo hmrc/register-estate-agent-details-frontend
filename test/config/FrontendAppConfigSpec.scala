@@ -41,11 +41,6 @@ class FrontendAppConfigSpec extends SpecBase {
       frontendAppConfig.WELSH           mustBe "cy"
       frontendAppConfig.UK_COUNTRY_CODE mustBe "GB"
     }
-
-    "route the language switch through the LanguageSwitchController" in {
-      frontendAppConfig.routeToSwitchLanguage("cymraeg") mustBe
-        controllers.routes.LanguageSwitchController.switchToLanguage("cymraeg")
-    }
   }
 
 }

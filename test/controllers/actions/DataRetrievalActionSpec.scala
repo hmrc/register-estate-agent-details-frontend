@@ -40,7 +40,7 @@ class DataRetrievalActionSpec extends RegistrationSpecBase with MockitoSugar wit
       "set userAnswers to 'None' in the request" in {
 
         val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.get("id")) thenReturn Future(None)
+        when(sessionRepository.get("id")).thenReturn(Future(None))
         val action            = new Harness(sessionRepository)
 
         val futureResult = action.callTransform(IdentifierRequest(fakeRequest, "id", "SARN1234567"))
@@ -57,7 +57,7 @@ class DataRetrievalActionSpec extends RegistrationSpecBase with MockitoSugar wit
       "build a userAnswers object and add it to the request" in {
 
         val sessionRepository = mock[SessionRepository]
-        when(sessionRepository.get("id")) thenReturn Future(Some(new UserAnswers("id")))
+        when(sessionRepository.get("id")).thenReturn(Future(Some(new UserAnswers("id"))))
         val action            = new Harness(sessionRepository)
 
         val futureResult = action.callTransform(IdentifierRequest(fakeRequest, "id", "SARN1234567"))

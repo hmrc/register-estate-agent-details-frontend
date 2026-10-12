@@ -23,7 +23,7 @@ import org.mockito.Mockito.{never, verify}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import java.net.URLEncoder
 
@@ -55,7 +55,7 @@ class LogoutControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustBe expectedUrl
 
         verify(mockAuditConnector)
-          .sendExplicitAudit(ArgumentMatchers.eq("estates"), any[Map[String, String]])(any(), any())
+          .sendExplicitAudit(ArgumentMatchers.eq("estates"), any[Map[String, String]])(using any(), any())
 
         application.stop()
 
@@ -86,7 +86,7 @@ class LogoutControllerSpec extends SpecBase with MockitoSugar {
         redirectLocation(result).value mustBe expectedUrl
 
         verify(mockAuditConnector, never())
-          .sendExplicitAudit(ArgumentMatchers.eq("estates"), any[Map[String, String]])(any(), any())
+          .sendExplicitAudit(ArgumentMatchers.eq("estates"), any[Map[String, String]])(using any(), any())
 
         application.stop()
 

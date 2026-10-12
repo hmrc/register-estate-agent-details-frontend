@@ -27,7 +27,7 @@ import play.api.Application
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsFormUrlEncoded, Result}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.AgentTelephoneNumberView
 
 import scala.concurrent.Future
@@ -60,7 +60,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, agencyName)(request, messages).toString
+        view(form, NormalMode, agencyName)(using request, messages).toString
 
       application.stop()
     }
@@ -86,7 +86,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode, agencyName)(request, messages).toString
+        view(form.fill("answer"), NormalMode, agencyName)(using request, messages).toString
 
       application.stop()
     }
@@ -140,7 +140,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase with Mocki
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode, agencyName)(request, messages).toString
+        view(boundForm, NormalMode, agencyName)(using request, messages).toString
 
       application.stop()
     }

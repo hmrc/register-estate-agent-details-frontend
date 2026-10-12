@@ -19,30 +19,29 @@ package forms.behaviours
 import forms.FormSpec
 import generators.Generators
 import org.scalacheck.Gen
-import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.Form
 
 trait OptionalFieldBehaviours extends FormSpec with ScalaCheckPropertyChecks with Generators {
 
-  def optionalField(form: Form[_], fieldName: String, validDataGenerator: Gen[String]): Unit = {
+  def optionalField(form: Form[?], fieldName: String, validDataGenerator: Gen[String]): Unit = {
 
     "bind valid data" in
       forAll(validDataGenerator) { dataItem =>
         val result = form.bind(Map(fieldName -> dataItem)).apply(fieldName)
-        result.value.value shouldBe dataItem
+        result.value.value mustBe dataItem
       }
 
     "bind when key is not present at all" in {
 
       val result = form.bind(emptyForm).apply(fieldName)
-      result.errors shouldBe empty
+      result.errors mustBe empty
     }
 
     "bind blank values" in {
 
       val result = form.bind(Map(fieldName -> "")).apply(fieldName)
-      result.errors shouldBe empty
+      result.errors mustBe empty
     }
 
   }

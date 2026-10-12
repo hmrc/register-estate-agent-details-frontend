@@ -19,9 +19,9 @@ package utils.mappers
 import models.UserAnswers
 import models.mappers.AgentDetails
 import models.pages.{Address, InternationalAddress, UKAddress}
-import pages._
+import pages.*
 import play.api.Logging
-import play.api.libs.functional.syntax._
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsResult, Reads}
 
 class AgentDetailsMapper extends Logging {
@@ -33,9 +33,9 @@ class AgentDetailsMapper extends Logging {
         readAddress and
         AgentTelephoneNumberPage.path.read[String] and
         AgentInternalReferencePage.path.read[String]
-    )(AgentDetails.apply _)
+    )(AgentDetails.apply)
 
-    answers.data.validate[AgentDetails](readFromUserAnswers)
+    answers.data.validate[AgentDetails](using readFromUserAnswers)
   }
 
   private def readAddress: Reads[Address] =

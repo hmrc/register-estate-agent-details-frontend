@@ -33,8 +33,8 @@ class AgentInternalReferenceViewSpec extends StringViewBehaviours {
 
     val view = viewFor[AgentInternalReferenceView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, NormalMode)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, NormalMode)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 
@@ -47,6 +47,12 @@ class AgentInternalReferenceViewSpec extends StringViewBehaviours {
     )
 
     behave like pageWithASubmitButton(applyView(form))
+
+    behave like pageRenderedViaRenderAndF(
+      applyView(form),
+      view.render(form = form, mode = NormalMode, request = fakeRequest, messages = messages),
+      view.ref.f(form, NormalMode)(fakeRequest, messages)
+    )
 
   }
 

@@ -39,7 +39,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           val doc     = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
           legends.size     mustBe 1
-          legends.first.text must include(messages(s"$messageKeyPrefix.heading", args: _*))
+          legends.first.text must include(messages(s"$messageKeyPrefix.heading", args*))
 
           hintTextPrefix.map { pref =>
             doc.getElementsByClass("govuk-hint").first.text must include(messages(s"$pref.hint"))
@@ -89,8 +89,8 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
           val doc       = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementsByClass("govuk-error-message").first
-          errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
-          doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
+          errorSpan.text                                                mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
+          doc.getElementsByTag("fieldset").first.attr("aria-describedby") must include(errorSpan.attr("id"))
         }
 
         "show an error prefix in the browser title" in {
@@ -100,7 +100,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
             doc,
             "title",
             ViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}"""
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args*)}"""
             )
           )
         }

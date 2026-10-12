@@ -26,11 +26,17 @@ class CheckYourAnswerViewSpec extends ViewBehaviours {
 
     val view = viewFor[CheckYourAnswersView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(Seq(AnswerSection(None, Nil, None)))(fakeRequest, messages)
+    val applyView = view.apply(Seq(AnswerSection(None, Nil, None)))(using fakeRequest, messages)
 
     behave like normalPage(applyView, "checkYourAnswers")
 
     behave like pageWithBackLink(applyView)
+
+    behave like pageRenderedViaRenderAndF(
+      applyView,
+      view.render(section = Seq(AnswerSection(None, Nil, None)), request = fakeRequest, messages = messages),
+      view.ref.f(Seq(AnswerSection(None, Nil, None)))(fakeRequest, messages)
+    )
   }
 
 }

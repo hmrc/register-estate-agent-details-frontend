@@ -18,7 +18,6 @@ package forms
 
 import forms.behaviours.StringFieldBehaviours
 import models.pages.InternationalAddress
-import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.data.FormError
 import wolfendale.scalacheck.regexp.RegexpGen
 
@@ -114,17 +113,17 @@ class AgentInternationalAddressFormProviderSpec extends StringFieldBehaviours {
     "bind whitespace trim values" in {
       val result =
         form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  line3  ", "country" -> "country"))
-      result.value.value.line3 shouldBe Some("line3")
+      result.value.value.line3 mustBe Some("line3")
     }
 
     "bind whitespace blank values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  ", "country" -> "country"))
-      result.value.value.line3 shouldBe None
+      result.value.value.line3 mustBe None
     }
 
     "bind whitespace no values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "", "country" -> "country"))
-      result.value.value.line3 shouldBe None
+      result.value.value.line3 mustBe None
     }
   }
 
@@ -162,7 +161,7 @@ class AgentInternationalAddressFormProviderSpec extends StringFieldBehaviours {
         Map("line1" -> addressLine, "line2" -> addressLine, "line3" -> addressLine, "country" -> "Scotland")
       )
 
-      result.value.value shouldBe InternationalAddress(
+      result.value.value mustBe InternationalAddress(
         "'AddressLine'",
         "'AddressLine'",
         Some("'AddressLine'"),

@@ -25,7 +25,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.AgentInternalReferencePage
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.AgentInternalReferenceView
 
 class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with MockitoSugar {
@@ -50,7 +50,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with Moc
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode)(request, messages).toString
+        view(form, NormalMode)(using request, messages).toString
 
       application.stop()
     }
@@ -70,7 +70,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with Moc
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode)(request, messages).toString
+        view(form.fill("answer"), NormalMode)(using request, messages).toString
 
       application.stop()
     }
@@ -112,7 +112,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase with Moc
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode)(request, messages).toString
+        view(boundForm, NormalMode)(using request, messages).toString
 
       application.stop()
     }

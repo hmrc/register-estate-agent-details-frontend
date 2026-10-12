@@ -46,11 +46,11 @@ class CheckYourAnswersController @Inject() (
 )(implicit val ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad(): Action[AnyContent] = actions.authWithData { implicit request =>
+  def onPageLoad: Action[AnyContent] = actions.authWithData { implicit request =>
     Ok(view(Seq(printHelper(request.userAnswers))))
   }
 
-  def onSubmit(): Action[AnyContent] = actions.authWithData.async { implicit request =>
+  def onSubmit: Action[AnyContent] = actions.authWithData.async { implicit request =>
     agentMapper(request.userAnswers) match {
       case JsSuccess(agentDetails, _) =>
         for {

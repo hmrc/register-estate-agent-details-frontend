@@ -22,7 +22,7 @@ import models.mappers.AgentDetails
 import models.pages.{InternationalAddress, UKAddress}
 import org.scalatest.OptionValues
 import org.scalatest.matchers.must.Matchers
-import pages._
+import pages.*
 
 class AgentDetailsMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 

@@ -17,14 +17,14 @@
 package connectors
 
 import base.RegistrationSpecBase
-import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.client.WireMock.*
 import connector.EstateConnector
 import generators.Generators
 import models.mappers.AgentDetails
 import models.pages.UKAddress
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, Inside}
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.WireMockHelper
 
@@ -62,7 +62,7 @@ class EstateConnectorSpec
             Seq(
               "microservice.services.estates.port" -> server.port(),
               "auditing.enabled"                   -> false
-            ): _*
+            )*
           )
           .build()
 
@@ -87,7 +87,7 @@ class EstateConnectorSpec
             Seq(
               "microservice.services.estates.port" -> server.port(),
               "auditing.enabled"                   -> false
-            ): _*
+            )*
           )
           .build()
 

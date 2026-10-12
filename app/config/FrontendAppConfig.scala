@@ -17,10 +17,8 @@
 package config
 
 import com.google.inject.{Inject, Singleton}
-import controllers.routes
 import play.api.Configuration
 import play.api.i18n.Lang
-import play.api.mvc.Call
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
@@ -30,7 +28,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   final val WELSH           = "cy"
   final val UK_COUNTRY_CODE = "GB"
 
-  lazy val authUrl: String          = servicesConfig.baseUrl("auth")
   lazy val loginUrl: String         = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
   lazy val logoutUrl: String        = configuration.get[String]("urls.logout")
@@ -53,7 +50,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   lazy val registrationProgress: String = configuration.get[String]("urls.registrationProgress")
 
   lazy val createAgentServicesAccountUrl: String = configuration.get[String]("urls.createAgentServicesAccount")
-  lazy val cannotMakeChangesUrl: String          = configuration.get[String]("urls.cannotMakeChanges")
 
   lazy val locationCanonicalList: String   = configuration.get[String]("location.canonical.list.all")
   lazy val locationCanonicalListCY: String = configuration.get[String]("location.canonical.list.allCY")
@@ -62,9 +58,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
     "english" -> Lang(ENGLISH),
     "cymraeg" -> Lang(WELSH)
   )
-
-  def routeToSwitchLanguage: String => Call =
-    (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
 
   val cachettlInSeconds: Long = configuration.get[Long]("mongodb.timeToLiveInSeconds")
 
